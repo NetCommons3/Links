@@ -1,22 +1,23 @@
 <?php
 /**
- * LinklistsCategory Model
+ * Link Model
  *
- * @property LinklistsBlock $LinklistsBlock
+ * @property LinksBlock $LinksBlock
  * @property Language $Language
- * @property Linklist $Linklist
+ * @property LinksCategory $LinksCategory
+ * @property Block $Block
  *
-* @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
-* @link     http://www.netcommons.org NetCommons Project
-* @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
+ * @link     http://www.netcommons.org NetCommons Project
+ * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('LinkListsAppModel', 'LinkLists.Model');
+App::uses('LinksAppModel', 'Links.Model');
 
 /**
- * Summary for LinklistsCategory Model
+ * Summary for Link Model
  */
-class LinklistsCategory extends LinkListsAppModel {
+class Link extends LinksAppModel {
 
 /**
  * Use database config
@@ -31,7 +32,7 @@ class LinklistsCategory extends LinkListsAppModel {
  * @var array
  */
 	public $validate = array(
-		'linklists_block_id' => array(
+		'links_block_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -71,6 +72,16 @@ class LinklistsCategory extends LinkListsAppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+		'url' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -81,9 +92,9 @@ class LinklistsCategory extends LinkListsAppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'LinklistsBlock' => array(
-			'className' => 'LinklistsBlock',
-			'foreignKey' => 'linklists_block_id',
+		'LinksBlock' => array(
+			'className' => 'LinksBlock',
+			'foreignKey' => 'links_block_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -94,27 +105,34 @@ class LinklistsCategory extends LinkListsAppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'LinksCategory' => array(
+			'className' => 'LinksCategory',
+			'foreignKey' => 'links_category_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
 
 /**
- * hasMany associations
+ * hasAndBelongsToMany associations
  *
  * @var array
  */
-	public $hasMany = array(
-		'Linklist' => array(
-			'className' => 'Linklist',
-			'foreignKey' => 'linklists_category_id',
-			'dependent' => false,
+	public $hasAndBelongsToMany = array(
+		'Block' => array(
+			'className' => 'Block',
+			'joinTable' => 'links_blocks',
+			'foreignKey' => 'link_id',
+			'associationForeignKey' => 'block_id',
+			'unique' => 'keepExisting',
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
 			'limit' => '',
 			'offset' => '',
-			'exclusive' => '',
 			'finderQuery' => '',
-			'counterQuery' => ''
 		)
 	);
 

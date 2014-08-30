@@ -1,20 +1,20 @@
 <?php
 /**
- * LinklistSetting Model
+ * LinkSetting Model
  *
- * @property LinklistBlock $LinklistBlock
+ * @property LinkBlock $LinkBlock
  *
-* @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
-* @link     http://www.netcommons.org NetCommons Project
-* @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
+ * @link     http://www.netcommons.org NetCommons Project
+ * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('LinkListsAppModel', 'LinkLists.Model');
+App::uses('LinksAppModel', 'Links.Model');
 
 /**
- * Summary for LinklistSetting Model
+ * Summary for LinkSetting Model
  */
-class LinklistSetting extends LinkListsAppModel {
+class LinkSetting extends LinksAppModel {
 
 /**
  * Use database config
@@ -29,7 +29,7 @@ class LinklistSetting extends LinkListsAppModel {
  * @var array
  */
 	public $validate = array(
-		'linklist_block_id' => array(
+		'link_block_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -49,9 +49,9 @@ class LinklistSetting extends LinkListsAppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'LinklistBlock' => array(
-			'className' => 'LinklistBlock',
-			'foreignKey' => 'linklist_block_id',
+		'LinkBlock' => array(
+			'className' => 'LinkBlock',
+			'foreignKey' => 'link_block_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

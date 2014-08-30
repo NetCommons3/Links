@@ -1,16 +1,16 @@
 <?php
 /**
- * LinklistSettingFixture
+ * LinkSettingFixture
  *
-* @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
-* @link     http://www.netcommons.org NetCommons Project
-* @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
+ * @link     http://www.netcommons.org NetCommons Project
+ * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 
 /**
- * Summary for LinklistSettingFixture
+ * Summary for LinkSettingFixture
  */
-class LinklistSettingFixture extends CakeTestFixture {
+class LinkSettingFixture extends CakeTestFixture {
 
 /**
  * Fields
@@ -19,7 +19,7 @@ class LinklistSettingFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'linklist_block_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'link_block_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -38,7 +38,7 @@ class LinklistSettingFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'linklist_block_id' => 1,
+			'link_block_id' => 1,
 			'created_user' => 1,
 			'created' => '2014-08-30 00:55:24',
 			'modified_user' => 1,

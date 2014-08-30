@@ -1,18 +1,18 @@
 <?php
 /**
- * LinkListsController Test Case
+ * LinksController Test Case
  *
-* @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
-* @link     http://www.netcommons.org NetCommons Project
-* @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
+ * @link     http://www.netcommons.org NetCommons Project
+ * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('LinkListsController', 'LinkLists.Controller');
+App::uses('LinksController', 'Links.Controller');
 
 /**
- * Summary for LinkListsController Test Case
+ * Summary for LinksController Test Case
  */
-class LinkListsControllerTest extends ControllerTestCase {
+class LinksControllerTest extends ControllerTestCase {
 
 /**
  * Fixtures
@@ -20,10 +20,10 @@ class LinkListsControllerTest extends ControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.link_lists.linklist',
-		'plugin.link_lists.linklists_block',
+		'plugin.link_lists.link',
+		'plugin.link_lists.links_block',
 		'plugin.link_lists.language',
-		'plugin.link_lists.linklists_category',
+		'plugin.link_lists.links_category',
 		'plugin.link_lists.block',
 		'plugin.link_lists.blocks_language',
 		'plugin.link_lists.site_setting',
