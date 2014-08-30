@@ -20,14 +20,14 @@ class LinksControllerTest extends ControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.link_lists.link',
-		'plugin.link_lists.links_block',
-		'plugin.link_lists.language',
-		'plugin.link_lists.links_category',
-		'plugin.link_lists.block',
-		'plugin.link_lists.blocks_language',
-		'plugin.link_lists.site_setting',
-		'plugin.link_lists.site_setting_value'
+		'plugin.links.link',
+		'plugin.links.links_block',
+		'plugin.links.language',
+		'plugin.links.links_category',
+		'plugin.links.block',
+		'plugin.links.blocks_language',
+		'plugin.links.site_setting',
+		'plugin.links.site_setting_value'
 	);
 
 /**

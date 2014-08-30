@@ -12,6 +12,10 @@ App::uses('LinksAppController', 'Links.Controller');
  */
 class LinksController extends LinksAppController {
 
+	public $uses = array(
+		'Links.Link',
+	);
+
 /**
  * Components
  *
@@ -20,13 +24,25 @@ class LinksController extends LinksAppController {
 	public $components = array('Paginator');
 
 /**
- * index method
+ * index
  *
+ * @param int $frameId frame.id
+ * @param string $lang languge_id
  * @return void
  */
-	public function index() {
+	public function index($frameId = 0, $lang = '') {
+		$this->_init($frameId, $lang);
+
 		$this->Link->recursive = 0;
-		$this->set('linkLists', $this->Paginator->paginate());
+		$this->set('links', $this->Paginator->paginate());
+
+		if (Configure::read('Pages.isSetting')) {
+			$this->render('Links/setting_mode/index');
+			//		編集権限があり、セッティングモードON⇒index/edit.ctpでrenderする
+		} else {
+			//		編集権限があり、セッティングモードOFF⇒index/latest.ctpでrenderする
+			$this->render('Links/view/index');
+		}
 	}
 
 /**
