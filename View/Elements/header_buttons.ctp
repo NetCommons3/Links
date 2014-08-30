@@ -23,9 +23,9 @@
 
 	<?php if ($contentEditable) : ?>
 		<button class="btn btn-primary"
-				ng-click="showSetting()" ng-disabled="sendLock">
+				ng-click="showAddForm()" ng-disabled="sendLock">
 			<span class="glyphicon glyphicon-pencil">
-				<?php echo __d('notepads', 'Edit'); ?>
+				<?php echo __d('links', 'Add'); ?>
 			</span>
 		</button>
 	<?php endif; ?>

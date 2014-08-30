@@ -1,6 +1,7 @@
 <?php
 
 App::uses('AppController', 'Controller');
+App::uses('NetCommonsFrameAppController', 'NetCommons.Controller');
 
 class LinksAppController extends NetCommonsFrameAppController {
 

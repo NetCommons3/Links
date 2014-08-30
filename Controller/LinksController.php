@@ -66,6 +66,8 @@ class LinksController extends LinksAppController {
  * @return void
  */
 	public function add() {
+		Debugger::log($this->request->data);
+
 		if ($this->request->is('post')) {
 			$this->Link->create();
 			if ($this->Link->save($this->request->data)) {
