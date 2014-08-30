@@ -110,4 +110,5 @@ class LinksCategoriesController extends LinksAppController {
 			$this->Session->setFlash(__('The link lists category could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
-	}}
+	}
+}
