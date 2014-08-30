@@ -1,22 +1,22 @@
 <?php
 /**
- * LinklistsBlock Model
+ * LinksBlock Model
  *
  * @property Block $Block
- * @property Linklist $Linklist
- * @property LinklistsCategory $LinklistsCategory
+ * @property Link $Link
+ * @property LinksCategory $LinksCategory
  *
-* @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
-* @link     http://www.netcommons.org NetCommons Project
-* @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
+ * @link     http://www.netcommons.org NetCommons Project
+ * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('LinkListsAppModel', 'LinkLists.Model');
+App::uses('LinksAppModel', 'Links.Model');
 
 /**
- * Summary for LinklistsBlock Model
+ * Summary for LinksBlock Model
  */
-class LinklistsBlock extends LinkListsAppModel {
+class LinksBlock extends LinksAppModel {
 
 /**
  * Use database config
@@ -66,9 +66,9 @@ class LinklistsBlock extends LinkListsAppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Linklist' => array(
-			'className' => 'Linklist',
-			'foreignKey' => 'linklists_block_id',
+		'Link' => array(
+			'className' => 'Link',
+			'foreignKey' => 'links_block_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -79,9 +79,9 @@ class LinklistsBlock extends LinkListsAppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'LinklistsCategory' => array(
-			'className' => 'LinklistsCategory',
-			'foreignKey' => 'linklists_block_id',
+		'LinksCategory' => array(
+			'className' => 'LinksCategory',
+			'foreignKey' => 'links_block_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',

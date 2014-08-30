@@ -1,16 +1,16 @@
 <?php
-App::uses('LinkListsAppController', 'LinkLists.Controller');
+App::uses('LinksAppController', 'Links.Controller');
 /**
- * LinkListsCategories Controller
+ * LinksCategories Controller
  *
- * @property LinkListsCategory $LinkListsCategory
+ * @property LinksCategory $LinksCategory
  * @property PaginatorComponent $Paginator
  *
-* @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
-* @link     http://www.netcommons.org NetCommons Project
-* @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author   Ryuji AMANO <ryuji@ryus.co.jp>
+ * @link     http://www.netcommons.org NetCommons Project
+ * @license  http://www.netcommons.org/license.txt NetCommons License
  */
-class LinkListsCategoriesController extends LinkListsAppController {
+class LinksCategoriesController extends LinksAppController {
 
 /**
  * Components
@@ -25,23 +25,23 @@ class LinkListsCategoriesController extends LinkListsAppController {
  * @return void
  */
 	public function index() {
-		$this->LinkListsCategory->recursive = 0;
+		$this->LinksCategory->recursive = 0;
 		$this->set('linkListsCategories', $this->Paginator->paginate());
 	}
 
 /**
  * view method
  *
+ * @param string $id 仮
  * @throws NotFoundException
- * @param string $id
  * @return void
  */
 	public function view($id = null) {
-		if (!$this->LinkListsCategory->exists($id)) {
+		if (!$this->LinksCategory->exists($id)) {
 			throw new NotFoundException(__('Invalid link lists category'));
 		}
-		$options = array('conditions' => array('LinkListsCategory.' . $this->LinkListsCategory->primaryKey => $id));
-		$this->set('linkListsCategory', $this->LinkListsCategory->find('first', $options));
+		$options = array('conditions' => array('LinksCategory.' . $this->LinksCategory->primaryKey => $id));
+		$this->set('linkListsCategory', $this->LinksCategory->find('first', $options));
 	}
 
 /**
@@ -51,63 +51,64 @@ class LinkListsCategoriesController extends LinkListsAppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
-			$this->LinkListsCategory->create();
-			if ($this->LinkListsCategory->save($this->request->data)) {
+			$this->LinksCategory->create();
+			if ($this->LinksCategory->save($this->request->data)) {
 				$this->Session->setFlash(__('The link lists category has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The link lists category could not be saved. Please, try again.'));
 			}
 		}
-		$linklistsBlocks = $this->LinkListsCategory->LinklistsBlock->find('list');
-		$languages = $this->LinkListsCategory->Language->find('list');
-		$this->set(compact('linklistsBlocks', 'languages'));
+		$linksBlocks = $this->LinksCategory->LinksBlock->find('list');
+		$languages = $this->LinksCategory->Language->find('list');
+		$this->set(compact('linksBlocks', 'languages'));
 	}
 
 /**
  * edit method
  *
+ * @param string $id 仮
  * @throws NotFoundException
- * @param string $id
  * @return void
  */
 	public function edit($id = null) {
-		if (!$this->LinkListsCategory->exists($id)) {
+		if (!$this->LinksCategory->exists($id)) {
 			throw new NotFoundException(__('Invalid link lists category'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
-			if ($this->LinkListsCategory->save($this->request->data)) {
+			if ($this->LinksCategory->save($this->request->data)) {
 				$this->Session->setFlash(__('The link lists category has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The link lists category could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('LinkListsCategory.' . $this->LinkListsCategory->primaryKey => $id));
-			$this->request->data = $this->LinkListsCategory->find('first', $options);
+			$options = array('conditions' => array('LinksCategory.' . $this->LinksCategory->primaryKey => $id));
+			$this->request->data = $this->LinksCategory->find('first', $options);
 		}
-		$linklistsBlocks = $this->LinkListsCategory->LinklistsBlock->find('list');
-		$languages = $this->LinkListsCategory->Language->find('list');
-		$this->set(compact('linklistsBlocks', 'languages'));
+		$linksBlocks = $this->LinksCategory->LinksBlock->find('list');
+		$languages = $this->LinksCategory->Language->find('list');
+		$this->set(compact('linksBlocks', 'languages'));
 	}
 
 /**
  * delete method
  *
+ * @param string $id 仮
  * @throws NotFoundException
- * @param string $id
  * @return void
  */
 	public function delete($id = null) {
-		$this->LinkListsCategory->id = $id;
-		if (!$this->LinkListsCategory->exists()) {
+		$this->LinksCategory->id = $id;
+		if (!$this->LinksCategory->exists()) {
 			throw new NotFoundException(__('Invalid link lists category'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->LinkListsCategory->delete()) {
+		if ($this->LinksCategory->delete()) {
 			$this->Session->setFlash(__('The link lists category has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The link lists category could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
-	}}
+	}
+}

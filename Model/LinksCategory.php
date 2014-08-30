@@ -1,21 +1,22 @@
 <?php
 /**
- * LinklistPartSetting Model
+ * LinksCategory Model
  *
- * @property LinklistBlock $LinklistBlock
- * @property Part $Part
+ * @property LinksBlock $LinksBlock
+ * @property Language $Language
+ * @property Link $Link
  *
-* @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
-* @link     http://www.netcommons.org NetCommons Project
-* @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
+ * @link     http://www.netcommons.org NetCommons Project
+ * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('LinkListsAppModel', 'LinkLists.Model');
+App::uses('LinksAppModel', 'Links.Model');
 
 /**
- * Summary for LinklistPartSetting Model
+ * Summary for LinksCategory Model
  */
-class LinklistPartSetting extends LinkListsAppModel {
+class LinksCategory extends LinksAppModel {
 
 /**
  * Use database config
@@ -30,7 +31,7 @@ class LinklistPartSetting extends LinkListsAppModel {
  * @var array
  */
 	public $validate = array(
-		'linklist_block_id' => array(
+		'links_block_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -40,7 +41,7 @@ class LinklistPartSetting extends LinkListsAppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'part_id' => array(
+		'status' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -50,9 +51,9 @@ class LinklistPartSetting extends LinkListsAppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'readable_content' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
+		'language_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -60,27 +61,7 @@ class LinklistPartSetting extends LinkListsAppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'editable_content' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'creatable_content' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'publishable_content' => array(
+		'is_auto_translated' => array(
 			'boolean' => array(
 				'rule' => array('boolean'),
 				//'message' => 'Your custom message here',
@@ -100,19 +81,41 @@ class LinklistPartSetting extends LinkListsAppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'LinklistBlock' => array(
-			'className' => 'LinklistBlock',
-			'foreignKey' => 'linklist_block_id',
+		'LinksBlock' => array(
+			'className' => 'LinksBlock',
+			'foreignKey' => 'links_block_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Part' => array(
-			'className' => 'Part',
-			'foreignKey' => 'part_id',
+		'Language' => array(
+			'className' => 'Language',
+			'foreignKey' => 'language_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		)
 	);
+
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'Link' => array(
+			'className' => 'Link',
+			'foreignKey' => 'links_category_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		)
+	);
+
 }

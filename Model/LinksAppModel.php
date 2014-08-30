@@ -2,6 +2,6 @@
 
 App::uses('AppModel', 'Model');
 
-class LinkListsAppModel extends AppModel {
+class LinksAppModel extends AppModel {
 
 }

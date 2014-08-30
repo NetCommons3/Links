@@ -2,6 +2,6 @@
 
 App::uses('AppController', 'Controller');
 
-class LinkListsAppController extends AppController {
+class LinksAppController extends AppController {
 
 }

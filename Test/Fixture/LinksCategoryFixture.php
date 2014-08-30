@@ -1,16 +1,16 @@
 <?php
 /**
- * LinklistsCategoryFixture
+ * LinksCategoryFixture
  *
-* @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
-* @link     http://www.netcommons.org NetCommons Project
-* @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
+ * @link     http://www.netcommons.org NetCommons Project
+ * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 
 /**
- * Summary for LinklistsCategoryFixture
+ * Summary for LinksCategoryFixture
  */
-class LinklistsCategoryFixture extends CakeTestFixture {
+class LinksCategoryFixture extends CakeTestFixture {
 
 /**
  * Fields
@@ -19,7 +19,7 @@ class LinklistsCategoryFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'linklists_block_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'links_block_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'status' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 3),
 		'language_id' => array('type' => 'integer', 'null' => false, 'default' => '2'),
 		'is_auto_translated' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
@@ -43,7 +43,7 @@ class LinklistsCategoryFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'linklists_block_id' => 1,
+			'links_block_id' => 1,
 			'status' => 1,
 			'language_id' => 1,
 			'is_auto_translated' => 1,

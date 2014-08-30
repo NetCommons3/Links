@@ -1,16 +1,16 @@
 <?php
 /**
- * LinklistPartSettingFixture
+ * LinkPartSettingFixture
  *
-* @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
-* @link     http://www.netcommons.org NetCommons Project
-* @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
+ * @link     http://www.netcommons.org NetCommons Project
+ * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 
 /**
- * Summary for LinklistPartSettingFixture
+ * Summary for LinkPartSettingFixture
  */
-class LinklistPartSettingFixture extends CakeTestFixture {
+class LinkPartSettingFixture extends CakeTestFixture {
 
 /**
  * Fields
@@ -19,7 +19,7 @@ class LinklistPartSettingFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'linklist_block_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'link_block_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'part_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'readable_content' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'editable_content' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
@@ -43,7 +43,7 @@ class LinklistPartSettingFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'linklist_block_id' => 1,
+			'link_block_id' => 1,
 			'part_id' => 1,
 			'readable_content' => 1,
 			'editable_content' => 1,
