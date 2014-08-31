@@ -16,16 +16,21 @@
 	  ng-show="Form.display">
 
 	<?php
+	$links['Link'] = array(
+		'title' => '',
+		'url' => '',
+		'description' => '',
+	);
 	//		タイトル(text ng-model=Form.title)、
-	echo $this->Form->input('Link.title',
+	echo $this->LinksForm->input('Link.title',
 		array('ng-init' =>'Form.title=\''. $links['Link']['title'].'\'',
 			'ng-model' => 'Form.title'));
 
-	echo $this->Form->input('Link.url',
+	echo $this->LinksForm->input('Link.url',
 		array('ng-init' =>'Form.url=\''. $links['Link']['url'].'\'',
 			'ng-model' => 'Form.url'));
 
-	echo $this->Form->input('Link.description',
+	echo $this->LinksForm->input('Link.description',
 		array('ng-init' =>'Form.description=\''. $links['Link']['description'].'\'',
 			'ng-model' => 'Form.description', 'type' => 'textarea'));
 

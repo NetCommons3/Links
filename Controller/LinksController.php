@@ -1,5 +1,6 @@
 <?php
 App::uses('LinksAppController', 'Links.Controller');
+//App::uses('BoostCakeFormHelper', 'BoostCake.View/Helper');
 /**
  * Links Controller
  *
@@ -11,6 +12,8 @@ App::uses('LinksAppController', 'Links.Controller');
  * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 class LinksController extends LinksAppController {
+
+	public $helpers = array('Links.LinksForm', 'BoostCake.BoostCakeForm');
 
 	public $uses = array(
 		'Links.Link',
