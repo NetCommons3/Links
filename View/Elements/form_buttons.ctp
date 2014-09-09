@@ -32,14 +32,14 @@
 	</button>
 
 	<button class="btn btn-default"
-			ng-click="post(<?php echo Notepad::STATUS_DRAFTED; ?>)" ng-hide="Label.approval" ng-disabled="sendLock">
+			ng-click="post(<?php echo Link::STATUS_DRAFTED; ?>)" ng-hide="Label.approval" ng-disabled="sendLock">
 
 		<span class="glyphicon glyphicon-pencil"></span>
 		<span><?php echo __d('notepads', 'Draft'); ?></span>
 	</button>
 
 	<button class="btn btn-default"
-			ng-click="post(<?php echo Notepad::STATUS_DISAPPROVED; ?>)" ng-show="Label.approval" ng-disabled="sendLock">
+			ng-click="post(<?php echo Link::STATUS_DISAPPROVED; ?>)" ng-show="Label.approval" ng-disabled="sendLock">
 
 		<span class="glyphicon glyphicon-pencil"></span>
 		<span><?php echo __d('notepads', 'Disapproval'); ?></span>
@@ -47,13 +47,13 @@
 
 	<?php if (! $contentPublishable) : ?>
 		<button class="btn btn-primary"
-				ng-click="post(<?php echo Notepad::STATUS_APPROVED; ?>)" ng-disabled="sendLock">
+				ng-click="post(<?php echo Link::STATUS_APPROVED; ?>)" ng-disabled="sendLock">
 			<span class="glyphicon glyphicon-share-alt"></span>
 			<span><?php echo __d('notepads', 'Approval'); ?></span>
 		</button>
 	<?php else : ?>
 		<button class="btn btn-primary"
-				ng-click="post(<?php echo Notepad::STATUS_PUBLISHED; ?>)"	ng-disabled="sendLock">
+				ng-click="post(<?php echo Link::STATUS_PUBLISHED; ?>)"	ng-disabled="sendLock">
 
 			<span class="glyphicon glyphicon-share-alt"></span>
 			<span><?php echo __d('notepads', 'Publish'); ?></span>
