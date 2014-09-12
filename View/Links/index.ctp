@@ -49,7 +49,7 @@
 <br />
 <br />
 <br />
- <ul class="nav nav-pills nav-stacked">
+<ul class="nav nav-pills nav-stacked">
 		<li style="padding:5px;">カテゴリ１</li>
 		<li><a href="#">NetCommons2公式サイト <span class="badge">42</span></a></li>
 		<li><a href="#">NetCommons Legacy <span class="badge">42</span></a></li>
