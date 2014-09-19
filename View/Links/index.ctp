@@ -22,7 +22,7 @@
 	</div>
 
 
-	<div id="nc-links-edit-<?php echo (int)$frameId; ?>" class="row ng-hide"
+	<div id="nc-links-edit-<?php echo (int)$frameId; ?>" class="ng-hide"
 		 ng-show="visibleEdit">
 
 		<?php echo $this->element('Links/index_edit'); ?>
@@ -30,7 +30,7 @@
 	</div>
 
 
-	<div id="nc-links-manage-<?php echo (int)$frameId; ?>" class="row ng-hide"
+	<div id="nc-links-manage-<?php echo (int)$frameId; ?>" class="ng-hide"
 		 ng-show="visibleManage">
 
 		<?php echo $this->element('Links/index_manage'); ?>
