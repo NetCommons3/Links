@@ -50,8 +50,49 @@ class LinksController extends LinksAppController {
  * @param string $lang ex)"en" or "ja" etc.
  * @return CakeResponse A response object containing the rendered view.
  */
-	public function index($frameId = 0, $lang = '') {
+	public function index($frameId = 0, $type = 'dropdown') {
+		$this->_initializeFrame($frameId);
+		$this->set('type', $type);
 		return $this->render('Links/index');
+	}
+
+/**
+ * index method
+ *
+ * @param int $frameId frames.id
+ * @param string $lang ex)"en" or "ja" etc.
+ * @return CakeResponse A response object containing the rendered view.
+ */
+	public function index_link_add($frameId = 0) {
+		$this->_initializeFrame($frameId);
+		$this->layout = false;
+		return $this->render('Links/index_link_add');
+	}
+
+/**
+ * index method
+ *
+ * @param int $frameId frames.id
+ * @param string $lang ex)"en" or "ja" etc.
+ * @return CakeResponse A response object containing the rendered view.
+ */
+	public function index_edit($frameId = 0) {
+		$this->_initializeFrame($frameId);
+		$this->layout = false;
+		return $this->render('Links/index_edit');
+	}
+
+/**
+ * index method
+ *
+ * @param int $frameId frames.id
+ * @param string $lang ex)"en" or "ja" etc.
+ * @return CakeResponse A response object containing the rendered view.
+ */
+	public function index_manage($frameId = 0) {
+		$this->_initializeFrame($frameId);
+		$this->layout = false;
+		return $this->render('Links/index_manage');
 	}
 
 /**

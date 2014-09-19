@@ -10,7 +10,7 @@
  */
 
 App::uses('AppController', 'Controller');
-//App::uses('NetCommonsFrameAppController', 'NetCommons.Controller');
+App::uses('NetCommonsFrameAppController', 'NetCommons.Controller');
 
 /**
  * LinksApp Controller
@@ -18,7 +18,7 @@ App::uses('AppController', 'Controller');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Links\Controller
  */
-class LinksAppController extends AppController {
+class LinksAppController extends NetCommonsFrameAppController {
 
 /**
  * use component
