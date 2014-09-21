@@ -4,7 +4,9 @@
 	</div>
  	<div class="panel-body">
 		<div class="row">
-			<div class="col-xs-9">
+			<?php echo $this->element('Links/content_move_btn', array('size' => 1)); ?>
+
+			<div class="col-xs-8">
 				<div>
 					<a href="http://www.netcommons.org/" target="_blank">
 						NetCommons2公式サイト
@@ -22,7 +24,9 @@
  	<div class="panel-body">
 
 		<div class="row">
-			<div class="col-xs-9">
+			<?php echo $this->element('Links/content_move_btn', array('size' => 1)); ?>
+
+			<div class="col-xs-8">
 				<div>
 					<a href="http://legacy.netcommons.org" target="_blank">
 						NetCommonsLegacy公式サイト
@@ -46,7 +50,9 @@
 	</div>
  	<div class="panel-body">
 		<div class="row">
-			<div class="col-xs-9">
+			<?php echo $this->element('Links/content_move_btn', array('size' => 1)); ?>
+
+			<div class="col-xs-8">
 				<div>
 					<a href="http://researchmap.jp/" target="_blank">
 						researchmap
@@ -57,14 +63,16 @@
 				</div>
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn', array('published' => true, 'size' => 3)); ?>
+			<?php echo $this->element('Links/content_edit_btn', array('published' => false, 'size' => 3)); ?>
 		</div>
 	</div>
 
  	<div class="panel-body">
 
 		<div class="row">
-			<div class="col-xs-9">
+			<?php echo $this->element('Links/content_move_btn', array('size' => 1)); ?>
+
+			<div class="col-xs-8">
 				<div>
 					<a href="http://demo.edumap.jp" target="_blank">
 						edumap
@@ -79,7 +87,9 @@
  	<div class="panel-body">
 
 		<div class="row">
-			<div class="col-xs-9">
+			<?php echo $this->element('Links/content_move_btn', array('size' => 1)); ?>
+
+			<div class="col-xs-8">
 				<div>
 					<a href="http://www.nii.ac.jp" target="_blank">
 						国立情報学研究所

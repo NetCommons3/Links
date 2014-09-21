@@ -1,5 +1,7 @@
 <div class="col-xs-4">
-	<button class="btn btn-success" ng-click="showAddLink()">
+	<button class="btn btn-success"
+			ng-click="showAddLink()"
+			ng-show="visibleAddLink">
 		<span class="glyphicon glyphicon-plus-sign">
 			リンク追加
 		</span>
@@ -24,7 +26,7 @@
 	</button>
 
 	<?php if (Page::isSetting()) : ?>
-		<button class="btn btn-primary hidden-xs"
+		<button class="btn btn-primary"
 				ng-click="showManage()"
 				ng-hide="visibleManage">
 			<span class="glyphicon glyphicon-cog">
@@ -32,7 +34,7 @@
 			</span>
 		</button>
 
-		<button class="btn btn-primary hidden-xs ng-hide"
+		<button class="btn btn-primary ng-hide"
 				ng-click="showContainer()"
 				ng-show="visibleManage">
 			<span class="glyphicon glyphicon-cog">

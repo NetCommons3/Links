@@ -19,29 +19,34 @@ NetCommonsApp.controller('Links',
       $scope.visibleEdit = false;
 
       $scope.htmlAddLink = '';
+      $scope.visibleAddLink = true;
 
       $scope.initialize = function(frameId) {
         $scope.frameId = frameId;
         $scope.visibleEdit = false;
         $scope.visibleManage = false;
+        $scope.visibleAddLink = true;
       };
 
       $scope.showContainer = function() {
           $scope.visibleContainer = true;
           $scope.visibleEdit = false;
           $scope.visibleManage = false;
+          $scope.visibleAddLink = true;
       };
 
       $scope.showEdit = function() {
           $scope.visibleContainer = false;
           $scope.visibleEdit = true;
           $scope.visibleManage = false;
+          $scope.visibleAddLink = true;
       };
 
       $scope.showManage = function() {
           $scope.visibleContainer = false;
           $scope.visibleEdit = false;
           $scope.visibleManage = true;
+          $scope.visibleAddLink = false;
       };
 
       $scope.showAddLink = function() {
