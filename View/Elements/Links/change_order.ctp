@@ -56,6 +56,7 @@
 				<div>
 					<a href="http://researchmap.jp/" target="_blank">
 						researchmap
+						<span class="label label-danger">公開申請中</span>
 					</a>
 				</div>
 				<div class="small" style="margin-top: 5px;">
@@ -63,7 +64,7 @@
 				</div>
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn', array('published' => false, 'size' => 3)); ?>
+			<?php echo $this->element('Links/content_edit_btn', array('published' => true, 'size' => 3)); ?>
 		</div>
 	</div>
 
@@ -76,6 +77,7 @@
 				<div>
 					<a href="http://demo.edumap.jp" target="_blank">
 						edumap
+						<span class="label label-info">下書き</span>
 					</a>
 				</div>
 			</div>
@@ -93,6 +95,7 @@
 				<div>
 					<a href="http://www.nii.ac.jp" target="_blank">
 						国立情報学研究所
+						<span class="label label-warning">差し戻し</span>
 					</a>
 				</div>
 				<div class="small" style="margin-top: 5px;">

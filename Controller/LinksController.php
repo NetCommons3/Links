@@ -50,7 +50,7 @@ class LinksController extends LinksAppController {
  * @param string $lang ex)"en" or "ja" etc.
  * @return CakeResponse A response object containing the rendered view.
  */
-	public function index($frameId = 0, $type = 'dropdown') {
+	public function index($frameId = 0, $type = 'list') {
 		$this->_initializeFrame($frameId);
 		$this->set('type', $type);
 		return $this->render('Links/index');
