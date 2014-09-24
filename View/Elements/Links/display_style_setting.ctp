@@ -92,7 +92,8 @@
 		<button type="button" class="btn btn-default">
 			キャンセル
 		</button>
-		<button type="button" class="btn btn-primary">
+		<button type="button" class="btn btn-primary"
+				ng-click="postDisplayStyle()">
 			設定する
 		</button>
 	</p>

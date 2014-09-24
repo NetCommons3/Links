@@ -3,7 +3,7 @@
 	<button class="btn btn-success"
 			ng-click="showAddLink()"
 			ng-show="visibleAddLink"
-			tooltip="リンク追加">
+			tooltip="リンクを追加する">
 		<span class="glyphicon glyphicon-plus"></span>
 		<span class="hidden">
 			リンク追加
@@ -25,7 +25,7 @@
 	<button class="btn btn-primary ng-hide"
 			ng-click="showContainer()"
 			ng-show="visibleEdit"
-			tooltip="編集終了">
+			tooltip="編集を終了する">
 		<span class="glyphicon glyphicon-edit"></span>
 		<span class="">
 			終了
@@ -47,7 +47,7 @@
 		<button class="btn btn-primary ng-hide"
 				ng-click="showContainer()"
 				ng-show="visibleManage"
-			tooltip="管理終了">
+			tooltip="管理を終了する">
 			<span class="glyphicon glyphicon-cog">
 			</span>
 			<span class="">
