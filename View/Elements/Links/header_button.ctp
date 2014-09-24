@@ -27,8 +27,8 @@
 			ng-show="visibleEdit"
 			tooltip="編集終了">
 		<span class="glyphicon glyphicon-edit"></span>
-		<span class="hidden">
-			編集終了
+		<span class="">
+			終了
 		</span>
 	</button>
 
@@ -50,8 +50,8 @@
 			tooltip="管理終了">
 			<span class="glyphicon glyphicon-cog">
 			</span>
-			<span class="hidden">
-				管理終了
+			<span class="">
+				終了
 			</span>
 		</button>
 	<?php endif; ?>
