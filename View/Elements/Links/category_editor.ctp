@@ -16,7 +16,7 @@
 				カテゴリ１
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn', array('published' => false, 'size' => 4)); ?>
+			<?php echo $this->element('Links/content_edit_btn_category', array('published' => false, 'size' => 4)); ?>
 		</div>
 	</div>
 
@@ -28,7 +28,13 @@
 				カテゴリ２
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn', array('published' => false, 'size' => 4)); ?>
+			<?php echo $this->element('Links/content_edit_btn_category', array('published' => false, 'size' => 4)); ?>
 		</div>
 	</div>
 </div>
+
+	<p class="text-center">
+		<button type="button" class="btn btn-default" data-dismiss="modal">
+			閉じる
+		</button>
+	</p>

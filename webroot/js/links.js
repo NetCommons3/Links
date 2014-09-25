@@ -15,6 +15,8 @@ NetCommonsApp.controller('Links',
       $scope.visibleContentDropdown = true;
       $scope.visibleHeaderBtn = true;
       $scope.visibleAddLink = false;
+      $scope.visibleAddLinkForm = false;
+      $scope.visibleAddLinkForm2 = false;
 
       $scope.htmlManage = '';
       $scope.visibleManage = false;
@@ -51,12 +53,14 @@ NetCommonsApp.controller('Links',
       };
 
       $scope.showManage = function() {
-        $scope.visibleHeaderBtn = true;
-        $scope.visibleContainer = false;
-        $scope.visibleEdit = false;
-        $scope.visibleManage = true;
-        $scope.visibleAddLink = false;
-        $scope.visibleAddLinkForm = false;
+        $('#nc-links-manage-modal-' + $scope.frameId).modal('show');
+//        $scope.visibleHeaderBtn = true;
+//        $scope.visibleContainer = false;
+//        $scope.visibleEdit = false;
+//        $scope.visibleManage = true;
+//        $scope.visibleAddLink = false;
+//        $scope.visibleAddLinkForm = false;
+          $scope.visibleAddLinkForm2 = false;
       };
 
       $scope.postDisplayStyle = function() {
@@ -80,6 +84,11 @@ NetCommonsApp.controller('Links',
 
         $scope.visibleAddLinkForm = true;
         $scope.visibleHeaderBtn = false;
+      };
+
+      $scope.showEditLink = function() {
+        $scope.visibleAddLinkForm2 = true;
+console.log($scope.visibleAddLinkForm2);
       };
 
       $scope.showAddCategory = function() {

@@ -12,6 +12,7 @@
 </div>
 
 <div class="text-right col-xs-7 col-xs-offset-1">
+<!--
 	<button class="btn btn-primary"
 			ng-click="showEdit()"
 			ng-hide="visibleEdit"
@@ -31,28 +32,24 @@
 			終了
 		</span>
 	</button>
+-->
 
-	<?php if (Page::isSetting()) : ?>
-		<button class="btn btn-primary"
-				ng-click="showManage()"
-				ng-hide="visibleManage"
-			tooltip="管理">
-			<span class="glyphicon glyphicon-cog">
-			</span>
-			<span class="hidden">
-				管理
-			</span>
-		</button>
+	<button class="btn btn-primary"
+			ng-click="showManage()"
+			ng-hide="visibleManage"
+			tooltip="編集">
+		<span class="glyphicon glyphicon-cog">
+		</span>
+		<span class="hidden">
+			管理
+		</span>
+	</button>
 
-		<button class="btn btn-primary ng-hide"
-				ng-click="showContainer()"
-				ng-show="visibleManage"
-			tooltip="管理を終了する">
-			<span class="glyphicon glyphicon-cog">
-			</span>
-			<span class="">
-				終了
-			</span>
-		</button>
-	<?php endif; ?>
+	<button class="btn btn-danger ng-hide"
+			ng-click="showContainer()"
+			ng-show="visibleManage"
+			tooltip="編集を終了する">
+		<span class="glyphicon glyphicon-remove">
+		</span>
+	</button>
 </div>

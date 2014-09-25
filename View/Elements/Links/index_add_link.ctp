@@ -32,7 +32,7 @@
 					)
 				);
 		?>
-
+<!--
 		<div style="margin-top: 2px;">
 			<div class='row'>
 				<div class="col-xs-6">
@@ -53,6 +53,7 @@
 				</div>
 			</div>
 		</div>
+-->
 
 	</div>
 

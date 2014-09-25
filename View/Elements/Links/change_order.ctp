@@ -17,7 +17,7 @@
 				</div>
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn', array('published' => false, 'size' => 3)); ?>
+			<?php echo $this->element('Links/content_edit_btn_link', array('published' => false, 'size' => 3)); ?>
 		</div>
 	</div>
 
@@ -37,7 +37,7 @@
 				</div>
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn', array('published' => false, 'size' => 3)); ?>
+			<?php echo $this->element('Links/content_edit_btn_link', array('published' => false, 'size' => 3)); ?>
 		</div>
 
 	</div>
@@ -64,7 +64,7 @@
 				</div>
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn', array('published' => true, 'size' => 3)); ?>
+			<?php echo $this->element('Links/content_edit_btn_link', array('published' => true, 'size' => 3)); ?>
 		</div>
 	</div>
 
@@ -82,7 +82,7 @@
 				</div>
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn', array('published' => false, 'size' => 3)); ?>
+			<?php echo $this->element('Links/content_edit_btn_link', array('published' => false, 'size' => 3)); ?>
 		</div>
 	</div>
 
@@ -103,8 +103,14 @@
 				</div>
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn', array('published' => false, 'size' => 3)); ?>
+			<?php echo $this->element('Links/content_edit_btn_link', array('published' => false, 'size' => 3)); ?>
 		</div>
 
 	</div>
 </div>
+
+	<p class="text-center">
+		<button type="button" class="btn btn-default" data-dismiss="modal">
+			閉じる
+		</button>
+	</p>

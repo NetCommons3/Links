@@ -88,12 +88,23 @@
 	</div>
 </div>
 
-	<p class="text-center">
-		<button type="button" class="btn btn-default">
-			キャンセル
-		</button>
-		<button type="button" class="btn btn-primary"
-				ng-click="postDisplayStyle()">
-			設定する
-		</button>
-	</p>
+
+<!--
+<p class="text-center">
+	<button type="button" class="btn btn-default">
+		キャンセル
+	</button>
+	<button type="button" class="btn btn-primary">
+		設定する
+	</button>
+</p>
+-->
+
+<p class="text-center">
+	<button type="button" class="btn btn-default" data-dismiss="modal">
+		キャンセル
+	</button>
+	<button type="button" class="btn btn-primary" data-dismiss="modal">
+		設定する
+	</button>
+</p>

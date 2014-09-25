@@ -15,7 +15,7 @@
 			<li class="small active">
 				<a href="#nc-links-change-order-move-<?php echo (int)$frameId; ?>"
 						role="tab" data-toggle="tab">
-					表示順変更
+					リンク編集
 				</a>
 			</li>
 			<li class="small">
@@ -49,7 +49,14 @@
 <!-- Tab panes -->
 <div class="tab-content">
 	<div class="tab-pane active" id="nc-links-change-order-move-<?php echo (int)$frameId; ?>">
-		<?php echo $this->element('Links/change_order'); ?>
+		<div id="nc-links-change-order-modal-<?php echo (int)$frameId; ?>"
+			 ng-hide="visibleAddLinkForm2">
+			<?php echo $this->element('Links/change_order'); ?>
+		</div>
+		<div id="nc-links-add-link-modal-<?php echo (int)$frameId; ?>" class="ng-hide"
+			 ng-show="visibleAddLinkForm2">
+			<?php echo $this->element('Links/index_add_link'); ?>
+		</div>
 	</div>
 	<div class="tab-pane" id="nc-links-category-editor-<?php echo (int)$frameId; ?>">
 		<?php echo $this->element('Links/category_editor'); ?>
