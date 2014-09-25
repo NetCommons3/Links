@@ -21,27 +21,6 @@
 	</div>
 </div>
 
-<div id="nc-links-manage-modal-<?php echo (int)$frameId; ?>" class="modal fade">
-	<div class="ng-scope">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button data-dismiss="modal" class="close" type="button">
-						<span aria-hidden="true">×</span>
-						<span class="sr-only">Close</span>
-					</button>
-					<h4 id="myModalLabel" class="modal-title">
-						編集
-					</h4>
-				</div>
-				<div class="modal-body">
-					<?php echo $this->element('Links/index_manage'); ?>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
 <div id="nc-links-add-category-modal-<?php echo (int)$frameId; ?>" class="modal fade">
 	<?php echo $this->element('Links/index_add_category'); ?>
 </div>
@@ -63,6 +42,28 @@
 	 ng-init="initialize(<?php echo (int)$frameId; ?>,
 						<?php echo ($listDisplay === '' ? "true" : "false"); ?>,
 						<?php echo ($dropdownDisplay === '' ? "true" : "false"); ?>)">
+
+
+	<div id="nc-links-manage-modal-<?php echo (int)$frameId; ?>" class="modal fade">
+		<div class="ng-scope">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button data-dismiss="modal" class="close" type="button">
+							<span aria-hidden="true">×</span>
+							<span class="sr-only">Close</span>
+						</button>
+						<h4 id="myModalLabel" class="modal-title">
+							編集
+						</h4>
+					</div>
+					<div class="modal-body">
+						<?php echo $this->element('Links/index_manage'); ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="row"
 		 ng-show="visibleHeaderBtn">
