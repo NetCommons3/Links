@@ -27,6 +27,13 @@ NetCommonsApp.controller('Links',
       $scope.htmlAddLink = '';
       $scope.visibleAddLink = true;
 
+      $scope.Form = {
+        'link_url': '',
+        'title': '',
+        'description': ''
+      };
+
+
       $scope.initialize = function(frameId, visibleContentList, visibleContentDropdown) {
       //$scope.initialize = function(frameId) {
         $scope.frameId = frameId;
@@ -75,20 +82,33 @@ NetCommonsApp.controller('Links',
       };
 
       $scope.showAddLink = function() {
-        //$('#nc-links-add-link-modal-' + $scope.frameId).modal('show');
+        $('#nc-links-add-link-modal-' + $scope.frameId).modal('show');
 
-        $scope.visibleContainer = false;
-        $scope.visibleEdit = false;
-        $scope.visibleManage = false;
-        $scope.visibleAddLink = false;
+//        $scope.visibleContainer = false;
+//        $scope.visibleEdit = false;
+//        $scope.visibleManage = false;
+//        $scope.visibleAddLink = false;
+//
+//        $scope.visibleAddLinkForm = true;
+//        $scope.visibleHeaderBtn = false;
 
-        $scope.visibleAddLinkForm = true;
-        $scope.visibleHeaderBtn = false;
+        $scope.Form.link_url = '';
+        $scope.Form.title = '';
+        $scope.Form.description = '';
       };
 
-      $scope.showEditLink = function() {
+      $scope.showEditLink = function(link_url, title, description) {
+        $scope.Form.link_url = link_url;
+        $scope.Form.title = title;
+        $scope.Form.description = description;
         $scope.visibleAddLinkForm2 = true;
-console.log($scope.visibleAddLinkForm2);
+      };
+
+      $scope.closeEditLink = function() {
+        $scope.visibleAddLinkForm2 = false;
+        $scope.Form.link_url = '';
+        $scope.Form.title = '';
+        $scope.Form.description = '';
       };
 
       $scope.showAddCategory = function() {

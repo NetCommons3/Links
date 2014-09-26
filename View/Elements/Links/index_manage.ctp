@@ -1,5 +1,6 @@
-
+<!--
 <nav class="navbar navbar-default" role="navigation">
+
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-<?php echo (int)$frameId; ?>">
 			<span class="sr-only">Toggle navigation</span>
@@ -10,8 +11,9 @@
 	</div>
 
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-<?php echo (int)$frameId; ?>">
-		<!-- Nav tabs -->
-		<ul class="nav navbar-nav" role="tablist">
+-->
+
+		<ul class="nav nav-tabs" role="tablist">
 			<li class="small active">
 				<a href="#nc-links-change-order-move-<?php echo (int)$frameId; ?>"
 						role="tab" data-toggle="tab">
@@ -36,15 +38,18 @@
 					権限設定
 				</a>
 			</li>
-			<li class="small">
-				<a href="#nc-links-mail-setting-<?php echo (int)$frameId; ?>"
-						role="tab" data-toggle="tab">
+			<li class="small disabled">
+				<a href="#" onclick="return false;">
 					メール設定
 				</a>
 			</li>
 		</ul>
+<!--
 	</div>
 </nav>
+-->
+
+<br />
 
 <!-- Tab panes -->
 <div class="tab-content">
@@ -55,7 +60,8 @@
 		</div>
 		<div id="nc-links-add-link-modal-<?php echo (int)$frameId; ?>" class="ng-hide"
 			 ng-show="visibleAddLinkForm2">
-			<?php echo $this->element('Links/index_add_link'); ?>
+
+			<?php echo $this->element('Links/index_add_link', array('ngClick' => 'closeEditLink()')); ?>
 		</div>
 	</div>
 	<div class="tab-pane" id="nc-links-category-editor-<?php echo (int)$frameId; ?>">
@@ -67,8 +73,8 @@
 	<div class="tab-pane" id="nc-links-role-setting-<?php echo (int)$frameId; ?>">
 		<?php echo $this->element('Links/authority_setting'); ?>
 	</div>
-	<div class="tab-pane" id="nc-links-mail-setting-<?php echo (int)$frameId; ?>">
-		<?php echo $this->element('Links/notification_setting'); ?>
+	<div class="tab-pane disabled" id="nc-links-mail-setting-<?php echo (int)$frameId; ?>">
+		<?php //echo $this->element('Links/notification_setting'); ?>
 	</div>
 </div>
 

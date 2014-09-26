@@ -14,7 +14,7 @@
 					</h4>
 				</div>
 				<div class="modal-body">
-					<?php echo $this->element('Links/index_add_link'); ?>
+					<?php echo $this->element('Links/index_add_link', array('ngClick' => '" data-dismiss="modal')); ?>
 				</div>
 			</div>
 		</div>
@@ -89,7 +89,7 @@
 
 	<div id="nc-links-add-link-<?php echo (int)$frameId; ?>" class="ng-hide"
 		 ng-show="visibleAddLinkForm">
-		<?php echo $this->element('Links/index_add_link'); ?>
+		<?php echo $this->element('Links/index_add_link', array('ngClick' => 'showContainer()')); ?>
 	</div>
 
 	<div id="nc-links-edit-<?php echo (int)$frameId; ?>" class="ng-hide"
