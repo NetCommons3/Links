@@ -11,7 +11,7 @@
 								'label' => false,
 								'type' => 'text',
 								'class' => 'form-control',
-								'value' => 'カテゴリ１１１１１１',
+								'value' => 'カテゴリ１',
 							)
 						);
 				?>
@@ -32,7 +32,7 @@
 								'label' => false,
 								'type' => 'text',
 								'class' => 'form-control',
-								'value' => 'カテゴリ２２２２２２',
+								'value' => 'カテゴリ２',
 							)
 						);
 				?>
