@@ -1,6 +1,6 @@
 
 <?php if ($size) : ?>
-<div class="text-center col-xs-<?php echo $size; ?>">
+<div class="text-left col-xs-<?php echo $size; ?>">
 <?php endif; ?>
 
 	<button class="btn btn-default btn-xs<?php echo (isset($upDisabled) ? ' disabled' : ''); ?>">
