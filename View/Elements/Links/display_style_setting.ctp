@@ -104,7 +104,8 @@
 	<button type="button" class="btn btn-default" data-dismiss="modal">
 		キャンセル
 	</button>
-	<button type="button" class="btn btn-primary" data-dismiss="modal">
+	<button type="button" class="btn btn-primary" data-dismiss="modal"
+			ng-click="postDisplayStyle()">
 		設定する
 	</button>
 </p>
