@@ -12,18 +12,30 @@
 							'type' => 'radio',
 							'options' => array(
 								0 => 'ドロップダウンで表示する',
-								1 => '一覧で表示する(説明なし)',
-								2 => '一覧で表示する(説明付き)',
+								1 => '一覧で表示する',
+								//2 => '一覧で表示する(説明付き)',
 							),
 							//'before' => '<br />'
 							'separator' => '<br />',
-							'after' => '<div style="margin-bottom: 30px;"> </div>',
+							//'after' => '<div style="margin-bottom: 30px;"> </div>',
 							'selected' => 0,
 							'div' => array('class' => 'input radio', 'style' => 'margin-left: 30px;'),
 							//'class' => 'form-control',
 						)
 					);
+
+				//リンククリック時、新規ウィンドウで表示する
+				echo $this->Form->input('display_description', array(
+							//'label' => false,
+							'type' => 'checkbox',
+							'label' => '説明を表示する',
+							'div' => array('style' => 'font-weight: normal; margin-left: 70px;'),
+							'checked' => true,
+						)
+					);
 			?>
+
+			<div style="margin-bottom: 30px;"> </div>
 		</div>
 
 		<div class='form-group'>
