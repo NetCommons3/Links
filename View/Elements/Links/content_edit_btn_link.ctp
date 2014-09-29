@@ -12,7 +12,8 @@
 		編集
 	</button>
 
-	<button class="btn btn-default btn-xs">
+	<button class="btn btn-default btn-xs"
+			ng-click="deleteEditLink()">
 		削除
 	</button>
 

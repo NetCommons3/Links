@@ -10,7 +10,8 @@
 	</button>
 -->
 
-	<button class="btn btn-default btn-xs">
+	<button class="btn btn-default btn-xs"
+			ng-click="deleteEditCategory()">
 		削除
 	</button>
 </div>

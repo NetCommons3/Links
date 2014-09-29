@@ -104,6 +104,14 @@ NetCommonsApp.controller('Links',
         $scope.visibleAddLinkForm2 = true;
       };
 
+      $scope.deleteEditLink = function() {
+        return confirm('リンクを削除してもよろしいですか？');
+      };
+
+      $scope.deleteEditCategory = function() {
+        return confirm('カテゴリーを削除してもよろしいですか？');
+      };
+
       $scope.closeEditLink = function() {
         $scope.visibleAddLinkForm2 = false;
         $scope.Form.link_url = '';
