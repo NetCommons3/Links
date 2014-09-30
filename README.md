@@ -3,9 +3,14 @@ Links
 
 Links for NetComomns3
 
-[![Build Status](https://api.travis-ci.org/NetCommons3/Links.png?branch=master)](https://travis-ci.org/NetCommons3/Links)
-[![Coverage Status](https://coveralls.io/repos/NetCommons3/Links/badge.png?branch=master)](https://coveralls.io/r/NetCommons3/Links?branch=master)
 
-| dependencies  | status |
-| ------------- | ------ |
-| composer.json | [![Dependency Status](https://www.versioneye.com/user/projects/(versioneye_project_ID)/badge.png)](https://www.versioneye.com/user/projects/(versioneye_project_ID)) |
+【プラグイン追加方法】
+
+以下、SQLを実行して、「Add plugin」からプラグインを追加してください。
+
+INSERT INTO plugins(id, folder, type, version) VALUES (11, 'links', 1, 'dev-master');
+INSERT INTO plugins_roles(role_id, plugin_id) VALUES (1, 11);
+INSERT INTO plugins_rooms(room_id, plugin_id) VALUES (1, 11);
+INSERT INTO languages_plugins(plugin_id, language_id, name) VALUES (11, 2, 'リンクリスト');
+
+尚、最新のソースでないとエラーが起こることがあります。
