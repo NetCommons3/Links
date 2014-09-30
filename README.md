@@ -6,7 +6,9 @@ Links for NetComomns3
 
 【プラグイン追加方法】
 
-以下、SQLを実行して、「Add plugin」からプラグインを追加してください。
+1. /var/www/app/app/Plugin/にダウンロードしてください。
+
+2. 以下、SQLを実行して、「Add plugin」からプラグインを追加してください。
 
 プラグインを追加したのち、ログイン⇒セッティングモードONにして下さい。
 
