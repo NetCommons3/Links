@@ -16,7 +16,7 @@
 	<button class="btn btn-primary"
 			ng-click="showEdit()"
 			ng-hide="visibleEdit"
-			tooltip="編集">
+			tooltip="管理">
 		<span class="glyphicon glyphicon-edit"></span>
 		<span class="hidden">
 			編集
@@ -37,7 +37,7 @@
 	<button class="btn btn-primary"
 			ng-click="showManage()"
 			ng-hide="visibleManage"
-			tooltip="編集">
+			tooltip="管理">
 		<span class="glyphicon glyphicon-cog">
 		</span>
 		<span class="hidden">

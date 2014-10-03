@@ -21,7 +21,7 @@
 		</li>
 		<li>
 			<a href="#">researchmap
-				<span class="label label-danger">公開申請中</span>
+				<span class="label label-danger">申請中</span>
 			</a>
 		</li>
 		<li>

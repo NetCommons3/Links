@@ -88,7 +88,7 @@
 					<a href="<?php echo $url; ?>" target="_blank">
 						<?php echo $title; ?>
 					</a>
-					<span class="label label-danger">公開申請中</span>
+					<span class="label label-danger">申請中</span>
 				</div>
 				<div class="small" style="margin-top: 5px;">
 					<?php echo $description; ?>

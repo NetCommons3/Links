@@ -50,7 +50,7 @@
 				<div>
 					<a href="http://researchmap.jp/" target="_blank">
 						researchmap
-						<span class="label label-danger">公開申請中</span>
+						<span class="label label-danger">申請中</span>
 					</a>
 				</div>
 				<div class="small" style="margin-top: 5px;">
