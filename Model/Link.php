@@ -20,6 +20,34 @@ App::uses('LinksAppModel', 'Links.Model');
 class Link extends LinksAppModel {
 
 /**
+ * Link status publish
+ *
+ * @var int
+ */
+	const STATUS_PUBLISHED = '1';
+
+/**
+ * Link status approval
+ *
+ * @var int
+ */
+	const STATUS_APPROVED = '2';
+
+/**
+ * Link status draft
+ *
+ * @var int
+ */
+	const STATUS_DRAFTED = '3';
+
+/**
+ * Link status disapproval
+ *
+ * @var int
+ */
+	const STATUS_DISAPPROVED = '4';
+
+/**
  * Use database config
  *
  * @var string
