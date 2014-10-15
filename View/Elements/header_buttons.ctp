@@ -10,7 +10,6 @@
  * @package app.Plugin.Notepads.View.Elements.index
  */
 ?>
-<h3>ボタンだよ</h3>
 <div class="text-right" ng-show="displayHeaderBtn">
 	<?php if ($blockEditable) : ?>
 		<button class="btn btn-default ng-disabled"
