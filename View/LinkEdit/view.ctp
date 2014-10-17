@@ -10,7 +10,7 @@
 				$description = '本サイトは情報共有基盤システムNetCommonsの公式サイトです。 本サイトは国立情報学研究所NetCommonsプロジェクトにより運営されています。';
 			?>
 
-			<?php echo $this->element('Links/content_move_btn', array('size' => '12 col-md-1', 'upDisabled' => true)); ?>
+			<?php echo $this->element('content_move_btn', array('size' => '12 col-md-1', 'upDisabled' => true)); ?>
 
 			<div class="col-xs-12  col-md-11">
 				<div>
@@ -23,7 +23,7 @@
 				</div>
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn_link', array(
+			<?php echo $this->element('LinkEdit/content_edit_btn_link', array(
 				'published' => false,
 				'size' => 12,
 				'url' => $url,
@@ -42,7 +42,7 @@
 				$description = '本サイトはe-ラーニング・情報共有の基盤として国立情報学研究所が提供しているNetCommonsの公式サイトです。';
 			?>
 
-			<?php echo $this->element('Links/content_move_btn', array('size' => '12 col-md-1')); ?>
+			<?php echo $this->element('content_move_btn', array('size' => '12 col-md-1')); ?>
 
 			<div class="col-xs-12  col-md-11">
 				<div>
@@ -55,7 +55,7 @@
 				</div>
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn_link', array(
+			<?php echo $this->element('LinkEdit/content_edit_btn_link', array(
 				'published' => false,
 				'size' => 12,
 				'url' => $url,
@@ -81,7 +81,7 @@
 				$description = 'Researchmap is an information sharing platform for the researchers. Researchmap is provided by Japan';
 			?>
 
-			<?php echo $this->element('Links/content_move_btn', array('size' => '12 col-md-1')); ?>
+			<?php echo $this->element('content_move_btn', array('size' => '12 col-md-1')); ?>
 
 			<div class="col-xs-12  col-md-11">
 				<div>
@@ -95,7 +95,7 @@
 				</div>
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn_link', array(
+			<?php echo $this->element('LinkEdit/content_edit_btn_link', array(
 				'published' => true,
 				'size' => 12,
 				'url' => $url,
@@ -115,7 +115,7 @@
 				$description = '';
 			?>
 
-			<?php echo $this->element('Links/content_move_btn', array('size' => '12 col-md-1')); ?>
+			<?php echo $this->element('content_move_btn', array('size' => '12 col-md-1')); ?>
 
 			<div class="col-xs-12  col-md-11">
 				<div>
@@ -129,7 +129,7 @@
 				</div>
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn_link', array(
+			<?php echo $this->element('LinkEdit/content_edit_btn_link', array(
 				'published' => false,
 				'size' => 12,
 				'url' => $url,
@@ -149,7 +149,7 @@
 				$description = '国立情報学研究所は、情報学という新しい研究分野での「未来価値創成」を目指すわが国唯一の学術総合研究所として、ネットワーク、ソフトウェア、コンテンツなどの情報関連分野の新しい理論・方法論から応用展開までの研究開発を総合的に推進しています。';
 			?>
 
-			<?php echo $this->element('Links/content_move_btn', array('size' => '12 col-md-1', 'downDisabled' => true)); ?>
+			<?php echo $this->element('content_move_btn', array('size' => '12 col-md-1', 'downDisabled' => true)); ?>
 
 			<div class="col-xs-12  col-md-11">
 				<div>
@@ -163,27 +163,20 @@
 				</div>
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn_link', array(
+			<?php echo $this->element('LinkEdit/content_edit_btn_link', array(
 				'published' => false,
 				'size' => 12,
 				'url' => $url,
 				'title' => $title,
 				'description' => $description)); ?>
 
-
 		</div>
 
 	</div>
 </div>
 
-
 <p class="text-center">
-	<button type="button" class="btn btn-default" data-dismiss="modal">
+	<button type="button" class="btn btn-default" ng-click="cancel()">
 		閉じる
 	</button>
-<!--
-	<button type="button" class="btn btn-primary" data-dismiss="modal">
-		設定する
-	</button>
--->
 </p>

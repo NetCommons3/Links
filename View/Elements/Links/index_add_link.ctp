@@ -35,29 +35,6 @@
 						)
 					);
 			?>
-	<!--
-			<div style="margin-top: 2px;">
-				<div class='row'>
-					<div class="col-xs-6">
-						<button class="btn btn-primary btn-xs">
-							編集
-						</button>
-						<button class="btn btn-default btn-xs">
-							削除
-						</button>
-					</div>
-
-					<div class="text-right col-xs-6">
-						<button class="btn btn-success btn-xs"
-								 data-dismiss="modal"
-								ng-click="showAddCategory()">
-							カテゴリー追加
-						</button>
-					</div>
-				</div>
-			</div>
-	-->
-
 		</div>
 
 		<div class='form-group'>
@@ -95,29 +72,14 @@
 	</div>
 </div>
 
-
-<!--
-	<p class="text-center">
-		<button type="button" class="btn btn-default" data-dismiss="modal">
-			キャンセル
-		</button>
-		<button type="button" class="btn btn-default" data-dismiss="modal">
-			下書き
-		</button>
-		<button type="button" class="btn btn-primary" data-dismiss="modal">
-			公開する
-		</button>
-	</p>
--->
-
-	<p class="text-center">
-		<button type="button" class="btn btn-default" ng-click="<?php echo $ngClick; ?>">
-			キャンセル
-		</button>
-		<button type="button" class="btn btn-default" ng-click="<?php echo $ngClick; ?>">
-			下書き
-		</button>
-		<button type="button" class="btn btn-primary" ng-click="<?php echo $ngClick; ?>">
-			公開する
-		</button>
-	</p>
+<p class="text-center">
+	<button type="button" class="btn btn-default" ng-click="<?php echo $ngClick; ?>">
+		キャンセル
+	</button>
+	<button type="button" class="btn btn-default" ng-click="<?php echo $ngClick; ?>">
+		下書き
+	</button>
+	<button type="button" class="btn btn-primary" ng-click="<?php echo $ngClick; ?>">
+		公開する
+	</button>
+</p>

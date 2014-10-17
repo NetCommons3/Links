@@ -31,7 +31,10 @@ class LinksController extends LinksAppController {
  *
  * @var array
  */
-	//public $components = array();
+	public $components = array(
+		'NetCommons.NetCommonsFrame',
+		'NetCommons.NetCommonsRoomRole',
+	);
 
 /**
  * beforeFilter
@@ -41,6 +44,18 @@ class LinksController extends LinksAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow();
+
+		$frameId = (isset($this->params['pass'][0]) ? (int)$this->params['pass'][0] : 0);
+		//Frameのデータをviewにセット
+		if (! $this->NetCommonsFrame->setView($this, $frameId)) {
+			$this->response->statusCode(400);
+			return;
+		}
+		//Roleのデータをviewにセット
+		if (! $this->NetCommonsRoomRole->setView($this)) {
+			$this->response->statusCode(400);
+			return;
+		}
 	}
 
 /**
@@ -51,79 +66,47 @@ class LinksController extends LinksAppController {
  * @return CakeResponse A response object containing the rendered view.
  */
 	public function index($frameId = 0, $type = 'list') {
-		$this->_initializeFrame($frameId);
 		$this->set('type', $type);
 		return $this->render('Links/index');
 	}
 
 /**
- * index method
+ * show linkAdd method
  *
  * @param int $frameId frames.id
- * @param string $lang ex)"en" or "ja" etc.
  * @return CakeResponse A response object containing the rendered view.
  */
-	public function index_link_add($frameId = 0) {
-		$this->_initializeFrame($frameId);
-		$this->layout = false;
-		return $this->render('Links/index_link_add');
+	public function linkAdd($frameId = 0) {
+		if ($this->response->statusCode() !== 200) {
+			return $this->render(false);
+		}
+
+		//編集権限チェック
+		if (! $this->viewVars['contentEditable']) {
+			$this->response->statusCode(403);
+			return $this->render(false);
+		}
+
+		return $this->render('Links/link_add', false);
 	}
 
 /**
- * index method
+ * show manage method
  *
  * @param int $frameId frames.id
- * @param string $lang ex)"en" or "ja" etc.
  * @return CakeResponse A response object containing the rendered view.
  */
-	public function index_edit($frameId = 0) {
-		$this->_initializeFrame($frameId);
-		$this->layout = false;
-		return $this->render('Links/index_edit');
-	}
+	public function manage($frameId = 0) {
+		if ($this->response->statusCode() !== 200) {
+			return $this->render(false);
+		}
 
-/**
- * index method
- *
- * @param int $frameId frames.id
- * @param string $lang ex)"en" or "ja" etc.
- * @return CakeResponse A response object containing the rendered view.
- */
-	public function index_manage($frameId = 0) {
-		$this->_initializeFrame($frameId);
-		$this->layout = false;
-		return $this->render('Links/index_manage');
-	}
+		//編集権限チェック
+		if (! $this->viewVars['contentEditable']) {
+			$this->response->statusCode(403);
+			return $this->render(false);
+		}
 
-/**
- * view method
- *
- * @param int $frameId frames.id
- * @param string $lang ex)"en" or "ja" etc.
- * @return CakeResponse A response object containing the rendered view.
- */
-	public function view($frameId = 0, $lang = '') {
-		return $this->render('Links/view');
-	}
-
-/**
- * form method
- *
- * @param int $frameId frames.id
- * @param int $languageId languages.id
- * @return CakeResponse A response object containing the rendered view.
- */
-	public function form($frameId = 0, $languageId = 0) {
-		return $this->render('Links/form');
-	}
-
-/**
- * edit method
- *
- * @param int $frameId frames.id
- * @return string JSON that indicates success
- */
-	public function edit($frameId = 0) {
-		return;
+		return $this->render('Links/manage', false);
 	}
 }

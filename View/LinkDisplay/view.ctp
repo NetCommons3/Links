@@ -100,24 +100,11 @@
 	</div>
 </div>
 
-
-<!--
 <p class="text-center">
-	<button type="button" class="btn btn-default">
+	<button type="button" class="btn btn-default" ng-click="cancel()">
 		キャンセル
 	</button>
-	<button type="button" class="btn btn-primary">
-		設定する
-	</button>
-</p>
--->
-
-<p class="text-center">
-	<button type="button" class="btn btn-default" data-dismiss="modal">
-		キャンセル
-	</button>
-	<button type="button" class="btn btn-primary" data-dismiss="modal"
-			ng-click="postDisplayStyle()">
+	<button type="button" class="btn btn-primary" ng-click="postDisplayStyle()">
 		設定する
 	</button>
 </p>

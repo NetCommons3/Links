@@ -5,37 +5,29 @@
 * */
 
 NetCommonsApp.controller('Links',
-    function($scope , $http, $sce, $timeout) {
+    function($scope , $http, $sce, $timeout, dialogs, $modal) {
 
-      var GET_FORM_URL = '/links/links/';
+      $scope.LINK_ADD_URL = '/Links/Links/linkAdd/';
+      $scope.PLUGIN_MANAGE_URL = '/Links/Links/manage/';
+
       $scope.frameId = 0;
 
-      $scope.visibleContainer = true;
-      $scope.visibleContentList = false;
-      $scope.visibleContentDropdown = true;
       $scope.visibleHeaderBtn = true;
-      $scope.visibleAddLink = false;
-      $scope.visibleAddLinkForm = false;
-      $scope.visibleAddLinkForm2 = false;
-
-      $scope.htmlManage = '';
+      $scope.visibleContainer = true;
       $scope.visibleManage = false;
-
-      $scope.htmlEdit = '';
-      $scope.visibleEdit = false;
-
-      $scope.htmlAddLink = '';
       $scope.visibleAddLink = true;
 
+      $scope.visibleContentList = false;
+      $scope.visibleContentDropdown = true;
+
+      $scope.visibleAddLinkForm = false;
       $scope.Form = {
         'link_url': '',
         'title': '',
         'description': ''
       };
 
-
       $scope.initialize = function(frameId, visibleContentList, visibleContentDropdown) {
-      //$scope.initialize = function(frameId) {
         $scope.frameId = frameId;
         $scope.visibleContentList = visibleContentList;
         $scope.visibleContentDropdown = visibleContentDropdown;
@@ -44,84 +36,112 @@ NetCommonsApp.controller('Links',
       $scope.showContainer = function() {
         $scope.visibleHeaderBtn = true;
         $scope.visibleContainer = true;
-        $scope.visibleEdit = false;
         $scope.visibleManage = false;
         $scope.visibleAddLink = true;
-        $scope.visibleAddLinkForm = false;
-      };
-
-      $scope.showEdit = function() {
-        $scope.visibleHeaderBtn = true;
-        $scope.visibleContainer = false;
-        $scope.visibleEdit = true;
-        $scope.visibleManage = false;
-        $scope.visibleAddLink = true;
-        $scope.visibleAddLinkForm = false;
-      };
-
-      $scope.showManage = function() {
-        $('#nc-links-manage-modal-' + $scope.frameId).modal('show');
-//        $scope.visibleHeaderBtn = true;
-//        $scope.visibleContainer = false;
-//        $scope.visibleEdit = false;
-//        $scope.visibleManage = true;
-//        $scope.visibleAddLink = false;
-//        $scope.visibleAddLinkForm = false;
-          $scope.visibleAddLinkForm2 = false;
       };
 
       $scope.postDisplayStyle = function() {
         if ($scope.visibleContentList === true) {
           $scope.visibleContentList = false;
           $scope.visibleContentDropdown = true;
-       } else {
+        } else {
           $scope.visibleContentList = true;
           $scope.visibleContentDropdown = false;
-       }
-       $scope.showContainer();
+        }
+        $scope.showContainer();
       };
 
       $scope.showAddLink = function() {
-        $('#nc-links-add-link-modal-' + $scope.frameId).modal('show');
-
-//        $scope.visibleContainer = false;
-//        $scope.visibleEdit = false;
-//        $scope.visibleManage = false;
-//        $scope.visibleAddLink = false;
-//
-//        $scope.visibleAddLinkForm = true;
-//        $scope.visibleHeaderBtn = false;
-
         $scope.Form.link_url = '';
         $scope.Form.title = '';
         $scope.Form.description = '';
+
+        //リンク追加ダイアログ取得のURL
+        var url = $scope.LINK_ADD_URL + $scope.frameId;
+        //ダイアログで使用するJSコントローラ
+        var controller = 'Links.linkAdd';
+
+        $modal.open({
+          templateUrl: url,
+          controller: controller,
+          backdrop: 'static',
+          scope: $scope
+        });
       };
 
-      $scope.showEditLink = function(link_url, title, description) {
-        $scope.Form.link_url = link_url;
-        $scope.Form.title = title;
-        $scope.Form.description = description;
-        $scope.visibleAddLinkForm2 = true;
-      };
+      $scope.showManage = function(){
+        $scope.visibleAddLinkForm = false;
 
-      $scope.deleteEditLink = function() {
-        return confirm('リンクを削除してもよろしいですか？');
-      };
+        //管理モーダル取得のURL
+        var url = $scope.PLUGIN_MANAGE_URL + $scope.frameId;
+        //ダイアログで使用するJSコントローラ
+        var controller = 'Links.edit';
 
-      $scope.deleteEditCategory = function() {
-        return confirm('カテゴリーを削除してもよろしいですか？');
-      };
+        modal = $modal.open({
+          templateUrl: url,
+          controller: controller,
+          backdrop: 'static',
+          scope: $scope
+        });
+        modal.result.then(
+          function(result) {
+            // 表示方法変更設定時
+            $scope.postDisplayStyle();
+          },
+          function(reason) {}
+        );
+      }
 
-      $scope.closeEditLink = function() {
-        $scope.visibleAddLinkForm2 = false;
-        $scope.Form.link_url = '';
-        $scope.Form.title = '';
-        $scope.Form.description = '';
-      };
+    });
 
-      $scope.showAddCategory = function() {
-        //$('#nc-links-add-link-modal-' + $scope.frameId).dismiss();
-        $('#nc-links-add-category-modal-' + $scope.frameId).modal('show');
+NetCommonsApp.controller('Links.linkAdd',
+    function($scope, $http, $sce, $modalInstance, $timeout, dialogs) {
+
+      $scope.cancel = function(){
+        $modalInstance.dismiss('cancel');
       };
 
     });
+
+NetCommonsApp.controller('Links.edit',
+    function($scope, $http, $sce, $modalInstance, $timeout, dialogs) {
+
+      $scope.cancel = function(){
+        $modalInstance.dismiss('cancel');
+      };
+
+      $scope.postDisplayStyle = function(){
+        $modalInstance.close();
+      };
+
+      $scope.showEditLink = function(link_url, title, description) {
+        $scope.visibleAddLinkForm = true;
+        $scope.Form.link_url = link_url;
+        $scope.Form.title = title;
+        $scope.Form.description = description;
+      };
+
+      $scope.closeEditLink = function() {
+        $scope.visibleAddLinkForm = false;
+        $scope.Form.link_url = '';
+        $scope.Form.title = '';
+        $scope.Form.description = '';
+      };
+
+      $scope.deleteEditLink = function() {
+        dlg = dialogs.confirm('Confirmation','リンクを削除してもよろしいですか？');
+        dlg.result.then(
+          function(btn){}, // Yes
+          function(btn){}  // NO
+        );
+      };
+
+      $scope.deleteEditCategory = function() {
+        dlg = dialogs.confirm('Confirmation','カテゴリーを削除してもよろしいですか？');
+        dlg.result.then(
+          function(btn){}, // Yes
+          function(btn){}  // NO
+        );
+      };
+    });
+

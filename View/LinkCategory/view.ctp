@@ -2,7 +2,7 @@
 
 	<div class="panel-body">
 		<div class="row">
-			<?php echo $this->element('Links/content_move_btn', array('size' => '2 col-md-2', 'upDisabled' => true)); ?>
+			<?php echo $this->element('content_move_btn', array('size' => '2 col-md-2', 'upDisabled' => true)); ?>
 
 			<div class="col-xs-7 col-md-8">
 				<?php
@@ -17,13 +17,13 @@
 				?>
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn_category', array('published' => false, 'size' => '2 col-md-1')); ?>
+			<?php echo $this->element('LinkCategory/content_edit_btn_category', array('published' => false, 'size' => '2 col-md-1')); ?>
 		</div>
 	</div>
 
 	<div class="panel-body">
 		<div class="row">
-			<?php echo $this->element('Links/content_move_btn', array('size' => '2 col-md-2', 'downDisabled' => true)); ?>
+			<?php echo $this->element('content_move_btn', array('size' => '2 col-md-2', 'downDisabled' => true)); ?>
 
 			<div class="col-xs-7 col-md-8">
 				<?php
@@ -38,7 +38,7 @@
 				?>
 			</div>
 
-			<?php echo $this->element('Links/content_edit_btn_category', array('published' => false, 'size' => '2 col-md-1')); ?>
+			<?php echo $this->element('LinkCategory/content_edit_btn_category', array('published' => false, 'size' => '2 col-md-1')); ?>
 		</div>
 	</div>
 
@@ -72,10 +72,10 @@
 
 
 <p class="text-center">
-	<button type="button" class="btn btn-default" data-dismiss="modal">
+	<button type="button" class="btn btn-default" ng-click="cancel()">
 		キャンセル
 	</button>
-	<button type="button" class="btn btn-primary" data-dismiss="modal">
+	<button type="button" class="btn btn-primary" ng-click="cancel()">
 		設定する
 	</button>
 </p>

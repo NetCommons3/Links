@@ -12,28 +12,6 @@
 </div>
 
 <div class="text-right col-xs-7 col-xs-offset-1">
-<!--
-	<button class="btn btn-primary"
-			ng-click="showEdit()"
-			ng-hide="visibleEdit"
-			tooltip="管理">
-		<span class="glyphicon glyphicon-edit"></span>
-		<span class="hidden">
-			編集
-		</span>
-	</button>
-
-	<button class="btn btn-primary ng-hide"
-			ng-click="showContainer()"
-			ng-show="visibleEdit"
-			tooltip="編集を終了する">
-		<span class="glyphicon glyphicon-edit"></span>
-		<span class="">
-			終了
-		</span>
-	</button>
--->
-
 	<button class="btn btn-primary"
 			ng-click="showManage()"
 			ng-hide="visibleManage"

@@ -4,11 +4,6 @@
 			公開する
 		</button>
 	<?php endif; ?>
-<!--
-	<button class="btn btn-primary btn-xs">
-		編集
-	</button>
--->
 
 	<button class="btn btn-default btn-xs"
 			ng-click="deleteEditCategory()">
