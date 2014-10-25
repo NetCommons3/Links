@@ -2,8 +2,7 @@
 /**
  * Links Controller
  *
- * @author Noriko Arai <arai@nii.ac.jp>
- * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @author Ryuji AMANO <ryuji@ryus.co.jp>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -14,7 +13,7 @@ App::uses('LinksAppController', 'Links.Controller');
 /**
  * Links Controller
  *
- * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @author Ryuji AMANO <ryuji@ryus.co.jp>
  * @package NetCommons\Links\Controller
  */
 class LinksController extends LinksAppController {
@@ -24,7 +23,9 @@ class LinksController extends LinksAppController {
  *
  * @var array
  */
-	//public $uses = array();
+	public $uses = array(
+		'Links.Link',
+	);
 
 /**
  * use component
@@ -32,6 +33,7 @@ class LinksController extends LinksAppController {
  * @var array
  */
 	public $components = array(
+		'NetCommons.NetCommonsBlock', //use Announcement model
 		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsRoomRole',
 	);
@@ -67,6 +69,17 @@ class LinksController extends LinksAppController {
  */
 	public function index($frameId = 0, $type = 'list') {
 		$this->set('type', $type);
+
+		//Linkデータを取得
+		$links = $this->Link->getLinks(
+			$this->viewVars['blockId'],
+			$this->viewVars['contentEditable']
+		);
+
+		//Announcementデータをviewにセット
+		$this->set('links', $links);
+
+
 		return $this->render('Links/index');
 	}
 

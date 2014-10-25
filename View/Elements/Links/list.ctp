@@ -1,6 +1,10 @@
 
 <div class="col-sm-12">
 	<ul class="nav nav-pills nav-stacked">
+		<?php foreach($cateogries as $category): ?>
+			<?php foreach($category['links'] as $link): ?>
+			<?php endforeach ?>
+		<?php endforeach ?>
 		<li style="padding:5px;">カテゴリ１</li>
 		<li><a href="#">NetCommons2公式サイト <span class="badge">42</span></a></li>
 		<li><a href="#">NetCommons Legacy <span class="badge">42</span></a></li>
