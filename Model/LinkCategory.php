@@ -1,8 +1,9 @@
 <?php
 /**
- * Link Model
+ * LinkCategory Model
  *
- * @property LinkCategory $LinkCategory
+ * @property Block $Block
+ * @property Link $Link
  *
 * @author   Ryuji AMANO <ryuji@ryus.co.jp>
 * @link     http://www.netcommons.org NetCommons Project
@@ -12,9 +13,9 @@
 App::uses('LinksAppModel', 'Links.Model');
 
 /**
- * Summary for Link Model
+ * Summary for LinkCategory Model
  */
-class Link extends LinksAppModel {
+class LinkCategory extends LinksAppModel {
 
 /**
  * Validation rules
@@ -22,7 +23,7 @@ class Link extends LinksAppModel {
  * @var array
  */
 	public $validate = array(
-		'link_category_id' => array(
+		'block_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -35,26 +36,6 @@ class Link extends LinksAppModel {
 		'key' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'status' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'click_number' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -82,39 +63,52 @@ class Link extends LinksAppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'LinkCategory' => array(
-			'className' => 'LinkCategory',
-			'foreignKey' => 'link_category_id',
+		'Block' => array(
+			'className' => 'Block',
+			'foreignKey' => 'block_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		)
 	);
 
-	public function getLinks($blockId, $contentEditable){
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'Link' => array(
+			'className' => 'Link',
+			'foreignKey' => 'link_category_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		)
+	);
+	public function getPublished($blockId, $contentEditable){
 		$conditions = array(
-//			'block_id' => $blockId,
+			'block_id' => $blockId,
 		);
-		if (! $contentEditable) {
-			$conditions['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-		}
+		// カテゴリにはステータスがない
+//		if (! $contentEditable) {
+//			$conditions['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
+//		}
 
-		$links = $this->find('all', array(
+		// ソート順はlink_category_ordersテーブル参照
+		$categories = $this->find('all', array(
 				'conditions' => $conditions,
-//				'order' => 'id' . '.id DESC',
+//				'order' => 'Link' . '.id DESC',
 			)
 		);
 
-//		if (! $links) {
-//			$links = $this->create();
-//			$links['Link']['content'] = '';
-//			$links['Link']['status'] = '0';
-//			$links['Link']['block_id'] = '0';
-//			$links['Link']['key'] = '';
-//			$links['Link']['id'] = '0';
-//		}
-
-		return $links;
+		return $categories;
 	}
 
 }
