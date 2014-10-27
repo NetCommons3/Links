@@ -88,7 +88,14 @@ class Link extends LinksAppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'LinkOrder' => array(
+			'className' => 'LinkOrder',
+			'foreignKey' => false,
+			'conditions' => array('Link.key = LinkOrder.link_key'),
 		)
+
+
 	);
 
 	public function getLinks($blockId, $contentEditable){

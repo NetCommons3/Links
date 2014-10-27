@@ -43,8 +43,32 @@ class LinkCategoryFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'block_id' => 1,
-			'key' => 'Lorem ipsum dolor sit amet',
+			'key' => 'key1',
+			'name' => '株式会社RYUS',
+			'is_auto_translated' => 1,
+			'translation_engine' => 'Lorem ipsum dolor sit amet',
+			'created_user' => 1,
+			'created' => '2014-10-25 04:56:24',
+			'modified_user' => 1,
+			'modified' => '2014-10-25 04:56:24'
+		),
+		array(
+			'id' => 2,
+			'block_id' => 1,
+			'key' => 'key2',
 			'name' => 'Lorem ipsum dolor sit amet',
+			'is_auto_translated' => 1,
+			'translation_engine' => 'Lorem ipsum dolor sit amet',
+			'created_user' => 1,
+			'created' => '2014-10-25 04:56:24',
+			'modified_user' => 1,
+			'modified' => '2014-10-25 04:56:24'
+		),
+		array(
+			'id' => 3,
+			'block_id' => 1,
+			'key' => 'key1',
+			'name' => 'RYUS INC',
 			'is_auto_translated' => 1,
 			'translation_engine' => 'Lorem ipsum dolor sit amet',
 			'created_user' => 1,

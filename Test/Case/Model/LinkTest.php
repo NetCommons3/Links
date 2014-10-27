@@ -21,6 +21,7 @@ class LinkTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.links.link',
+		'plugin.links.link_order',
 		'plugin.links.link_category'
 	);
 
@@ -43,6 +44,14 @@ class LinkTest extends CakeTestCase {
 		unset($this->Link);
 
 		parent::tearDown();
+	}
+
+	public function testAssociationLinkOrder() {
+		$link = $this->Link->findById(1);
+		$this->assertEqual($link['LinkOrder']['id'], 1);
+
+		$link = $this->Link->findById(2);
+		$this->assertEqual($link['LinkOrder']['id'], 2);
 	}
 
 }

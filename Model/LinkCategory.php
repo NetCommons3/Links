@@ -69,6 +69,11 @@ class LinkCategory extends LinksAppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'LinkCategoryOrder' => array(
+			'className' => 'LinkCategoryOrder',
+			'foreignKey' => false,
+			'conditions' => array('LinkCategory.key = LinkCategoryOrder.link_category_key'),
 		)
 	);
 

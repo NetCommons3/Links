@@ -40,7 +40,17 @@ class LinkOrderFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'link_key' => 'Lorem ipsum dolor sit amet',
+			'link_key' => 'key1',
+			'link_category_key' => 'Lorem ipsum dolor sit amet',
+			'weight' => 1,
+			'created_user' => 1,
+			'created' => '2014-10-25 04:56:40',
+			'modified_user' => 1,
+			'modified' => '2014-10-25 04:56:40'
+		),
+		array(
+			'id' => 2,
+			'link_key' => 'key2',
 			'link_category_key' => 'Lorem ipsum dolor sit amet',
 			'weight' => 1,
 			'created_user' => 1,

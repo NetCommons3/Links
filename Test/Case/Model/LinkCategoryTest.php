@@ -21,6 +21,7 @@ class LinkCategoryTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.links.link_category',
+		'plugin.links.link_category_order',
 		'plugin.links.block',
 		'plugin.links.link'
 	);
@@ -46,4 +47,23 @@ class LinkCategoryTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+
+	public function testAssociationLinkCategoryOrder() {
+		$linkCategory = $this->LinkCategory->findById(1);
+		$this->assertEqual($linkCategory['LinkCategoryOrder']['id'], 1);
+
+		$linkCategory = $this->LinkCategory->findById(2);
+		$this->assertEqual($linkCategory['LinkCategoryOrder']['id'], 2);
+
+		$linkCategory = $this->LinkCategory->findById(3);
+		$this->assertEqual($linkCategory['LinkCategoryOrder']['id'], 1);
+	}
+
+	public function testAssociationLink() {
+		$linkCategory = $this->LinkCategory->findById(1);
+		$this->assertEqual(count($linkCategory['Link']), 2);
+
+		$linkCategory = $this->LinkCategory->findById(2);
+		$this->assertEqual(count($linkCategory['Link']), 1);
+	}
 }
