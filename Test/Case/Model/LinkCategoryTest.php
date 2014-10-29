@@ -11,6 +11,8 @@ App::uses('LinkCategory', 'Links.Model');
 
 /**
  * Summary for LinkCategory Test Case
+ *
+ * @property LinkCategory $LinkCategory
  */
 class LinkCategoryTest extends CakeTestCase {
 
@@ -65,5 +67,12 @@ class LinkCategoryTest extends CakeTestCase {
 
 		$linkCategory = $this->LinkCategory->findById(2);
 		$this->assertEqual(count($linkCategory['Link']), 1);
+	}
+
+	public function testGetCategories() {
+		$blockId = 1;
+		$categories = $this->LinkCategory->getCategories($blockId);
+		$this->assertEqual($categories[0]['LinkCategory']['id'], 2);
+		$this->assertEqual($categories[1]['LinkCategory']['id'], 1);
 	}
 }

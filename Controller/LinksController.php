@@ -15,9 +15,12 @@ App::uses('LinksAppController', 'Links.Controller');
  *
  * @author Ryuji AMANO <ryuji@ryus.co.jp>
  * @package NetCommons\Links\Controller
+ *
+ * @property Link $Links
  */
 class LinksController extends LinksAppController {
 
+public $helpers = array('Links.LinksStatus');
 /**
  * use model
  *
@@ -25,6 +28,7 @@ class LinksController extends LinksAppController {
  */
 	public $uses = array(
 		'Links.Link',
+		'Links.LinkCategory',
 	);
 
 /**
@@ -32,6 +36,7 @@ class LinksController extends LinksAppController {
  *
  * @var array
  */
+
 	public $components = array(
 		'NetCommons.NetCommonsBlock', //use Announcement model
 		'NetCommons.NetCommonsFrame',
@@ -69,17 +74,20 @@ class LinksController extends LinksAppController {
  */
 	public function index($frameId = 0, $type = 'list') {
 		$this->set('type', $type);
-
-		//Linkデータを取得
-		$links = $this->Link->getLinks(
-			$this->viewVars['blockId'],
-			$this->viewVars['contentEditable']
+		// カテゴリ一覧を取得
+		$categories = $this->LinkCategory->getCategories(
+			$this->viewVars['blockId'] // MyTodo まだブロックレコードがないときは0なので、どうする？s
 		);
-
-		//Announcementデータをviewにセット
-		$this->set('links', $links);
-
-
+		foreach($categories as &$category){
+			//Linkデータを取得
+			$links = $this->Link->getLinksByCategoryId(
+				$category['LinkCategory']['id'],
+				$this->viewVars['blockId'],
+				$this->viewVars['contentEditable']
+			);
+			$category['links'] = $links;
+		}
+		$this->set('categories', $categories);
 		return $this->render('Links/index');
 	}
 

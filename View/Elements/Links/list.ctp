@@ -1,35 +1,31 @@
-
+<style>
+ul.links_category_list>li:not(:last-child) {
+		background-image:url('http://www.netcommons.org/images/common/line/line_c3.gif');
+		/*height: 5px; */
+		/* Android 4 だとbottomからピクセル指定できないので padding, marginで対応*/
+		padding-bottom:3px;
+		background-position: left bottom;
+		margin-bottom: 3px;
+		background-repeat: repeat-x;
+	}
+</style>
 <div class="col-sm-12">
-	<ul class="nav nav-pills nav-stacked">
-		<?php foreach($cateogries as $category): ?>
-			<?php foreach($category['links'] as $link): ?>
-			<?php endforeach ?>
+	<ul class="nav nav-pills nav-stacked links_category_list" >
+		<?php foreach($categories as $category): ?>
+			<li class="links_category_item">
+				<?php echo $category['LinkCategory']['name'] ?>
+				<ul class="nav nav-pills nav-stacked">
+					<?php foreach($category['links'] as $link): ?>
+						<li>
+							<a href="<?php echo h($link['Link']['url']);// MyTodo クリックカウントひろいたいので一枚かます ?>">
+								<?php echo h($link['Link']['title']) ?>
+								<span class="badge"><?php echo $link['Link']['click_number']?></span>
+								<?php echo $this->LinksStatus->view($link['Link']['status']); ?>
+							</a>
+						</li>
+					<?php endforeach ?>
+				</ul>
+			</li>
 		<?php endforeach ?>
-		<li style="padding:5px;">カテゴリ１</li>
-		<li><a href="#">NetCommons2公式サイト <span class="badge">42</span></a></li>
-		<li><a href="#">NetCommons Legacy <span class="badge">42</span></a></li>
-		<li class="" style="padding:5px;">
-			<div style="background-image:url('http://www.netcommons.org/images/common/line/line_c3.gif'); height: 5px; background-position: left center;　background-repeat: repeat-x;">
-				&nbsp;
-			</div>
-		</li>
-		<li class="" style="padding:5px;">
-			カテゴリ２
-		</li>
-		<li>
-			<a href="#">researchmap
-				<span class="label label-danger">申請中</span>
-			</a>
-		</li>
-		<li>
-			<a href="#">edumap
-				<span class="label label-info">下書き</span>
-			</a>
-		</li>
-		<li>
-			<a href="#">国立情報学研究所
-				<span class="label label-warning">差し戻し</span>
-			</a>
-		</li>
 	</ul>
 </div>

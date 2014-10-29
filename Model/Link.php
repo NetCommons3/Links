@@ -83,14 +83,14 @@ class Link extends LinksAppModel {
  */
 	public $belongsTo = array(
 		'LinkCategory' => array(
-			'className' => 'LinkCategory',
+			'className' => 'Links.LinkCategory',
 			'foreignKey' => 'link_category_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
 		'LinkOrder' => array(
-			'className' => 'LinkOrder',
+			'className' => 'Links.LinkOrder',
 			'foreignKey' => false,
 			'conditions' => array('Link.key = LinkOrder.link_key'),
 		)
@@ -98,9 +98,10 @@ class Link extends LinksAppModel {
 
 	);
 
-	public function getLinks($blockId, $contentEditable){
+	public function getLinksByCategoryId($categoryId, $blockId, $contentEditable){
 		$conditions = array(
-//			'block_id' => $blockId,
+			'link_category_id' => $categoryId,
+			'LinkCategory.block_id' => $blockId,
 		);
 		if (! $contentEditable) {
 			$conditions['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
@@ -108,20 +109,12 @@ class Link extends LinksAppModel {
 
 		$links = $this->find('all', array(
 				'conditions' => $conditions,
-//				'order' => 'id' . '.id DESC',
+				'order' => 'LinkOrder.weight ASC',
 			)
 		);
 
-//		if (! $links) {
-//			$links = $this->create();
-//			$links['Link']['content'] = '';
-//			$links['Link']['status'] = '0';
-//			$links['Link']['block_id'] = '0';
-//			$links['Link']['key'] = '';
-//			$links['Link']['id'] = '0';
-//		}
-
 		return $links;
 	}
+
 
 }

@@ -42,7 +42,7 @@ class LinkCategoryOrderFixture extends CakeTestFixture {
 			'id' => 1,
 			'link_category_key' => 'key1',
 			'block_key' => 'Lorem ipsum dolor sit amet',
-			'weight' => 1,
+			'weight' => 2,
 			'created_user' => 1,
 			'created' => '2014-10-25 04:56:50',
 			'modified_user' => 1,

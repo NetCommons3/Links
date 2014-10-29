@@ -66,7 +66,7 @@ class LinkCategoryFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => 3,
-			'block_id' => 1,
+			'block_id' => 2,
 			'key' => 'key1',
 			'name' => 'RYUS INC',
 			'is_auto_translated' => 1,

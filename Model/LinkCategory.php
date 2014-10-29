@@ -2,6 +2,8 @@
 /**
  * LinkCategory Model
  *
+ *  前提条件　ユニーク制約 (key and block_id)
+ *
  * @property Block $Block
  * @property Link $Link
  *
@@ -71,7 +73,7 @@ class LinkCategory extends LinksAppModel {
 			'order' => ''
 		),
 		'LinkCategoryOrder' => array(
-			'className' => 'LinkCategoryOrder',
+			'className' => 'Links.LinkCategoryOrder',
 			'foreignKey' => false,
 			'conditions' => array('LinkCategory.key = LinkCategoryOrder.link_category_key'),
 		)
@@ -84,7 +86,7 @@ class LinkCategory extends LinksAppModel {
  */
 	public $hasMany = array(
 		'Link' => array(
-			'className' => 'Link',
+			'className' => 'Links.Link',
 			'foreignKey' => 'link_category_id',
 			'dependent' => false,
 			'conditions' => '',
@@ -97,19 +99,24 @@ class LinkCategory extends LinksAppModel {
 			'counterQuery' => ''
 		)
 	);
-	public function getPublished($blockId, $contentEditable){
+
+
+	public $actsAs = array('Containable');
+
+	public function getCategories($blockId){
 		$conditions = array(
 			'block_id' => $blockId,
 		);
-		// カテゴリにはステータスがない
-//		if (! $contentEditable) {
-//			$conditions['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-//		}
+
+		$this->unbindModel(array(
+				'belongsTo' => array('Block'),
+				'hasMany' => array('Link'),
+			));
 
 		// ソート順はlink_category_ordersテーブル参照
 		$categories = $this->find('all', array(
 				'conditions' => $conditions,
-//				'order' => 'Link' . '.id DESC',
+				'order' => 'LinkCategoryOrder.weight ASC',
 			)
 		);
 
