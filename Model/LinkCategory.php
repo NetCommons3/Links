@@ -123,4 +123,84 @@ class LinkCategory extends LinksAppModel {
 		return $categories;
 	}
 
+	public function saveLinkCategory($postData){
+		$models = array(
+			'Frame' => 'Frames.Frame',
+			'Block' => 'Blocks.Block',
+		);
+		foreach ($models as $model => $class) {
+			$this->$model = ClassRegistry::init($class);
+			$this->$model->setDataSource('master');
+		}
+
+		//frame関連のセット
+		$frame = $this->Frame->findById($postData['Frame']['frame_id']);
+		if (! $frame) {
+			return false;
+		}
+		if (! isset($frame['Frame']['block_id']) ||
+			$frame['Frame']['block_id'] === '0') {
+			//generate link_categories.key
+		}
+
+		//DBへの登録
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+		try {
+			$blockId = $this->__saveBlock($frame);
+
+			//announcementsテーブル登録
+			$linkCategory['LinkCategory'] = $postData['LinkCategory'];
+			$linkCategory['LinkCategory']['key'] = hash('sha256', 'link_category_' . microtime()); //新規時はkeyを新規に発行
+			$linkCategory['LinkCategory']['block_id'] = $blockId;
+			$linkCategory['LinkCategory']['created_user'] = CakeSession::read('Auth.User.id');
+
+
+
+			if (! $this->save($linkCategory)) {
+				throw new ForbiddenException(serialize($this->validationErrors));
+			}
+			$this->LinkCategoryOrder->addLinkCategoryOrder($linkCategory);
+			$dataSource->commit();
+			return true;
+
+		} catch (Exception $ex) {
+			CakeLog::error($ex->getTraceAsString());
+			$dataSource->rollback();
+			return false;
+		}
+
+	}
+
+	/**
+	 * save block
+	 * ブロックモデルが担当した方がいいんじゃね？ By Ryuji
+	 * @param array $frame frame data
+	 * @return int blocks.id
+	 * @throws ForbiddenException
+	 *
+	 */
+	private function __saveBlock($frame) {
+		if (! isset($frame['Frame']['block_id']) ||
+			$frame['Frame']['block_id'] === '0') {
+			//blocksテーブル登録
+			$block = array();
+			$block['Block']['room_id'] = $frame['Frame']['room_id'];
+			$block['Block']['language_id'] = $frame['Frame']['language_id'];
+			$block = $this->Block->save($block);
+			if (! $block) {
+				throw new ForbiddenException(serialize($this->Block->validationErrors));
+			}
+			$blockId = (int)$block['Block']['id'];
+
+			//framesテーブル更新
+			$frame['Frame']['block_id'] = $blockId;
+			if (! $this->Frame->save($frame)) {
+				throw new ForbiddenException(serialize($this->Frame->validationErrors));
+			}
+		}
+
+		return (int)$frame['Frame']['block_id'];
+	}
+
 }

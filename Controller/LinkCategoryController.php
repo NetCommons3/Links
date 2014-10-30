@@ -83,7 +83,6 @@ class LinkCategoryController extends LinksAppController {
 * @return CakeResponse A response object containing the rendered view.
 */
 	public function form($frameId = 0) {
-//		$this->view($frameId);
 		return $this->render('LinkCategory/form', false);
 	}
 
@@ -96,7 +95,7 @@ class LinkCategoryController extends LinksAppController {
 //		unset($postData['Announcement']['id']);
 
 		//保存
-		if ($this->LinkCategory->save($postData)) {
+		if ($this->LinkCategory->saveLinkCategory($postData)) {
 //			$announcement = $this->Announcement->getAnnouncement(
 //				$this->viewVars['blockId'],
 //				$this->viewVars['contentEditable']
