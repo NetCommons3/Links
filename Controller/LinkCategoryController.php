@@ -43,6 +43,23 @@ class LinkCategoryController extends LinksAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow();
+		$frameId = (isset($this->params['pass'][0]) ? (int)$this->params['pass'][0] : 0);
+
+		//Roleのデータをviewにセット
+		if (! $this->NetCommonsRoomRole->setView($this)) {
+			throw new ForbiddenException();
+		}
+
+		//編集権限チェック
+		if (! $this->viewVars['contentEditable']) {
+			throw new ForbiddenException();
+		}
+
+		//Frameのデータをviewにセット
+		if (! $this->NetCommonsFrame->setView($this, $frameId)) {
+			throw new ForbiddenException();
+		}
+
 	}
 
 /**
@@ -58,5 +75,43 @@ class LinkCategoryController extends LinksAppController {
 		}
 
 		return $this->render('LinkCategory/view', false);
+	}
+/**
+* form method
+*
+* @param int $frameId frames.id
+* @return CakeResponse A response object containing the rendered view.
+*/
+	public function form($frameId = 0) {
+//		$this->view($frameId);
+		return $this->render('LinkCategory/form', false);
+	}
+
+	public function add($frameId = 0) {
+		if (! $this->request->isPost()) {
+			throw new MethodNotAllowedException();
+		}
+
+		$postData = $this->data;
+//		unset($postData['Announcement']['id']);
+
+		//保存
+		if ($this->LinkCategory->save($postData)) {
+//			$announcement = $this->Announcement->getAnnouncement(
+//				$this->viewVars['blockId'],
+//				$this->viewVars['contentEditable']
+//			);
+
+			$result = array(
+				'name' => __d('net_commons', 'Successfully finished.'),
+				'link_category' => $postData,
+			);
+
+			$this->set(compact('result'));
+			$this->set('_serialize', 'result');
+			return $this->render(false);
+		} else {
+			throw new ForbiddenException(__d('net_commons', 'Failed to register data.'));
+		}
 	}
 }

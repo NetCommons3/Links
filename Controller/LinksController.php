@@ -73,6 +73,7 @@ public $helpers = array('Links.LinksStatus');
  * @return CakeResponse A response object containing the rendered view.
  */
 	public function index($frameId = 0, $type = 'list') {
+//		$type = 'dropdown';
 		$this->set('type', $type);
 		// カテゴリ一覧を取得
 		$categories = $this->LinkCategory->getCategories(

@@ -106,6 +106,46 @@ NetCommonsApp.controller('Links.linkAdd',
 NetCommonsApp.controller('Links.edit',
     function($scope, $http, $sce, $modalInstance, $timeout, dialogs) {
 
+        /**
+         * edit _method
+         *
+         * @type {Object.<string>}
+         */
+        $scope.edit = {
+            _method: 'POST'
+        };
+
+        /**
+         * edit data
+         *
+         * @type {Object.<string>}
+         */
+        $scope.edit.data = {
+            LinkCategory: {
+//                name: $scope.link.LinkCategory.name,
+                name: ''
+//                content: $scope.announcement.Announcement.content,
+//                status: $scope.announcement.Announcement.status,
+//                block_id: $scope.announcement.Announcement.block_id,
+//                key: $scope.announcement.Announcement.key,
+//                id: $scope.announcement.Announcement.id
+            },
+            Frame: {
+                frame_id: $scope.frameId//フレームIDが不一致かーーーーー
+            },
+            _Token: {
+                key: '',
+                fields: '',
+                unlocked: ''
+            }
+        };
+
+        $scope.initialize = function(frameId) {
+            $scope.frameId = frameId;
+        };
+
+
+
       $scope.cancel = function(){
         $modalInstance.dismiss('cancel');
       };
@@ -143,5 +183,65 @@ NetCommonsApp.controller('Links.edit',
           function(btn){}  // NO
         );
       };
-    });
+
+        /**
+         * dialog save
+         *
+         * @return {void}
+         */
+        $scope.addCategory = function() {
+            $scope.sending = true;
+
+            $http.get('/links/link_category/form/' +
+                    $scope.frameId + '/' + Math.random() + '.json')
+                .success(function(data) {
+                    //フォームエレメント生成
+                    var form = $('<div>').html(data);
+
+                    //セキュリティキーセット
+                    $scope.edit.data._Token.key =
+                        $(form).find('input[name="data[_Token][key]"]').val();
+                    $scope.edit.data._Token.fields =
+                        $(form).find('input[name="data[_Token][fields]"]').val();
+                    $scope.edit.data._Token.unlocked =
+                        $(form).find('input[name="data[_Token][unlocked]"]').val();
+                    //ステータスセット
+//                    $scope.edit.data.Announcement.status = status;
+                    //登録情報をPOST
+                    $scope.sendCategoryPost($scope.edit);
+                })
+                .error(function(data, status) {
+                    //keyの取得に失敗
+                    $scope.flash.danger(status + ' ' + data.name);
+                    $scope.sending = false;
+                });
+        };
+
+        /**
+         * send post
+         *
+         * @param {Object.<string>} postParams
+         * @return {void}
+         */
+        $scope.sendCategoryPost = function(postParams) {
+            //$http.post($scope.PLUGIN_EDIT_URL + Math.random() + '.json',
+            $http.post('/links/link_category/add/' +
+                $scope.frameId + '/' + Math.random() + '.json',
+                //$.param(postParams))
+                //{data: postParams})
+                //postParams)
+                $.param(postParams),
+                {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
+                .success(function(data) {
+                    $scope.flash.success(data.name);
+                    $modalInstance.close(data.announcement);
+                })
+                .error(function(data, status) {
+                    $scope.flash.danger(status + ' ' + data.name);
+                    $scope.sending = false;
+                });
+        };
+
+    }
+);
 
