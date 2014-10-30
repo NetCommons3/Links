@@ -13,6 +13,8 @@ App::uses('LinksAppController', 'Links.Controller');
 /**
  * LinkCategory Controller
  *
+ * @property LinkCategory $LinkCategory
+ *
  * @author Ryuji AMANO <ryuji@ryus.co.jp>
  * @package NetCommons\Links\Controller
  */
@@ -73,6 +75,12 @@ class LinkCategoryController extends LinksAppController {
 		if ($this->response->statusCode() !== 200) {
 			return $this->render(false);
 		}
+
+		// カテゴリ取得
+		$linkCategories = $this->LinkCategory->getCategories(
+			$this->viewVars['blockId'] // MyTodo まだブロックレコードがないときは0なので、どうする？
+		);
+		$this->set('linkCategories', $linkCategories);
 
 		return $this->render('LinkCategory/view', false);
 	}

@@ -1,46 +1,47 @@
 <div class="panel panel-default">
+	<?php
 
-	<div class="panel-body">
-		<div class="row">
-			<?php echo $this->element('content_move_btn', array('size' => '2 col-md-2', 'upDisabled' => true)); ?>
+	$keys = array_keys($linkCategories);
+	$firstKey = array_shift($keys);
+	$lastKey = array_pop($keys);
 
-			<div class="col-xs-7 col-md-8">
+	foreach($linkCategories as $key => $linkCategory): ?>
+		<div class="panel-body">
+			<div class="row">
+
 				<?php
+				$upDisabled = false;
+				$downDisabled = false;
+				if($key === $firstKey){
+					$upDisabled = true;
+				}
+				if($key=== $lastKey){
+					$downDisabled = true;
+				}
+				echo $this->element('content_move_btn',
+					array('size' => '2 col-md-2', 'upDisabled' => $upDisabled, 'downDisabled' => $downDisabled)
+				); ?>
+
+				<div class="col-xs-7 col-md-8">
+					<?php
 					//カテゴリー名
 					echo $this->Form->input('category_name.1', array(
-								'label' => false,
-								'type' => 'text',
-								'class' => 'form-control',
-								'value' => 'カテゴリ１',
-							)
-						);
-				?>
+							'label' => false,
+							'type' => 'text',
+							'class' => 'form-control',
+							'value' => h($linkCategory['LinkCategory']['name']),
+						)
+					);
+					?>
+				</div>
+
+				<?php echo $this->element('LinkCategory/content_edit_btn_category', array('published' => false, 'size' => '2 col-md-1')); ?>
 			</div>
-
-			<?php echo $this->element('LinkCategory/content_edit_btn_category', array('published' => false, 'size' => '2 col-md-1')); ?>
 		</div>
-	</div>
 
-	<div class="panel-body">
-		<div class="row">
-			<?php echo $this->element('content_move_btn', array('size' => '2 col-md-2', 'downDisabled' => true)); ?>
+	<?php endforeach ?>
 
-			<div class="col-xs-7 col-md-8">
-				<?php
-					//カテゴリー名
-					echo $this->Form->input('category_name.2', array(
-								'label' => false,
-								'type' => 'text',
-								'class' => 'form-control',
-								'value' => 'カテゴリ２',
-							)
-						);
-				?>
-			</div>
 
-			<?php echo $this->element('LinkCategory/content_edit_btn_category', array('published' => false, 'size' => '2 col-md-1')); ?>
-		</div>
-	</div>
 
 	<div class="panel-body">
 
