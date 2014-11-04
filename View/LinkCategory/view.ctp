@@ -1,25 +1,25 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-contoller="Links.edit">
 	<?php
 
-	$keys = array_keys($linkCategories);
-	$firstKey = array_shift($keys);
-	$lastKey = array_pop($keys);
+//	$keys = array_keys($linkCategories);
+//	$firstKey = array_shift($keys);
+//	$lastKey = array_pop($keys);
 
-	foreach($linkCategories as $key => $linkCategory): ?>
+//	foreach($linkCategories as $key => $linkCategory): ?>
 		<div class="panel-body">
-			<div class="row">
+			<div class="row" ng-repeat="linkCategory in editCategories.data.LinkCategories">
 
 				<?php
-				$upDisabled = false;
-				$downDisabled = false;
-				if($key === $firstKey){
-					$upDisabled = true;
-				}
-				if($key=== $lastKey){
-					$downDisabled = true;
-				}
+//				$upDisabled = false;
+//				$downDisabled = false;
+//				if($key === $firstKey){
+//					$upDisabled = true;
+//				}
+//				if($key=== $lastKey){
+//					$downDisabled = true;
+//				}
 				echo $this->element('content_move_btn',
-					array('size' => '2 col-md-2', 'upDisabled' => $upDisabled, 'downDisabled' => $downDisabled)
+					array('size' => '2 col-md-2', 'upDisabled' => false, 'downDisabled' => false)
 				); ?>
 
 				<div class="col-xs-7 col-md-8">
@@ -29,24 +29,24 @@
 							'label' => false,
 							'type' => 'text',
 							'class' => 'form-control',
-							'value' => h($linkCategory['LinkCategory']['name']),
+//							'value' => h($linkCategory['LinkCategory']['name']),
+							'ng-model' => 'linkCategory.LinkCategory.name'
 						)
 					);
 					?>
 				</div>
-
 				<?php echo $this->element('LinkCategory/content_edit_btn_category', array('published' => false, 'size' => '2 col-md-1')); ?>
 			</div>
 		</div>
 
-	<?php endforeach ?>
+<!--	--><?php //endforeach ?>
 
 
 
 	<div class="panel-body">
 
 		<div class="text-right row">
-			<div class="col-xs-offset-2 col-md-offset-2 col-xs-7 col-md-8" ng-contoller="Links.edit" ng-init="initialize(<?php echo (int)$frameId ?>)">
+			<div class="col-xs-offset-2 col-md-offset-2 col-xs-7 col-md-8" ng-contoller="Links.edit" ng-init="initialize(<?php echo (int)$frameId ?>, <?php echo h(json_encode($linkCategories)) ?>)">
 				<?php
 					//カテゴリー名
 //					echo $this->Form->input('category_name.0', array(
@@ -78,7 +78,7 @@
 	<button type="button" class="btn btn-default" ng-click="cancel()">
 		キャンセル
 	</button>
-	<button type="button" class="btn btn-primary" ng-click="cancel()">
+	<button type="button" class="btn btn-primary" ng-click="updateCategories()">
 		設定する
 	</button>
 </p>

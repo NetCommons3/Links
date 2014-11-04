@@ -62,7 +62,9 @@ class LinkCategoryController extends LinksAppController {
 			throw new ForbiddenException();
 		}
 
+
 	}
+
 
 /**
  * view method
@@ -120,5 +122,43 @@ class LinkCategoryController extends LinksAppController {
 		} else {
 			throw new ForbiddenException(__d('net_commons', 'Failed to register data.'));
 		}
+	}
+
+	public function categories_form($frameId = 0){
+		// カテゴリ取得
+		$linkCategories = $this->LinkCategory->getCategories(
+			$this->viewVars['blockId'] // MyTodo まだブロックレコードがないときは0なので、どうする？
+		);
+		$this->set('linkCategories', $linkCategories);
+		return $this->render('LinkCategory/categories_form', false);
+	}
+
+	public function update_all($frameId = 0) {
+		if (! $this->request->isPost()) {
+			throw new MethodNotAllowedException();
+		}
+
+		$postData = $this->data;
+//		unset($postData['Announcement']['id']);
+
+		//保存
+		if ($this->LinkCategory->updateCategories($postData)) {
+//			$announcement = $this->Announcement->getAnnouncement(
+//				$this->viewVars['blockId'],
+//				$this->viewVars['contentEditable']
+//			);
+
+			$result = array(
+				'name' => __d('net_commons', 'Successfully finished.'),
+//				'link_category' => $postData,
+			);
+
+			$this->set(compact('result'));
+			$this->set('_serialize', 'result');
+			return $this->render(false);
+		} else {
+			throw new ForbiddenException(__d('net_commons', 'Failed to register data.'));
+		}
+
 	}
 }

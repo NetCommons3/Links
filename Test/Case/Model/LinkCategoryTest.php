@@ -75,4 +75,36 @@ class LinkCategoryTest extends CakeTestCase {
 		$this->assertEqual($categories[0]['LinkCategory']['id'], 2);
 		$this->assertEqual($categories[1]['LinkCategory']['id'], 1);
 	}
+
+	public function testUpdateCategories() {
+		$data = array(
+			array(
+				'LinkCategory' => array(
+
+					'id' => 1,
+					'name' => 'ID1DATA'
+				),
+				'LinkCategoryOrder' => array(
+					'id' => 1,
+					'weight' => 1
+				)
+			),
+			array(
+				'LinkCategory' => array(
+
+					'id' => 2,
+					'name' => 'ID2DATA'
+				),
+				'LinkCategoryOrder' => array(
+					'id' => 2,
+					'weight' => 2
+				)
+			),
+		);
+		$resultTrue = $this->LinkCategory->updateCategories($data);
+		$this->assertTrue($resultTrue);
+		$linkCategory1 = $this->LinkCategory->findById(1);
+		$this->assertEqual($linkCategory1['LinkCategory']['name'], 'ID1DATA');
+
+	}
 }

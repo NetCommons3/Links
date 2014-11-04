@@ -172,6 +172,10 @@ class LinkCategory extends LinksAppModel {
 
 	}
 
+	public function updateCategories($postData) {
+		return $this->saveMany($postData['LinkCategories'], array('deep' => true));
+	}
+
 	/**
 	 * save block
 	 * ブロックモデルが担当した方がいいんじゃね？ By Ryuji

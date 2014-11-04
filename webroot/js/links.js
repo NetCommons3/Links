@@ -140,8 +140,57 @@ NetCommonsApp.controller('Links.edit',
             }
         };
 
-        $scope.initialize = function(frameId) {
+        $scope.editCategories= {
+            _method: 'POST'
+        };
+
+        $scope.editCategories.data = {
+            LinkCategories:[],
+//            LinkCategory:[],
+//            LinkCategoryOrder:[],
+            Frame: {
+                frame_id: $scope.frameId//フレームIDが不一致かーーーーー
+            },
+            _Token: {
+                key: '',
+                fields: '',
+                unlocked: ''
+            }
+        };
+
+
+        $scope.initialize = function(frameId, linkCategories) {
             $scope.frameId = frameId;
+            angular.forEach(linkCategories, function(oneRecord){
+                $scope.editCategories.data.LinkCategories.push(
+                    {
+                        LinkCategory: {
+                            id: oneRecord.LinkCategory.id,
+                            name: oneRecord.LinkCategory.name
+                        },
+                        LinkCategoryOrder:{
+                            id:oneRecord.LinkCategoryOrder.id,
+                            weight:oneRecord.LinkCategoryOrder.weight
+
+                        }
+                    }
+                )
+//                $scope.editCategories.data.LinkCategories.push(oneRecord)
+//                $scope.editCategories.data.LinkCategory.push(
+//                    {
+//                        id: oneRecord.LinkCategory.id,
+//                        name: oneRecord.LinkCategory.name
+//                    }
+//                );
+//                $scope.editCategories.data.LinkCategoryOrder.push(
+//                    {
+//                        id:oneRecord.LinkCategoryOrder.id,
+//                        weight:oneRecord.LinkCategoryOrder.weight
+//                    }
+//                );
+            });
+//            $scope.editCategories.data.LinkCategories = linkCategories;
+            console.log($scope.editCategories.data.LinkCategories);
         };
 
 
@@ -183,6 +232,8 @@ NetCommonsApp.controller('Links.edit',
           function(btn){}  // NO
         );
       };
+
+
 
         /**
          * dialog save
@@ -234,7 +285,68 @@ NetCommonsApp.controller('Links.edit',
                 {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
                 .success(function(data) {
                     $scope.flash.success(data.name);
-                    $modalInstance.close(data.announcement);
+                    // MyTodo カテゴリ追加し終わったらカテゴリ一覧をリロードしたいよなぁ
+//                    $modalInstance.close(data.announcement); 
+                })
+                .error(function(data, status) {
+                    $scope.flash.danger(status + ' ' + data.name);
+                    $scope.sending = false;
+                });
+        };
+        /**
+         * dialog save
+         *
+         * @return {void}
+         */
+        $scope.updateCategories = function() {
+            $scope.sending = true;
+
+            $http.get('/links/link_category/categories_form/' +
+                    $scope.frameId + '/' + Math.random() + '.json')
+                .success(function(data) {
+                    //フォームエレメント生成
+                    var form = $('<div>').html(data);
+
+                    //セキュリティキーセット
+                    $scope.editCategories.data._Token.key =
+                        $(form).find('input[name="data[_Token][key]"]').val();
+                    $scope.editCategories.data._Token.fields =
+                        $(form).find('input[name="data[_Token][fields]"]').val();
+                    $scope.editCategories.data._Token.unlocked =
+                        $(form).find('input[name="data[_Token][unlocked]"]').val();
+
+                    //ステータスセット
+//                    $scope.edit.data.Announcement.status = status;
+                    //登録情報をPOST
+                    $scope.sendCategoriesPost($scope.editCategories);
+                })
+                .error(function(data, status) {
+                    //keyの取得に失敗
+                    $scope.flash.danger(status + ' ' + data.name);
+                    $scope.sending = false;
+                });
+        };
+
+        /**
+         * send post
+         *
+         * @param {Object.<string>} postParams
+         * @return {void}
+         */
+        $scope.sendCategoriesPost = function(postParams) {
+            //$http.post($scope.PLUGIN_EDIT_URL + Math.random() + '.json',
+            postParams = angular.fromJson(angular.toJson(postParams)); // hashに$$hashKeyがつくのでこれで除去してる
+console.log(postParams);
+            $http.post('/links/link_category/update_all/' +
+                $scope.frameId + '/' + Math.random() + '.json',
+                //$.param(postParams))
+                //{data: postParams})
+                //postParams)
+                $.param(postParams),
+                {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
+                .success(function(data) {
+                    $scope.flash.success(data.name);
+                    $modalInstance.close(); //
                 })
                 .error(function(data, status) {
                     $scope.flash.danger(status + ' ' + data.name);
@@ -242,6 +354,29 @@ NetCommonsApp.controller('Links.edit',
                 });
         };
 
+        var move = function (origin, destination) {
+            var temp = $scope.editCategories.data.LinkCategories[destination];
+            $scope.editCategories.data.LinkCategories[destination] = $scope.editCategories.data.LinkCategories[origin];
+            $scope.editCategories.data.LinkCategories[origin] = temp;
+            //  weight入れ換え
+            var tempWeight = $scope.editCategories.data.LinkCategories[destination].LinkCategoryOrder.weight;
+            $scope.editCategories.data.LinkCategories[destination].LinkCategoryOrder.weight = $scope.editCategories.data.LinkCategories[origin].LinkCategoryOrder.weight;
+            $scope.editCategories.data.LinkCategories[origin].LinkCategoryOrder.weight = tempWeight;
+
+        };
+
+        $scope.moveUp = function(index){
+            move(index, index - 1);
+        };
+
+        $scope.moveDown = function(index){
+            move(index, index + 1);
+        };
+
     }
+
+
+
+
 );
 
