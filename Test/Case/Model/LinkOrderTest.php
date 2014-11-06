@@ -9,6 +9,14 @@
 
 App::uses('LinkOrder', 'Links.Model');
 
+
+class LinkOrderTesting extends LinkOrder{
+	public $useTable = 'link_orders';
+	public $alias = 'LinkOrder';
+	public function _getMaxWeightByLinkCategoryKey($linkCategoryKey) {
+		return parent::_getMaxWeightByLinkCategoryKey($linkCategoryKey);
+	}
+}
 /**
  * Summary for LinkOrder Test Case
  */
@@ -20,7 +28,11 @@ class LinkOrderTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.links.link_order'
+		'plugin.links.link_order',
+		'plugin.links.link_category',
+		'plugin.links.link_category_order',
+		'plugin.links.link',
+		'plugin.links.block',
 	);
 
 /**
@@ -31,6 +43,7 @@ class LinkOrderTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->LinkOrder = ClassRegistry::init('Links.LinkOrder');
+		$this->LinkOrderTesting = ClassRegistry::init('Links.LinkOrderTesting');
 	}
 
 /**
@@ -42,6 +55,33 @@ class LinkOrderTest extends CakeTestCase {
 		unset($this->LinkOrder);
 
 		parent::tearDown();
+	}
+
+	public function testGetMaxWeight() {
+		$key = 'ckey1';
+		$max = $this->LinkOrderTesting->_getMaxWeightByLinkCategoryKey($key);
+		$this->assertEqual($max, 10);
+
+		$max = $this->LinkOrderTesting->_getMaxWeightByLinkCategoryKey('noDataKey');
+		$this->assertEqual($max, 0);
+	}
+
+	public function testAddLinkOrder() {
+//		$link = array(
+//			'Link' => array(
+//				'description' => "desc",
+//				'link_category_id' => 2,
+//				'status' => 1,
+//				'title'  => 'title',
+//				'url' => 'url'
+//			)
+//		);
+		$link = array(
+			'Link' => array('key' => 'key01', 'link_category_id' => 1)
+		);
+		$this->LinkOrder->addLinkOrder($link);
+
+
 	}
 
 }

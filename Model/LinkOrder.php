@@ -52,4 +52,38 @@ class LinkOrder extends LinksAppModel {
 			),
 		),
 	);
+
+	public function addLinkOrder($link) {
+		$LinkCategory = ClassRegistry::init('Links.LinkCategory');
+		$linkCategoryId = $link['Link']['link_category_id'];
+		$linkCategory = $LinkCategory->findById($linkCategoryId);
+		$linkCategoryKey = $linkCategory['LinkCategory']['key'];
+
+
+		$linkOrder['LinkOrder']['link_key'] = $link['Link']['key'];
+		$linkOrder['LinkOrder']['link_category_key'] = $linkCategoryKey;
+
+		$linkOrder['LinkOrder']['weight'] = $this->_getMaxWeightByLinkCategoryKey($linkCategoryKey) + 1;
+		$linkOrder['LinkOrder']['created_user'] = CakeSession::read('Auth.User.id');;
+
+		if (! $this->save($linkOrder)) {
+			throw new ForbiddenException(serialize($this->validationErrors));
+		}
+
+	}
+	protected function _getMaxWeightByLinkCategoryKey($linkCategoryKey) {
+		$options = array(
+			'conditions' => array(
+				'link_category_key' => $linkCategoryKey,
+			),
+			'order' => 'weight DESC'
+		);
+		$linkOrder = $this->find('first', $options);
+		if(empty($linkOrder)){
+			return 0; // まだ登録がない
+		}else{
+			return $linkOrder['LinkOrder']['weight'] ;
+		}
+	}
+
 }

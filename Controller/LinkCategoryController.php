@@ -159,6 +159,43 @@ class LinkCategoryController extends LinksAppController {
 		} else {
 			throw new ForbiddenException(__d('net_commons', 'Failed to register data.'));
 		}
+	}
 
+	public function delete_form($frameId = 0) {
+		return $this->render('LinkCategory/delete_form', false);
+	}
+
+	public function delete($frameId = 0) {
+		if (! $this->request->isPost()) {
+			throw new MethodNotAllowedException();
+		}
+		// MyTodo frameIdとLinkCategory.idの関連付けが正当なら削除OK
+		$id = $this->data['LinkCategory']['id'];
+
+		//保存
+		if ($this->LinkCategory->delete($id)) {
+			// MyTodo 同一リンクの別バリエーションデータが存在しなければorderも削除。
+			$result = array(
+				'name' => __d('net_commons', 'Successfully finished.'),
+//				'link_category' => $postData,
+			);
+
+			$this->set(compact('result'));
+			$this->set('_serialize', 'result');
+			return $this->render(false);
+		} else {
+			throw new ForbiddenException(__d('net_commons', 'Failed to register data.'));
+		}
+	}
+
+	public function get_categories($frameId = 0) {
+		// カテゴリ取得
+		$linkCategories = $this->LinkCategory->getCategories(
+			$this->viewVars['blockId'] // MyTodo まだブロックレコードがないときは0なので、どうする？
+		);
+
+		$this->set('linkCategories', $linkCategories);
+		$this->set('_serialize', array('linkCategories'));
+		return $this->render(false);
 	}
 }

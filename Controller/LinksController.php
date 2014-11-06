@@ -131,4 +131,32 @@ public $helpers = array('Links.LinksStatus');
 
 		return $this->render('Links/manage', false);
 	}
+
+	public function add_form($frameId = 0) {
+
+	}
+
+	public function add($frameId) {
+		if (! $this->request->isPost()) {
+			throw new MethodNotAllowedException();
+		}
+
+		$postData = $this->data;
+
+		//保存
+		if ($this->Link->add($this->data)) {
+
+			$result = array(
+				'name' => __d('net_commons', 'Successfully finished.'),
+				'link' => $postData,
+			);
+
+			$this->set(compact('result'));
+			$this->set('_serialize', 'result');
+			return $this->render(false);
+		} else {
+			throw new ForbiddenException(__d('net_commons', 'Failed to register data.'));
+		}
+
+	}
 }

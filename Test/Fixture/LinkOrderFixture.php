@@ -41,7 +41,7 @@ class LinkOrderFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'link_key' => 'key1',
-			'link_category_key' => 'Lorem ipsum dolor sit amet',
+			'link_category_key' => 'ckey1',
 			'weight' => 10,
 			'created_user' => 1,
 			'created' => '2014-10-25 04:56:40',
@@ -51,7 +51,7 @@ class LinkOrderFixture extends CakeTestFixture {
 		array(
 			'id' => 2,
 			'link_key' => 'key2',
-			'link_category_key' => 'Lorem ipsum dolor sit amet',
+			'link_category_key' => 'ckey2',
 			'weight' => 1,
 			'created_user' => 1,
 			'created' => '2014-10-25 04:56:40',
@@ -61,7 +61,7 @@ class LinkOrderFixture extends CakeTestFixture {
 		array(
 			'id' => 3,
 			'link_key' => 'key3',
-			'link_category_key' => 'Lorem ipsum dolor sit amet',
+			'link_category_key' => 'ckey3',
 			'weight' => 5,
 			'created_user' => 1,
 			'created' => '2014-10-25 04:56:40',

@@ -6,7 +6,7 @@
 	<?php endif; ?>
 
 	<button class="btn btn-default btn-xs"
-			ng-click="deleteEditCategory()">
+			ng-click="deleteEditCategory($index)">
 		削除
 	</button>
 </div>

@@ -149,7 +149,8 @@ class LinkCategory extends LinksAppModel {
 		try {
 			$blockId = $this->__saveBlock($frame);
 
-			//announcementsテーブル登録
+			// MyTodo block_id取得, key生成、 created_userセットは別途ビヘイビアつくってBeforeSaveあたりで処理すりゃええんちゃうか
+			//link_categoriesへ 登録
 			$linkCategory['LinkCategory'] = $postData['LinkCategory'];
 			$linkCategory['LinkCategory']['key'] = hash('sha256', 'link_category_' . microtime()); //新規時はkeyを新規に発行
 			$linkCategory['LinkCategory']['block_id'] = $blockId;

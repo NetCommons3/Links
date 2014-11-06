@@ -116,5 +116,40 @@ class Link extends LinksAppModel {
 		return $links;
 	}
 
+	public function add($postData) {
+		//DBへの登録
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+		try {
 
+			// MyTodo block_id取得, key生成、 created_userセットは別途ビヘイビアつくってBeforeSaveあたりで処理すりゃええんちゃうか
+			//linksへ 登録
+			$link['Link'] = $postData['Link'];
+			$link['Link']['key'] = $this->_makeKey(); //新規時はkeyを新規に発行
+			$link['Link']['created_user'] = CakeSession::read('Auth.User.id');
+
+
+
+			if (! $this->save($link)) {
+				throw new ForbiddenException(serialize($this->validationErrors));
+			}
+			$this->LinkOrder->addLinkOrder($link);
+			$dataSource->commit();
+			return true;
+
+		} catch (Exception $ex) {
+			CakeLog::error($ex->getTraceAsString());
+			$dataSource->rollback();
+			return false;
+		}
+		// orderを入れる。新規登録なのでorderも追加する
+		// order.weightは今そのカテゴリにある他のリンク＋1としたい
+
+	}
+
+	// Todo ビヘイビアにしたらええと思う
+	protected function _makeKey() {
+		$className = get_class($this);
+		return hash('sha256', $className . microtime());
+	}
 }

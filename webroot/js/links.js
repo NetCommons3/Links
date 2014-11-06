@@ -4,8 +4,94 @@
 *
 * */
 
+NetCommonsApp.factory('Links_ajaxPostService', ['$http','$q', function($http, $q){
+    // ここのスコープは１度しか実行されない
+//    var success = function (){
+//
+//    };
+//    var error = function (){
+//
+//    }
+    var send = function(postData, formUrl, postUrl){
+        var deferred = $q.defer();
+        var promise = deferred.promise;
+
+
+        $http.get(formUrl +
+                '/' + Math.random() + '.json')
+            .success(function(data) {
+                //フォームエレメント生成
+                var form = $('<div>').html(data);
+
+                console.log(postData);
+                console.log(form);
+                postData._Token = {
+                };
+                //セキュリティキーセット
+                postData._Token.key =
+                    $(form).find('input[name="data[_Token][key]"]').val();
+                postData._Token.fields =
+                    $(form).find('input[name="data[_Token][fields]"]').val();
+                postData._Token.unlocked =
+                    $(form).find('input[name="data[_Token][unlocked]"]').val();
+
+                var postParams= {
+                    _method: 'POST',
+                    data: postData
+                };
+
+                // POST
+                postParams = angular.fromJson(angular.toJson(postParams)); // hashに$$hashKeyがつくのでこれで除去してる
+                console.log(postParams);
+                $http.post(postUrl +
+                    '/' + Math.random() + '.json',
+                    $.param(postParams),
+                    {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
+                    .success(function(data) {
+                        // success condition
+                        deferred.resolve(data);
+//
+//                        $scope.flash.success(data.name);
+//                        $modalInstance.close(); //
+                    })
+                    .error(function(data, status) {
+                        // error condition
+                        deferred.reject(data,status);
+//                        $scope.flash.danger(status + ' ' + data.name);
+//                        $scope.sending = false;
+                    });
+            })
+            .error(function(data, status) {
+                //keyの取得に失敗
+                // error condition
+                deferred.reject(data,status);
+//                $scope.flash.danger(status + ' ' + data.name);
+//                $scope.sending = false;
+            });
+        promise.success = function(fn) {
+            promise.then(fn);
+            return promise;
+        }
+
+        promise.error = function(fn) {
+            promise.then(null, fn);
+            return promise;
+        }
+
+        return promise;
+
+    }
+    // ここで return したオブジェクトがサービスになる
+    return {
+        send: send
+    }
+
+}]);
+
+
 NetCommonsApp.controller('Links',
     function($scope , $http, $sce, $timeout, dialogs, $modal) {
+
 
       $scope.LINK_ADD_URL = '/Links/Links/linkAdd/';
       $scope.PLUGIN_MANAGE_URL = '/Links/Links/manage/';
@@ -31,6 +117,8 @@ NetCommonsApp.controller('Links',
         $scope.frameId = frameId;
         $scope.visibleContentList = visibleContentList;
         $scope.visibleContentDropdown = visibleContentDropdown;
+
+
       };
 
       $scope.showContainer = function() {
@@ -95,16 +183,62 @@ NetCommonsApp.controller('Links',
     });
 
 NetCommonsApp.controller('Links.linkAdd',
-    function($scope, $http, $sce, $modalInstance, $timeout, dialogs) {
+    function($scope, $http, $sce, $modalInstance, $timeout, dialogs, Links_ajaxPostService) {
+
+        // カテゴリ一覧
+        $scope.linkCategories = [];
+        $scope.newLink = { // postされるデータ
+            Link: {
+                link_category_id:0,
+                    status: 0, // MyTodo Statusサービスがいるかな
+                url: '',
+                title: '',
+                description:''
+            },
+            Frame:{
+                frame_id : $scope.frameId
+            }
+        }
+
+        // カテゴリ一覧取得
+        $http.get('/links/link_category/get_categories/'+$scope.frameId +'/'+ Math.random() + '.json')
+            .success(function(data){
+                $scope.linkCategories = data.linkCategories;
+console.log($scope.linkCategories);
+            }).error(function(data,status){
+                $scope.flash.danger(status + ' ' + data.name);
+            });
+
 
       $scope.cancel = function(){
         $modalInstance.dismiss('cancel');
       };
 
+      $scope.send = function(status){
+          $scope.newLink.Link.status = status; // MyTodo 権限によって指定できないステータスがあるが、どうガードする？ここでは放置しておいてPHP側かな
+
+          Links_ajaxPostService.send(
+              $scope.newLink,
+              '/links/links/add_form/' + $scope.frameId,
+              '/links/links/add/' + $scope.frameId
+          )
+          .success(function(data){
+              $scope.flash.success(data.name);
+              $modalInstance.close();
+          })
+          .error(function(data, status) {
+              //keyの取得に失敗
+              $scope.flash.danger(status + ' ' + data.name);
+              $scope.sending = false;
+          });
+
+      }
+
     });
 
+
 NetCommonsApp.controller('Links.edit',
-    function($scope, $http, $sce, $modalInstance, $timeout, dialogs) {
+    function($scope, $http, $sce, $modalInstance, $timeout, dialogs, Links_ajaxPostService) {
 
         /**
          * edit _method
@@ -131,7 +265,7 @@ NetCommonsApp.controller('Links.edit',
 //                id: $scope.announcement.Announcement.id
             },
             Frame: {
-                frame_id: $scope.frameId//フレームIDが不一致かーーーーー
+                frame_id: $scope.frameId
             },
             _Token: {
                 key: '',
@@ -225,10 +359,37 @@ NetCommonsApp.controller('Links.edit',
         );
       };
 
-      $scope.deleteEditCategory = function() {
+      $scope.deleteEditCategory = function(index) {
+
         dlg = dialogs.confirm('Confirmation','カテゴリーを削除してもよろしいですか？');
         dlg.result.then(
-          function(btn){}, // Yes
+          function(btn){
+              console.log('Click Yes');
+              var postData = {
+                  LinkCategory:{
+                      id: $scope.editCategories.data.LinkCategories[index].LinkCategory.id
+                  },
+                  Frame: {
+                      frame_id: $scope.frameId
+                  }
+              };
+              var formUrl = '/links/link_category/delete_form/'+$scope.frameId;
+              var postUrl = '/links/link_category/delete/'+$scope.frameId;
+              var callback = function(){};
+              Links_ajaxPostService.send(postData, formUrl, postUrl)
+                  .success(function(data){
+                      $scope.flash.success(data.name);
+                      $modalInstance.close();
+                  })
+                  .error(function(data, status) {
+                      //keyの取得に失敗
+                      $scope.flash.danger(status + ' ' + data.name);
+                      $scope.sending = false;
+                  });
+              //削除フォーム取得
+              // セキュリティキーセット
+              // ポスト
+          }, // Yes
           function(btn){}  // NO
         );
       };
@@ -286,7 +447,7 @@ NetCommonsApp.controller('Links.edit',
                 .success(function(data) {
                     $scope.flash.success(data.name);
                     // MyTodo カテゴリ追加し終わったらカテゴリ一覧をリロードしたいよなぁ
-//                    $modalInstance.close(data.announcement); 
+//                    $modalInstance.close(data.announcement);
                 })
                 .error(function(data, status) {
                     $scope.flash.danger(status + ' ' + data.name);

@@ -9,7 +9,7 @@
 							'label' => false,
 							'type' => 'text',
 							'class' => 'form-control',
-							'value' => '{{Form.link_url}}'
+						'ng-model' => 'newLink.Link.url'
 						)
 					);
 			?>
@@ -29,9 +29,12 @@
 				echo $this->Form->input('category', array(
 							'label' => false,
 							'type' => 'select',
-							'options' => array(1 => 'カテゴリー1', '2' => 'カテゴリー2', '3' => 'カテゴリー3'),
+//							'options' => array(1 => 'カテゴリー1', '2' => 'カテゴリー2', '3' => 'カテゴリー3'),
 							'selected' => 1,
 							'class' => 'form-control',
+							'ng-model' => 'newLink.Link.link_category_id',
+							'ng-options' => 'category.LinkCategory.id as category.LinkCategory.name for category in linkCategories',
+//							'value' => '{{selectedCategory.Link.id}}',
 						)
 					);
 			?>
@@ -46,7 +49,7 @@
 							'label' => false,
 							'type' => 'text',
 							'class' => 'form-control',
-							'value' => '{{Form.title}}'
+						'ng-model' => 'newLink.Link.title'
 						)
 					);
 			?>
@@ -63,7 +66,7 @@
 							'type' => 'textarea',
 							'rows' => 2,
 							'class' => 'form-control',
-							'value' => '{{Form.description}}'
+						'ng-model' => 'newLink.Link.description'
 						)
 					);
 			?>
@@ -73,13 +76,15 @@
 </div>
 
 <p class="text-center">
-	<button type="button" class="btn btn-default" ng-click="<?php echo $ngClick; ?>">
+	<button type="button" class="btn btn-default" ng-click="cancel()">
 		キャンセル
 	</button>
-	<button type="button" class="btn btn-default" ng-click="<?php echo $ngClick; ?>">
+	<button type="button" class="btn btn-default" ng-click="send(3)">
+<!--		MyTodo マジックナンバーの排除　angular側からステータスコードひろってきたい-->
 		下書き
 	</button>
-	<button type="button" class="btn btn-primary" ng-click="<?php echo $ngClick; ?>">
+	<button type="button" class="btn btn-primary" ng-click="send(1)">
+		<!--		MyTodo マジックナンバーの排除　angular側からステータスコードひろってきたい-->
 		公開する
 	</button>
 </p>
