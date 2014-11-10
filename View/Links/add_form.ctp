@@ -1,5 +1,5 @@
 <?php
-
+// 実際はjsonじゃないけどね。
 echo $this->Form->create(null);
 
 $fields = array(

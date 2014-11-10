@@ -22,10 +22,22 @@ class Link extends LinksAppModel {
  * @var array
  */
 	public $validate = array(
+		'url' => array(
+			'url' => [
+				'rule' => array('url'),
+//				'message' => 'Your custom message here',
+				'message' => 'required url', // ここでは__d()を使えないので多言語化のキーを記述しておいて、後プロセスで__dをかます。
+				//'allowEmpty' => false,
+				'required' => true,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			],
+		),
+
 		'link_category_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
+				'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -142,9 +154,6 @@ class Link extends LinksAppModel {
 			$dataSource->rollback();
 			return false;
 		}
-		// orderを入れる。新規登録なのでorderも追加する
-		// order.weightは今そのカテゴリにある他のリンク＋1としたい
-
 	}
 
 	// Todo ビヘイビアにしたらええと思う

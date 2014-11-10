@@ -16,7 +16,7 @@ App::uses('LinksAppController', 'Links.Controller');
  * @author Ryuji AMANO <ryuji@ryus.co.jp>
  * @package NetCommons\Links\Controller
  *
- * @property Link $Links
+ * @property Link $Link
  */
 class LinksController extends LinksAppController {
 
@@ -133,7 +133,7 @@ public $helpers = array('Links.LinksStatus');
 	}
 
 	public function add_form($frameId = 0) {
-
+		return $this->render('Links/add_form', false);
 	}
 
 	public function add($frameId) {
@@ -155,8 +155,23 @@ public $helpers = array('Links.LinksStatus');
 			$this->set('_serialize', 'result');
 			return $this->render(false);
 		} else {
-			throw new ForbiddenException(__d('net_commons', 'Failed to register data.'));
+
+			$error = __d('net_commons', 'Failed to register data.');
+			$error .= $this->formatValidationErrors($this->Link->validationErrors);
+			throw new ForbiddenException($error);
 		}
 
+	}
+
+	// MyTodo モデルに移動するか、ヘルパかコンポーネントかビヘイビアにする…
+	protected function formatValidationErrors($validationErrors) {
+		$errors = array();
+		foreach($validationErrors as $field => $fieldErrors){
+			foreach($fieldErrors as $errorMessage){
+				$errors[] = __d('links', $field) . ':' . __d('links', $errorMessage);
+			}
+		}
+		$returnMessage = implode("\n", $errors);
+		return $returnMessage;
 	}
 }

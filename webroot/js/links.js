@@ -17,7 +17,9 @@ NetCommonsApp.factory('Links_ajaxPostService', ['$http','$q', function($http, $q
         var promise = deferred.promise;
 
 
+        // jsonで返さないんだから、.jsonつけなきゃいい？
         $http.get(formUrl +
+//                '/' + Math.random() + '.json')
                 '/' + Math.random() + '.json')
             .success(function(data) {
                 //フォームエレメント生成
@@ -223,11 +225,13 @@ console.log($scope.linkCategories);
               '/links/links/add/' + $scope.frameId
           )
           .success(function(data){
+console.log(data);
               $scope.flash.success(data.name);
               $modalInstance.close();
           })
           .error(function(data, status) {
               //keyの取得に失敗
+                  console.log(data);
               $scope.flash.danger(status + ' ' + data.name);
               $scope.sending = false;
           });
