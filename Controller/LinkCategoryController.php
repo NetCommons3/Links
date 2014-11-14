@@ -134,6 +134,8 @@ class LinkCategoryController extends LinksAppController {
 	}
 
 	public function update_all($frameId = 0) {
+		// MyTodo frameIdとLinkCategory.idの関連付けが正当か(セキュリティコンポーネントでIDがhidden変更不可ならOKか)
+		// MyTodo Frameでの権限チェックも必用
 		if (! $this->request->isPost()) {
 			throw new MethodNotAllowedException();
 		}
@@ -170,6 +172,7 @@ class LinkCategoryController extends LinksAppController {
 			throw new MethodNotAllowedException();
 		}
 		// MyTodo frameIdとLinkCategory.idの関連付けが正当なら削除OK
+		// MyTodo Frameでの権限チェックも必用
 		$id = $this->data['LinkCategory']['id'];
 
 		//保存

@@ -13,7 +13,7 @@
 	</button>
 
 	<button class="btn btn-default btn-xs"
-			ng-click="deleteEditLink()">
+			ng-click="deleteButton(link.Link.id)">
 		削除
 	</button>
 

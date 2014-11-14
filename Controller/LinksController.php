@@ -129,6 +129,7 @@ public $helpers = array('Links.LinksStatus');
 			return $this->render(false);
 		}
 
+
 		return $this->render('Links/manage', false);
 	}
 
@@ -159,6 +160,60 @@ public $helpers = array('Links.LinksStatus');
 			$error = __d('net_commons', 'Failed to register data.');
 			$error .= $this->formatValidationErrors($this->Link->validationErrors);
 			throw new ForbiddenException($error);
+		}
+
+	}
+
+	// json で呼ぶこと前提 indexとほぼ一緒
+
+	// MyTodo indexもjson apiでデータもらう形に変えたらよさげ
+	public function all($frameId = 0) {
+		// カテゴリ一覧を取得
+		$categories = $this->LinkCategory->getCategories(
+			$this->viewVars['blockId'] // MyTodo まだブロックレコードがないときは0なので、どうする？s
+		);
+		foreach($categories as &$category){
+			//Linkデータを取得
+			$links = $this->Link->getLinksByCategoryId(
+				$category['LinkCategory']['id'],
+				$this->viewVars['blockId'],
+				$this->viewVars['contentEditable']
+			);
+			$category['links'] = $links;
+		}
+		$this->set('categories', $categories);
+		$this->set('_serialize', 'categories');
+		return $this->render(false);
+	}
+
+	public function update_weight_form($frameId = 0) {
+//		return $this->render('Links/update_weight_form', false);
+	}
+
+	public function delete_form($frameId = 0, $linkId) {
+		$this->set(compact('frameId', 'linkId'));
+
+	}
+
+	public function delete($frameId = 0) {
+		if (! $this->request->isPost()) {
+			throw new MethodNotAllowedException();
+		}
+
+		// MyTodo リンクIDから削除する権限があるか確認
+		$id = $this->data['Link']['id'];
+		//保存
+		if ($this->Link->delete($id)) {
+			// MyTodo 同一リンクの別バリエーションデータが存在しなければorderも削除。
+			$result = array(
+				'name' => __d('net_commons', 'Successfully finished.'),
+			);
+
+			$this->set(compact('result'));
+			$this->set('_serialize', 'result');
+			return $this->render(false);
+		} else {
+			throw new ForbiddenException(__d('net_commons', 'Failed to register data.'));
 		}
 
 	}

@@ -4,6 +4,27 @@
 *
 * */
 
+//NetCommonsApp.filter('Links_statusView', function() {
+//
+//    return function(status) {
+//        status = Number(status);
+//        switch(status){
+//            case 1: // 公開
+//                return '';
+//                break;
+//            case 2: // 申請
+//                return '<span class="label label-danger">申請中</span>';
+//                break;
+//            case 3: // 下書き
+//                return '<span class="label label-info">下書き</span>';
+//                break;
+//            case 4: // 差し戻し
+//                return '<span class="label label-warning">差し戻し</span>';
+//                break;
+//        }
+//    }
+//});
+
 NetCommonsApp.factory('Links_ajaxPostService', ['$http','$q', function($http, $q){
     // ここのスコープは１度しか実行されない
 //    var success = function (){
@@ -20,7 +41,7 @@ NetCommonsApp.factory('Links_ajaxPostService', ['$http','$q', function($http, $q
         // jsonで返さないんだから、.jsonつけなきゃいい？
         $http.get(formUrl +
 //                '/' + Math.random() + '.json')
-                '/' + Math.random() + '.json')
+                '/' + Math.random() )//今はjson形式でないので.jsonつけるのやめた
             .success(function(data) {
                 //フォームエレメント生成
                 var form = $('<div>').html(data);
@@ -240,9 +261,117 @@ console.log(data);
 
     });
 
+NetCommonsApp.controller('Links.links.edit',
+    function($scope, $http, $sce, $timeout, dialogs, Links_ajaxPostService) {
+        $scope.linkCategories = [];
+
+        $scope.init = function(){
+            // リンクリストを取得して$scope.linkCategoriesにセットする
+            $http.get('/links/links/all/' +
+                    $scope.frameId + '/' + Math.random() + '.json')
+                .success(function(data) {
+                    $scope.linkCategories = data;
+                })
+                .error(function(data, status) {
+                    //取得に失敗 MyTodoエラーメッセージ
+                    $scope.flash.danger(status + ' ' + data.name);
+                    $scope.sending = false;
+                });
+
+        }
+
+        $scope.deleteButton = function(linkId) {
+            dlg = dialogs.confirm('Confirmation','リンクを削除してもよろしいですか？');
+            dlg.result.then(
+                function(btn){
+                    // Yes
+                    $scope.sendDelete(linkId);
+                },
+                function(btn){}  // NO
+            );
+        };
+
+        $scope.sendDelete = function(linkId){
+            var sendData = {
+                Link:{
+                    id: linkId
+                },
+                Frame:{
+                    frame_id: $scope.frameId
+                }
+            };
+            Links_ajaxPostService.send(
+                    sendData,
+                    '/links/links/delete_form/' + $scope.frameId + '/' +linkId,
+                    '/links/links/delete/' + $scope.frameId
+                )
+                .success(function(data){
+                    console.log(data);
+                    $scope.flash.success(data.name);
+                    $modalInstance.close();
+                })
+                .error(function(data, status) {
+                    //keyの取得に失敗
+                    console.log(data);
+                    $scope.flash.danger(status + ' ' + data.name);
+                    $scope.sending = false;
+                });
+
+        }
+
+        $scope.send = function(){
+            Links_ajaxPostService.send(
+                    $scope.linkCategories,
+                    '/links/links/update_weight_form/' + $scope.frameId + '/' + Math.random(),
+                    '/links/links/update_weight/' + $scope.frameId + '/' + Math.random() + '.json'
+                )
+                .success(function(data){
+                    console.log(data);
+                    $scope.flash.success(data.name);
+                    $modalInstance.close();
+                })
+                .error(function(data, status) {
+                    //keyの取得に失敗
+                    console.log(data);
+                    $scope.flash.danger(status + ' ' + data.name);
+                    $scope.sending = false;
+                });
+
+        }
+
+        var move = function (categoryIndex, origin, destination) {
+            console.log($scope.linkCategories[categoryIndex]);
+            var temp = $scope.linkCategories[categoryIndex].links[destination];
+            $scope.linkCategories[categoryIndex].links[destination] = $scope.linkCategories[categoryIndex].links[origin];
+            $scope.linkCategories[categoryIndex].links[origin] = temp;
+            //  weight入れ換え
+            var tempWeight = $scope.linkCategories[categoryIndex].links[destination].LinkOrder.weight;
+            $scope.linkCategories[categoryIndex].links[destination].LinkOrder.weight = $scope.linkCategories[categoryIndex].links[origin].LinkOrder.weight;
+            $scope.linkCategories[categoryIndex].links[origin].LinkOrder.weight = tempWeight;
+
+            $scope.send();
+        };
+
+
+        $scope.moveUp = function(categoryIndex, linkIndex){
+            move(categoryIndex, linkIndex, linkIndex - 1);
+        };
+
+        $scope.moveDown = function(categoryIndex, linkIndex){
+            move(categoryIndex, linkIndex, linkIndex + 1);
+        };
+
+
+//        $scope.closeTest = function(){
+//            modal.close(); //これは効く
+//        }
+    }
+)
+
 
 NetCommonsApp.controller('Links.edit',
     function($scope, $http, $sce, $modalInstance, $timeout, dialogs, Links_ajaxPostService) {
+
 
         /**
          * edit _method
@@ -287,7 +416,7 @@ NetCommonsApp.controller('Links.edit',
 //            LinkCategory:[],
 //            LinkCategoryOrder:[],
             Frame: {
-                frame_id: $scope.frameId//フレームIDが不一致かーーーーー
+                frame_id: $scope.frameId
             },
             _Token: {
                 key: '',
@@ -355,20 +484,12 @@ NetCommonsApp.controller('Links.edit',
         $scope.Form.description = '';
       };
 
-      $scope.deleteEditLink = function() {
-        dlg = dialogs.confirm('Confirmation','リンクを削除してもよろしいですか？');
-        dlg.result.then(
-          function(btn){}, // Yes
-          function(btn){}  // NO
-        );
-      };
 
       $scope.deleteEditCategory = function(index) {
 
         dlg = dialogs.confirm('Confirmation','カテゴリーを削除してもよろしいですか？');
         dlg.result.then(
           function(btn){
-              console.log('Click Yes');
               var postData = {
                   LinkCategory:{
                       id: $scope.editCategories.data.LinkCategories[index].LinkCategory.id
@@ -539,9 +660,6 @@ console.log(postParams);
         };
 
     }
-
-
-
 
 );
 
