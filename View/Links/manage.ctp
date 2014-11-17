@@ -42,16 +42,18 @@
 	<div class="modal-body">
 		<!-- Tab panes -->
 		<div class="tab-content">
-			<div class="tab-pane active" id="nc-links-change-order-move-{{frameId}}">
+			<div class="tab-pane active" id="nc-links-change-order-move-{{frameId}}"  ng-controller="Links.manage.links" >
 				<div id="nc-links-change-order-modal-{{frameId}}"
 					 ng-hide="visibleAddLinkForm">
 
 					<?php echo $this->requestAction('/Links/LinkEdit/view/' . $frameId, array('return')); ?>
 				</div>
+
 				<div id="nc-links-add-link-modal-{{frameId}}" class="ng-hide"
-					 ng-show="visibleAddLinkForm">
+					 ng-show="visibleAddLinkForm" ng-controller="Links.manage.links.edit">
 					<?php echo $this->requestAction('/Links/LinkEdit/viewEdit/' . $frameId, array('return')); ?>
 				</div>
+
 			</div>
 			<div class="tab-pane" id="nc-links-category-editor-{{frameId}}">
 				<?php echo $this->requestAction('/Links/LinkCategory/view/' . $frameId, array('return')); ?>

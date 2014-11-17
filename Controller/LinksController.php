@@ -217,6 +217,36 @@ public $helpers = array('Links.LinksStatus');
 		}
 
 	}
+	public function edit_form($frameId = 0, $linkId) {
+		$this->set(compact('frameId', 'linkId'));
+	}
+
+	public function edit($frameId, $linkId) {
+		if (! $this->request->isPost()) {
+			throw new MethodNotAllowedException();
+		}
+
+		$postData = $this->data;
+
+		//保存
+		if ($this->Link->save($this->data)) {
+
+			$result = array(
+				'name' => __d('net_commons', 'Successfully finished.'),
+				'link' => $postData,
+			);
+
+			$this->set(compact('result'));
+			$this->set('_serialize', 'result');
+			return $this->render(false);
+		} else {
+
+			$error = __d('net_commons', 'Failed to register data.');
+			$error .= $this->formatValidationErrors($this->Link->validationErrors);
+			throw new ForbiddenException($error);
+		}
+
+	}
 
 	// MyTodo モデルに移動するか、ヘルパかコンポーネントかビヘイビアにする…
 	protected function formatValidationErrors($validationErrors) {

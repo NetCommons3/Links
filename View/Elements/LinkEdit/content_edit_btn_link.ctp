@@ -8,7 +8,7 @@
 		</button>
 	<?php endif; ?>
 	<button class="btn btn-primary btn-xs"
-			ng-click="showEditLink('<?php echo $url; ?>', '<?php echo $title; ?>', '<?php echo $description; ?>')">
+			ng-click="showEditLink(link)">
 		編集
 	</button>
 

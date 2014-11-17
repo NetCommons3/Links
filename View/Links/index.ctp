@@ -1,4 +1,4 @@
-<?php echo $this->Html->script('/links/js/links.js'); ?>
+<?php echo $this->Html->script('/links/js/links.js?'.time()); ?>
 
 <?php
 	$listDisplay = 'ng-hide';
