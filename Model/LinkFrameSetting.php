@@ -62,4 +62,36 @@ class LinkFrameSetting extends LinksAppModel {
 			),
 		),
 	);
+
+	public function getByFrameId($frameId) {
+		$this->Frame = ClassRegistry::init('Frames.Frame');
+		$frame = $this->Frame->findById($frameId);
+		$frameKey = $frame['Frame']['key'];
+		$linkFrameSetting = $this->findByFrameKey($frameKey);
+
+		if($linkFrameSetting){
+			return $linkFrameSetting;
+		}else{
+			$newLinkFrameSetting =  $this->getBlank();
+			$newLinkFrameSetting['LinkFrameSetting']['frame_key'] = $frameKey;
+			return $newLinkFrameSetting;
+		}
+	}
+
+	private function getBlank() {
+		$defaults = array();
+
+		$schema = (array)$this->schema();
+		foreach ($schema as $field => $properties) {
+			if ($this->primaryKey !== $field && isset($properties['default']) && $properties['default'] !== '') {
+				$defaults[$field] = $properties['default'];
+			}else{
+				$defaults[$field] = null;
+			}
+		}
+		$ret = array(
+			$this->alias => $defaults
+		);
+		return $ret;
+	}
 }

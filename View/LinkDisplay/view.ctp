@@ -1,6 +1,7 @@
 <div class="panel panel-default">
   	<div class="panel-body">
 		<div class='form-group'>
+			{{FrameSetting.display_type}}
 			<?php
 				//表示方法変更
 				echo $this->Form->label('display_type', __('表示方法変更'));
@@ -19,8 +20,10 @@
 							'separator' => '<br />',
 							//'after' => '<div style="margin-bottom: 30px;"> </div>',
 							'selected' => 0,
+						'ng-model' => 'FrameSetting.display_type',
 							'div' => array('class' => 'input radio', 'style' => 'margin-left: 30px;'),
 							//'class' => 'form-control',
+
 						)
 					);
 
@@ -31,6 +34,8 @@
 							'label' => '説明を表示する',
 							'div' => array('style' => 'font-weight: normal; margin-left: 70px;'),
 							'checked' => true,
+						'value' => 3,
+						'ng-model' => 'FrameSetting.display_description',
 						)
 					);
 			?>
@@ -41,12 +46,14 @@
 		<div class='form-group'>
 			<?php
 				//リンククリック時、新規ウィンドウで表示する
-				echo $this->Form->input('click_open_window', array(
+				echo $this->Form->input('open_new_tab', array(
 							//'label' => false,
 							'type' => 'checkbox',
 							'label' => 'リンクをクリック時、新規ウィンドウで表示する',
 							'div' => array('class' => 'bold', 'style' => 'margin-left: 0px;'),
 							'checked' => true,
+						'ng-model' => 'FrameSetting.open_new_tab',
+
 						)
 					);
 			?>
@@ -55,28 +62,31 @@
 		<div class='form-group'>
 			<?php
 				//リンク先参照回数を表示する
-				echo $this->Form->input('click_count', array(
+				echo $this->Form->input('display_click_number', array(
 							//'label' => false,
 							'type' => 'checkbox',
 							'label' => 'リンク先参照回数を表示する',
 							'div' => array('class' => 'bold', 'style' => 'margin-left: 0px;'),
 							'checked' => true,
+						'ng-model' => 'FrameSetting.display_click_number',
 						)
 					);
 			?>
 		</div>
 
 		<div class='form-group'>
+
 			<?php
 				//カテゴリ間の区切り線
-				echo $this->Form->label('category_separater', __('カテゴリ間の区切り線'));
+				echo $this->Form->label('category_separator_line', __('カテゴリ間の区切り線'));
 
-				echo $this->Form->input('category_separater', array(
+				echo $this->Form->input('category_separator_line', array(
 							'label' => false,
 							'type' => 'textarea',
 							'rows' => 2,
-							'value' => '',
+							'value' => 'MyTodo',
 							'class' => 'form-control',
+						'ng-model' => 'FrameSetting.category_separator_line',
 						)
 					);
 			?>
@@ -85,14 +95,15 @@
 		<div class='form-group'>
 			<?php
 				//リストマーカー
-				echo $this->Form->label('list_marker', __('リストマーカー'));
+				echo $this->Form->label('list_style', __('リストマーカー'));
 
-				echo $this->Form->input('list_marker', array(
+				echo $this->Form->input('list_style', array(
 							'label' => false,
 							'type' => 'textarea',
 							'rows' => 2,
-							'value' => '',
+							'value' => 'MyTodo',
 							'class' => 'form-control',
+						'ng-model' => 'FrameSetting.list_style',
 						)
 					);
 			?>

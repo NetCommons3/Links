@@ -3,7 +3,19 @@
  * 編集 閉じる 編集 --- で発生。
  *
  * */
+function Links_boolean2intInArray(arrayVar){
+    for(var key in arrayVar){
+        if(arrayVar[key] instanceof Array || arrayVar[key] instanceof Object){
+            arguments.callee(arrayVar[key]);
+        }else if(arrayVar[key] === true){
+            arrayVar[key] = 1;
+        }else if(arrayVar[key] === false){
+            arrayVar[key] = 0;
+        }
+    }
+    return arrayVar;
 
+}
 //NetCommonsApp.filter('Links_statusView', function() {
 //
 //    return function(status) {
@@ -28,37 +40,6 @@
 //    // Don't strip trailing slashes from calculated URLs
 ////    $resourceProvider.defaults.stripTrailingSlashes = false;
 //}]);
-//NetCommonsApp.factory('Links_LinkCategoryRepository', ['$http', function($http){
-//    var list = function(frameId){
-//
-//         resultPointer = [];
-//        //  カテゴリをjsonで返す
-//        $http.get('/links/link_category/get_categories/' + frameId + '/'+ Math.random() + '.json')
-//            .success(function(data){
-//                // 3.データ取得できたら、元のObjectに内容を追加
-//                angular.extend(resultPointer, data.resultPointer);
-//                $scope.$digest();
-//               return data.linkCategories;
-//            }).error(function(data,status){
-//            });
-//        return resultPointer;
-//    }
-//
-//    var loadCategories = function (frameId, loadTarget){
-//        $http.get('/links/link_category/get_categories/' + frameId + '/'+ Math.random() + '.json')
-//            .success(function(data){
-//                // 3.データ取得できたら、元のObjectに内容を追加
-//                loadTarget = data.linkCategories;
-//                console.log(loadTarget);
-//            }).error(function(data,status){
-//            });
-//    }
-//    return {
-//        list: list,
-//        loadCategories: loadCategories
-//    }
-//}]);
-
 NetCommonsApp.factory('Links_ajaxPostService', ['$http', '$q', function ($http, $q) {
     // ここのスコープは１度しか実行されない
 //    var success = function (){
@@ -99,6 +80,8 @@ NetCommonsApp.factory('Links_ajaxPostService', ['$http', '$q', function ($http, 
 
                 // POST
                 postParams = angular.fromJson(angular.toJson(postParams)); // hashに$$hashKeyがつくのでこれで除去してる
+                // booleanをそのままPOSTすると文字列の'true', 'false'になっちゃうので、0,1に変換
+                postParams = Links_boolean2intInArray(postParams);
                 console.log(postParams);
                 $http.post(postUrl +
                     '/' + Math.random() + '.json',
@@ -144,6 +127,113 @@ NetCommonsApp.factory('Links_ajaxPostService', ['$http', '$q', function ($http, 
     }
 
 }]);
+
+NetCommonsApp.factory('Links_FrameSettingRepository', ['$http','$q','Links_ajaxPostService', function ($http, $q, Links_ajaxPostService) {
+    var form_url = '/links/link_frame_setting/form/';
+    var put_url  = '/links/link_frame_setting/edit/';
+    var get_url  = '/links/link_frame_setting/get/';
+
+
+    return{
+        get: function (frameId, callback) {
+            $http.get(get_url + frameId + '/' + Math.random() + '.json')
+                .success(function (data) {
+                    callback(data);
+                    // 3.データ取得できたら、元のObjectに内容を追加
+                }).error(function (data, status) {
+                });
+        },
+        // これだとget2をコールしたときの戻り値は空配列で、データ取得完了時に空配列から実データ入りになる。戻り値を操作したいときは向かない
+        get2: function (frameId) {
+            var resultPointer = []
+            $http.get('/links/link_frame_setting/get/' + frameId + '/' + Math.random() + '.json')
+                .success(function (data) {
+                    // 3.データ取得できたら、元のObjectに内容を追加
+                    angular.extend(resultPointer, data);
+                }).error(function (data, status) {
+                });
+            return resultPointer;
+        },
+        put: function(frameId, linkFrameSetting){
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            var postData = {
+                'Frame':{
+                    frame_id: frameId
+                },
+                LinkFrameSetting:{
+                    id: linkFrameSetting.id,
+                    frame_key: linkFrameSetting.frame_key,
+                    display_type: linkFrameSetting.display_type,
+                    open_new_tab: linkFrameSetting.open_new_tab, // MyTodo boolean-> 0,1
+                    display_click_number:linkFrameSetting.display_click_number, // MyTodo boolean-> 0,1
+                    category_separator_line:linkFrameSetting.category_separator_line,
+                    list_style:linkFrameSetting.list_style
+                }
+            }
+            Links_ajaxPostService.send(
+                    postData,
+                    form_url + frameId,
+                    put_url + frameId
+                )
+                .success(function (data) {
+                    console.log(data);
+                    deferred.resolve(data);
+                })
+                .error(function (data, status) {
+                    //keyの取得に失敗
+                    console.log(data);
+                    deferred.reject(data, status);
+                });
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            }
+
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+
+
+            return promise;
+
+        }
+
+    }
+
+}])
+//NetCommonsApp.factory('Links_LinkCategoryRepository', ['$http', function($http){
+//    var list = function(frameId){
+//
+//         resultPointer = [];
+//        //  カテゴリをjsonで返す
+//        $http.get('/links/link_category/get_categories/' + frameId + '/'+ Math.random() + '.json')
+//            .success(function(data){
+//                // 3.データ取得できたら、元のObjectに内容を追加
+//                angular.extend(resultPointer, data.resultPointer);
+//                $scope.$digest();
+//               return data.linkCategories;
+//            }).error(function(data,status){
+//            });
+//        return resultPointer;
+//    }
+//
+//    var loadCategories = function (frameId, loadTarget){
+//        $http.get('/links/link_category/get_categories/' + frameId + '/'+ Math.random() + '.json')
+//            .success(function(data){
+//                // 3.データ取得できたら、元のObjectに内容を追加
+//                loadTarget = data.linkCategories;
+//                console.log(loadTarget);
+//            }).error(function(data,status){
+//            });
+//    }
+//    return {
+//        list: list,
+//        loadCategories: loadCategories
+//    }
+//}]);
+
 
 
 NetCommonsApp.controller('Links',
@@ -380,7 +470,6 @@ NetCommonsApp.controller('Links.manage.links',
         }
 
 
-
 //        $scope.send = function () {
 //            Links_ajaxPostService.send(
 //                    $scope.linkCategories,
@@ -427,6 +516,7 @@ NetCommonsApp.controller('Links.manage.links',
 //        }
     }
 )
+
 NetCommonsApp.controller('Links.manage.links.edit',
     function ($scope, $http, $sce, $timeout, dialogs, Links_ajaxPostService) {
         // リンク編集フォームより
@@ -436,12 +526,12 @@ NetCommonsApp.controller('Links.manage.links.edit',
 
             // 余計なフィールドデータをPOSTするとセキュリティコンポーネントにBlackHole送りにされるので必用なフィールドだけ抜き出す。
             var data = {
-                Link:{
+                Link: {
                     id: $scope.newLink.Link.id,
-                    url:$scope.newLink.Link.url,
-                    link_category_id:$scope.newLink.Link.link_category_id,
-                    title:$scope.newLink.Link.title,
-                    description:$scope.newLink.Link.description,
+                    url: $scope.newLink.Link.url,
+                    link_category_id: $scope.newLink.Link.link_category_id,
+                    title: $scope.newLink.Link.title,
+                    description: $scope.newLink.Link.description,
                     status: $scope.newLink.Link.status
                 },
                 Frame: {
@@ -468,10 +558,96 @@ NetCommonsApp.controller('Links.manage.links.edit',
 
         }
     });
+NetCommonsApp.controller('Links.manage.frame_setting',
+    function ($scope, $http, $sce, $timeout, dialogs, Links_ajaxPostService, Links_FrameSettingRepository) {
+        // DB上display_type 3だったらform ではdisplay_type2（リスト表示）＋display_description true（説明表示あり）
+        $scope.FrameSetting = {
+            id: 0,
+//            frame_key : '',
+            display_type: 0,
+            display_description: false,
+            open_new_tab: false,
+            display_click_number: 0,
+            category_separator_line: '',
+            list_style: ''
+        };
+
+        $scope.init = function () {
+            // 設定をロード
+             Links_FrameSettingRepository.get($scope.frameId, function(data){
+console.log(data);
+                 $scope.FrameSetting = data;
+                 // MyTodo これってModelのメソッドに切り出すべきか
+                 if(data.display_type < 2){ // MyTodo MagicNumber
+                     $scope.FrameSetting.display_description = false
+                 }else{
+                     $scope.FrameSetting.display_description = true
+                 }
+             });
+        }
+
+        $scope.postDisplayStyle = function () {
+            // MyTodo display_typeのセット
+            putData = $scope.FrameSetting;
+            console.log(putData);
+            if($scope.FrameSetting.display_description){
+                putData.display_type = 2; //MyTodo fxi MagicNumber
+            }
+            Links_FrameSettingRepository.put($scope.frameId, putData)
+                .success(function(data){
+                    $scope.flash.success(data.name);
+                    $scope.modalInstance.close();
+                })
+                .error(function(data,status){
+                    $scope.flash.danger(status + ' ' + data.name);
+                    $scope.sending = false;
+                })
+        };
+
+//        // リンク編集フォームより
+//        $scope.send = function (status) {
+//            console.log($scope.newLink);
+//            $scope.newLink.Link.status = status; // MyTodo 権限によって指定できないステータスがあるが、どうガードする？ここでは放置しておいてPHP側かな
+//
+//            // 余計なフィールドデータをPOSTするとセキュリティコンポーネントにBlackHole送りにされるので必用なフィールドだけ抜き出す。
+//            var data = {
+//                Link:{
+//                    id: $scope.newLink.Link.id,
+//                    url:$scope.newLink.Link.url,
+//                    link_category_id:$scope.newLink.Link.link_category_id,
+//                    title:$scope.newLink.Link.title,
+//                    description:$scope.newLink.Link.description,
+//                    status: $scope.newLink.Link.status
+//                },
+//                Frame: {
+//                    frame_id: $scope.frameId
+//                }
+//            }
+//
+//            Links_ajaxPostService.send(
+//                    data,
+//                    '/links/links/edit_form/' + $scope.frameId + '/' + $scope.newLink.Link.id,
+//                    '/links/links/edit/' + $scope.frameId + '/' + $scope.newLink.Link.id
+//                )
+//                .success(function (data) {
+//                    console.log(data);
+//                    $scope.flash.success(data.name);
+//                    $modalInstance.close();
+//                })
+//                .error(function (data, status) {
+//                    //keyの取得に失敗
+//                    console.log(data);
+//                    $scope.flash.danger(status + ' ' + data.name);
+//                    $scope.sending = false;
+//                });
+//
+//        }
+    });
 
 NetCommonsApp.controller('Links.manage',
     function ($scope, $http, $sce, $modalInstance, $timeout, dialogs, Links_ajaxPostService) {
 
+        $scope.modalInstance = $modalInstance;
 
         /**
          * edit _method
@@ -563,10 +739,6 @@ NetCommonsApp.controller('Links.manage',
 
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
-        };
-
-        $scope.postDisplayStyle = function () {
-            $modalInstance.close();
         };
 
 

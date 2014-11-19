@@ -55,10 +55,12 @@
 				</div>
 
 			</div>
+
 			<div class="tab-pane" id="nc-links-category-editor-{{frameId}}">
 				<?php echo $this->requestAction('/Links/LinkCategory/view/' . $frameId, array('return')); ?>
 			</div>
-			<div class="tab-pane" id="nc-links-display-style-{{frameId}}">
+
+			<div class="tab-pane" id="nc-links-display-style-{{frameId}}" ng-controller="Links.manage.frame_setting" ng-init="init()">
 				<?php echo $this->requestAction('/Links/LinkDisplay/view/' . $frameId, array('return')); ?>
 			</div>
 			<div class="tab-pane" id="nc-links-role-setting-{{frameId}}">
