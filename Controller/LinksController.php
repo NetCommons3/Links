@@ -248,6 +248,14 @@ public $helpers = array('Links.LinksStatus');
 
 	}
 
+	public function visit($linkId) {
+		$link = $this->Link->findById($linkId);
+		$link['Link']['click_number']++;
+		$this->Link->save($link);
+		$this->redirect($link['Link']['url']);
+		return false;
+	}
+
 	// MyTodo モデルに移動するか、ヘルパかコンポーネントかビヘイビアにする…
 	protected function formatValidationErrors($validationErrors) {
 		$errors = array();
@@ -259,4 +267,5 @@ public $helpers = array('Links.LinksStatus');
 		$returnMessage = implode("\n", $errors);
 		return $returnMessage;
 	}
+
 }

@@ -13,6 +13,7 @@ App::uses('LinksAppModel', 'Links.Model');
 
 /**
  * Summary for Link Model
+ * @var LinkOrder $LinkOrder
  */
 class Link extends LinksAppModel {
 

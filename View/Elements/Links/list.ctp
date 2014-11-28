@@ -17,7 +17,7 @@ ul.links_category_list>li:not(:last-child) {
 				<ul class="nav nav-pills nav-stacked">
 					<?php foreach($category['links'] as $link): ?>
 						<li>
-							<a href="<?php echo h($link['Link']['url']);// MyTodo クリックカウントひろいたいので一枚かます ?>">
+							<a href="/links/links/visit/<?php echo $link['Link']['id'] ?>">
 								<?php echo h($link['Link']['title']) ?>
 								<span class="badge"><?php echo $link['Link']['click_number']?></span>
 								<?php echo $this->LinksStatus->view($link['Link']['status']); ?>

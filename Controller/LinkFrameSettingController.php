@@ -103,7 +103,7 @@ public $helpers = array('Links.LinksStatus');
 
 	}
 
-	// MyTodo モデルに移動するか、ヘルパかコンポーネントかビヘイビアにする…
+	// MyTodo モデルに移動するか、ヘルパかコンポーネントかビヘイビアにする… ->beforeValidate
 	protected function formatValidationErrors($validationErrors) {
 		$errors = array();
 		foreach($validationErrors as $field => $fieldErrors){
