@@ -127,7 +127,58 @@ NetCommonsApp.factory('Links_ajaxPostService', ['$http', '$q', function ($http, 
     }
 
 }]);
+NetCommonsApp.factory('Links_RolePermissionRepository', ['$http','$q','Links_ajaxPostService', function ($http, $q, Links_ajaxPostService) {
+    var form_url = '/links/link_authority/form/';
+    var put_url  = '/links/link_authority/edit/';
+    var get_url  = '/links/link_authority/get/';
 
+
+    return{
+        get: function (frameId, callback) {
+            $http.get(get_url + frameId + '/' + Math.random() + '.json')
+                .success(function (data) {
+                    callback(data);
+                    // 3.データ取得できたら、元のObjectに内容を追加
+                }).error(function (data, status) {
+                });
+        },
+        put: function(frameId, rolePermissions){
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            var postData ;
+            postData = rolePermissions;
+            postData.Frame = {
+                frame_id: frameId
+            }
+            console.log(postData);
+            Links_ajaxPostService.send(
+                    postData,
+                    form_url + frameId,
+                    put_url + frameId
+                )
+                .success(function (data) {
+                    console.log(data);
+                    deferred.resolve(data);
+                })
+                .error(function (data, status) {
+                    //keyの取得に失敗
+                    console.log(data);
+                    deferred.reject(data, status);
+                });
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            }
+
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
+        }
+    }
+
+}])
 NetCommonsApp.factory('Links_FrameSettingRepository', ['$http','$q','Links_ajaxPostService', function ($http, $q, Links_ajaxPostService) {
     var form_url = '/links/link_frame_setting/form/';
     var put_url  = '/links/link_frame_setting/edit/';
@@ -165,8 +216,8 @@ NetCommonsApp.factory('Links_FrameSettingRepository', ['$http','$q','Links_ajaxP
                     id: linkFrameSetting.id,
                     frame_key: linkFrameSetting.frame_key,
                     display_type: linkFrameSetting.display_type,
-                    open_new_tab: linkFrameSetting.open_new_tab, // MyTodo boolean-> 0,1
-                    display_click_number:linkFrameSetting.display_click_number, // MyTodo boolean-> 0,1
+                    open_new_tab: linkFrameSetting.open_new_tab,
+                    display_click_number:linkFrameSetting.display_click_number,
                     category_separator_line:linkFrameSetting.category_separator_line,
                     list_style:linkFrameSetting.list_style
                 }
@@ -375,6 +426,7 @@ NetCommonsApp.controller('Links.linkAdd',
             $modalInstance.dismiss('cancel');
         };
 
+
         $scope.send = function (status) {
             $scope.newLink.Link.status = status; // MyTodo 権限によって指定できないステータスがあるが、どうガードする？ここでは放置しておいてPHP側かな
 
@@ -398,6 +450,59 @@ NetCommonsApp.controller('Links.linkAdd',
         }
 
     });
+
+// 管理画面 権限設定タブ
+NetCommonsApp.controller('Links.manage.permission',
+    function ($scope, $http, $sce, $timeout, dialogs, Links_RolePermissionRepository) {
+        $scope.rolePermissions =
+        {
+            add_link:{
+                    chief_editor:{
+                        name:"編集長",
+                        permission: true
+                    },
+                    editor: {
+                        name:"編集者",
+                        permission: true
+                    },
+                    general_user:{
+                        name:"一般",
+                        permission: false
+                    },
+                    visitor:{
+                        name:"参観者",
+                        permission: false
+                    }
+                }
+        };
+
+        $scope.send = function () {
+
+            Links_RolePermissionRepository.put(
+                    $scope.frameId,
+                    $scope.rolePermissions
+                )
+                .success(function (data) {
+                    console.log(data);
+                    $scope.flash.success(data.name);
+                    $modalInstance.close();
+                })
+                .error(function (data, status) {
+                    //keyの取得に失敗
+                    console.log(data);
+                    $scope.flash.danger(status + ' ' + data.name);
+                    $scope.sending = false;
+                });
+
+        };
+
+
+        Links_RolePermissionRepository.get($scope.frameId, function(data){
+            $scope.rolePermissions = data;
+        });
+
+    }
+);
 
 // 管理画面リンク編集タブ
 NetCommonsApp.controller('Links.manage.links',
@@ -575,7 +680,6 @@ NetCommonsApp.controller('Links.manage.frame_setting',
         $scope.init = function () {
             // 設定をロード
              Links_FrameSettingRepository.get($scope.frameId, function(data){
-console.log(data);
                  $scope.FrameSetting = data;
                  // MyTodo これってModelのメソッドに切り出すべきか
                  if(data.display_type < 2){ // MyTodo MagicNumber

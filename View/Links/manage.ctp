@@ -63,7 +63,7 @@
 			<div class="tab-pane" id="nc-links-display-style-{{frameId}}" ng-controller="Links.manage.frame_setting" ng-init="init()">
 				<?php echo $this->requestAction('/Links/LinkDisplay/view/' . $frameId, array('return')); ?>
 			</div>
-			<div class="tab-pane" id="nc-links-role-setting-{{frameId}}">
+			<div class="tab-pane" id="nc-links-role-setting-{{frameId}}" ng-controller="Links.manage.permission">
 				<?php echo $this->requestAction('/Links/LinkAuthority/view/' . $frameId, array('return')); ?>
 			</div>
 			<div class="tab-pane disabled" id="nc-links-mail-setting-{{frameId}}">
