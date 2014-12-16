@@ -49,17 +49,17 @@ class LinkCategoryController extends LinksAppController {
 
 		//Roleのデータをviewにセット
 		if (! $this->NetCommonsRoomRole->setView($this)) {
-			throw new ForbiddenException();
+//			throw new ForbiddenException();
 		}
 
 		//編集権限チェック
 		if (! $this->viewVars['contentEditable']) {
-			throw new ForbiddenException();
+//			throw new ForbiddenException();
 		}
 
 		//Frameのデータをviewにセット
 		if (! $this->NetCommonsFrame->setView($this, $frameId)) {
-			throw new ForbiddenException();
+//			throw new ForbiddenException();
 		}
 
 

@@ -40,6 +40,53 @@ function Links_boolean2intInArray(arrayVar){
 //    // Don't strip trailing slashes from calculated URLs
 ////    $resourceProvider.defaults.stripTrailingSlashes = false;
 //}]);
+
+NetCommonsApp.factory('Links_getSiteInfo',  ['$http', '$q', function ($http, $q){
+    var getSiteInfo = function (url, successCallBack, errorCallBack){
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: "html",
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                    console.log(XMLHttpRequest);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+
+                    // 通常はここでtextStatusやerrorThrownの値を見て処理を切り分けるか、
+                    // 単純に通信に失敗した際の処理を記述します。
+//                    this; // thisは他のコールバック関数同様にAJAX通信時のオプションを示します。
+                },
+                success:function(data, dataType){
+                    console.log(data);
+                    console.log(dataType);
+                    // dataの値を用いて、通信成功時の処理を記述します。
+//                    this; // thisはAJAX送信時に設定したオプションです
+                }
+
+        });
+
+//        $http({
+//            url: url,
+//            method: 'get',
+//            withCredentials: true
+//        })
+//            .success(function(data){
+//                var siteHtml = $('<html />').html(data);
+//                var title = $(siteHtml).find('title').innerText();
+//                var description = $(siteHtml).find('meta[name=description]').innerText();
+//                console.log(title);
+//                console.log(description);
+//                successCallBack(title, description);
+//
+//            }).error(function(data, status){
+//                errorCallBack(data, status);
+//
+//            })
+    }
+    return getSiteInfo;
+
+}]);
+
 NetCommonsApp.factory('Links_ajaxPostService', ['$http', '$q', function ($http, $q) {
     // ここのスコープは１度しか実行されない
 //    var success = function (){
@@ -291,8 +338,8 @@ NetCommonsApp.controller('Links',
     function ($scope, $http, $sce, $timeout, dialogs, $modal) {
 
 
-        $scope.LINK_ADD_URL = '/Links/Links/linkAdd/';
-        $scope.PLUGIN_MANAGE_URL = '/Links/Links/manage/';
+        $scope.LINK_ADD_URL = '/links/links/linkAdd/';
+        $scope.PLUGIN_MANAGE_URL = '/links/links/manage/';
 
         $scope.frameId = 0;
 
@@ -395,7 +442,7 @@ NetCommonsApp.controller('Links',
     });
 
 NetCommonsApp.controller('Links.linkAdd',
-    function ($scope, $http, $sce, $modalInstance, $timeout, dialogs, Links_ajaxPostService) {
+    function ($scope, $http, $sce, $modalInstance, $timeout, dialogs, Links_ajaxPostService, Links_getSiteInfo) {
 
         // カテゴリ一覧
         $scope.newLink = { // postされるデータ
@@ -421,6 +468,20 @@ NetCommonsApp.controller('Links.linkAdd',
 //                $scope.flash.danger(status + ' ' + data.name);
 //            });
 
+        $scope.getSiteInfo = function () {
+
+            var url = $scope.newLink.Link.url;
+            console.log(url);
+            Links_getSiteInfo(url,
+                function(title, description){
+                    $scope.newLink.Link.title = title;
+                    $scope.newLink.Link.description = description;
+                },
+                function(data, status){
+                    $scope.flash.danger('サイト情報の取得に失敗しました')
+                }
+            );
+        }
 
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');

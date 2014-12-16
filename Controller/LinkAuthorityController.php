@@ -26,6 +26,7 @@ class LinkAuthorityController extends LinksAppController {
 	public $uses = array(
 		'Blocks.BlockRolePermission',
 		'Rooms.RolesRoom',
+		'Rooms.RoomRolePermission',
 		'Roles.Role',
 		'Frames.Frame'
 	);
@@ -102,20 +103,10 @@ class LinkAuthorityController extends LinksAppController {
 	public function get($frameId = 0) {
 		// frameIdからroom取得
 		$frame = $this->Frame->findById($frameId);
-		// ルームから　roles_rooms からルームのロールを読み出し
-		// role_keyに対応した言語をrolesテーブルから読み出したいのでbindModel モデルで定義しときたいなぁ
-		$this->RolesRoom->bindModel(
-			array(
-				'belongsTo' => array(
-					'Role' => array(
-						'className' => 'Roles.Role',
-						'foreignKey' => false,
-						'conditions' => array('RolesRoom.role_key = Role.key'),
-					)
-				)
-			)
-		);
-		$roles = $this->RolesRoom->findAllByRoomId($frame['Frame']['room_id']);
+		$roomId = $frame['Frame']['room_id'];
+
+		$roles = $this->getContentCreatableRoomRoles($roomId);
+debug($roles);
 		// リンク集の権限をblock_role_permissionsから取り出す（不要？）
 		$blockRolePermission = $this->getBlockRolePermissionByFrame($frame);
 		$ret = array();
@@ -134,6 +125,42 @@ class LinkAuthorityController extends LinksAppController {
 
 	}
 
+	/**
+	 * ルーム管理者以外でリンク作成可能（contetn_creatable）なルームロールを返す
+	 *
+	 */
+	protected function getContentCreatableRoomRoles($roomId) {
+		// ルームから　roles_rooms からルームのロールを読み出し
+		// role_keyに対応した言語をrolesテーブルから読み出したいのでbindModel モデルで定義しときたいなぁ
+		$this->RolesRoom->bindModel(
+			array(
+				'hasMany' => array(
+					'RoomRolePermission' => array(
+						'className' => 'Rooms.RoomRolePermission'
+					)
+				),
+				'belongsTo' => array(
+					'Role' => array(
+						'className' => 'Roles.Role',
+						'foreignKey' => false,
+						'conditions' => array('RolesRoom.role_key = Role.key'),
+					),
+				),
+			)
+		);
+		$conditions = array(
+			'room_id' => $roomId,
+			'RoomRolePermission.permission' => 'content_creatable', //ε(　　　　 v ﾟωﾟ)　＜ conttent_creatableはマジックナンバー？
+			'RoomRolePermission.value' => 1, //ε(　　　　 v ﾟωﾟ)　＜マジックナンバー？
+			'role_key !=' => 'room_administrator' // ルーム管理者は除外する
+		);
+
+		$roles = $this->RolesRoom->find('all', array(
+				'conditions' => $conditions
+			));
+		return $roles;
+
+	}
 
 	protected function saveBlockRolePermission($frameId, $data) {
 		// MyTodo 現在のBlockRolePermissionを削除

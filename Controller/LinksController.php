@@ -55,13 +55,14 @@ public $helpers = array('Links.LinksStatus');
 		$frameId = (isset($this->params['pass'][0]) ? (int)$this->params['pass'][0] : 0);
 		//Frameのデータをviewにセット
 		if (! $this->NetCommonsFrame->setView($this, $frameId)) {
-			$this->response->statusCode(400);
-			return;
+			// 何もかえしてこなくなった
+//			$this->response->statusCode(400);
+//			return;
 		}
 		//Roleのデータをviewにセット
 		if (! $this->NetCommonsRoomRole->setView($this)) {
-			$this->response->statusCode(400);
-			return;
+//			$this->response->statusCode(400);
+//			return;
 		}
 	}
 
@@ -266,6 +267,10 @@ public $helpers = array('Links.LinksStatus');
 		}
 		$returnMessage = implode("\n", $errors);
 		return $returnMessage;
+	}
+
+	public function test(){
+		
 	}
 
 }

@@ -46,25 +46,25 @@
 				<div id="nc-links-change-order-modal-{{frameId}}"
 					 ng-hide="visibleAddLinkForm">
 
-					<?php echo $this->requestAction('/Links/LinkEdit/view/' . $frameId, array('return')); ?>
+					<?php echo $this->requestAction('/links/LinkEdit/view/' . $frameId, array('return')); ?>
 				</div>
 
 				<div id="nc-links-add-link-modal-{{frameId}}" class="ng-hide"
 					 ng-show="visibleAddLinkForm" ng-controller="Links.manage.links.edit">
-					<?php echo $this->requestAction('/Links/LinkEdit/viewEdit/' . $frameId, array('return')); ?>
+					<?php echo $this->requestAction('/links/LinkEdit/viewEdit/' . $frameId, array('return')); ?>
 				</div>
 
 			</div>
 
 			<div class="tab-pane" id="nc-links-category-editor-{{frameId}}">
-				<?php echo $this->requestAction('/Links/LinkCategory/view/' . $frameId, array('return')); ?>
+				<?php echo $this->requestAction('/links/LinkCategory/view/' . $frameId, array('return')); ?>
 			</div>
 
 			<div class="tab-pane" id="nc-links-display-style-{{frameId}}" ng-controller="Links.manage.frame_setting" ng-init="init()">
-				<?php echo $this->requestAction('/Links/LinkDisplay/view/' . $frameId, array('return')); ?>
+				<?php echo $this->requestAction('/links/LinkDisplay/view/' . $frameId, array('return')); ?>
 			</div>
 			<div class="tab-pane" id="nc-links-role-setting-{{frameId}}" ng-controller="Links.manage.permission">
-				<?php echo $this->requestAction('/Links/LinkAuthority/view/' . $frameId, array('return')); ?>
+				<?php echo $this->requestAction('/links/LinkAuthority/view/' . $frameId, array('return')); ?>
 			</div>
 			<div class="tab-pane disabled" id="nc-links-mail-setting-{{frameId}}">
 			</div>

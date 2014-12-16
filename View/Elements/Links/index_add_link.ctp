@@ -15,7 +15,7 @@
 					);
 			?>
 			<div class="text-right" style="margin-top: 2px;">
-				<button class="btn btn-info btn-xs">
+				<button class="btn btn-info btn-xs" ng-click="getSiteInfo()">
 					サイト情報取得
 				</button>
 			</div>
