@@ -1,0 +1,41 @@
+/**
+ * links/css/style.css
+ *
+ * @author   Takako Miyagawa <nekoget@gmail.com>
+ * @link     http://www.netcommons.org NetCommons Project
+ * @license  http://www.netcommons.org/license.txt NetCommons License
+ */
+
+.nc-links-edit-anchor {
+	margin-left: 20px;
+}
+li.list-group-item.nc-links-li {
+	border: none;
+	padding: 0px;
+	display: list-item;
+}
+.nc-links-li {
+	margin-top: 8px;
+	margin-left: 30px;
+	margin-bottom: 15px;
+}
+li.nc-links-li > h3.nc-links-li-title {
+	margin-top: 0px;
+	margin-bottom: 2px;
+}
+
+hr.nc-links-edit-line {
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+.nc-input-dropdown .pull-left > hr.nc-links-edit-line {
+	min-width: 100px;
+	width: 250px;
+	max-width: 600px;
+}
+ul.nc-links-edit-mark {
+	padding-left: 20px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
