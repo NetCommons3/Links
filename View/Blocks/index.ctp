@@ -37,10 +37,10 @@
 								<?php echo $this->Paginator->sort('Link.name', __d('links', 'Link list Title')); ?>
 							</th>
 							<th>
-								<?php echo $this->Paginator->sort('Block.public_type', __d('links', 'Public Type')); ?>
+								<?php echo $this->Paginator->sort('Block.public_type', __d('blocks', 'Publishing setting')); ?>
 							</th>
 							<th>
-								<?php echo $this->Paginator->sort('Block.modified', __d('links', 'Updated Date')); ?>
+								<?php echo $this->Paginator->sort('Block.modified', __d('net_commons', 'Updated date')); ?>
 							</th>
 						</tr>
 					</thead>
@@ -72,7 +72,7 @@
 									<?php elseif ($linkBlock['block']['publicType'] === '1') : ?>
 										<?php echo __d('blocks', 'Public'); ?>
 									<?php elseif ($linkBlock['block']['publicType'] === '2') : ?>
-										<?php echo __d('blocks', 'Limited Public'); ?>
+										<?php echo __d('blocks', 'Limited'); ?>
 									<?php endif; ?>
 								</td>
 								<td>

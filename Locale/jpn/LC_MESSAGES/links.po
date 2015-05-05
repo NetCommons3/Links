@@ -1,0 +1,109 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-05-05 13:20+0000\n"
+"PO-Revision-Date: 2015-05-06 00:51+0900\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 1.7.5\n"
+
+#: Links/Controller/BlocksController.php:131
+msgid "New Bookmark List %s"
+msgstr "新規リンクリスト%s"
+
+#: Links/Controller/LinksController.php:150;155
+msgid "Failed to obtain the title for this page."
+msgstr "入力したURLからタイトルを取得できませんでした"
+
+#: Links/Model/Link.php:125;131 Links/View/Elements/Links/edit_form.ctp:55
+#: Links/View/Links/view.ctp:26
+msgid "URL"
+msgstr ""
+
+#: Links/Model/Link.php:139 Links/View/Elements/Links/edit_form.ctp:93
+#: Links/View/Links/view.ctp:37
+msgid "Title"
+msgstr "タイトル"
+
+#: Links/Model/LinkFrameSetting.php:95
+msgid "(no line)"
+msgstr "(線なし)"
+
+#: Links/View/Blocks/index.ctp:37 Links/View/Elements/Blocks/edit_form.ctp:46
+msgid "Link list Title"
+msgstr "リンクリスト名称"
+
+#: Links/View/Elements/Blocks/delete_form.ctp:14;25
+msgid "Link List"
+msgstr "リンクリスト"
+
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:32
+msgid "Display method"
+msgstr "表示方法選択"
+
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:37
+msgid "Show by dropdown"
+msgstr "ドロップダウン"
+
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:38
+msgid "Show list"
+msgstr "一覧表示"
+
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:39
+msgid "Show list (Description)"
+msgstr "一覧表示(説明付き)"
+
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:47
+msgid "Open as a new tab"
+msgstr "新しいタブで開く"
+
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:56
+msgid "Count view"
+msgstr "リンク先参照回数の表示"
+
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:65
+msgid "Line"
+msgstr "カテゴリ間の区切り線"
+
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:106
+msgid "Marker"
+msgstr "リストマーカー"
+
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:122;142
+msgid "Sample"
+msgstr "サンプル"
+
+#: Links/View/Elements/Links/delete_form.ctp:38
+msgid "Link"
+msgstr "リンク"
+
+#: Links/View/Elements/Links/edit_form.ctp:70
+msgid "GO!"
+msgstr "取得"
+
+#: Links/View/Elements/Links/edit_form.ctp:129 Links/View/Links/view.ctp:57
+msgid "Description"
+msgstr "説明"
+
+#: Links/View/Elements/Links/index_dropdown.ctp:17
+msgid "Select link to show"
+msgstr "リンクを選択してください"
+
+#: Links/View/LinkOrders/edit.ctp:35
+msgid "No link."
+msgstr "リンクがありません。"
+
+#: Links/View/Links/index.ctp:30
+msgid "Sort link"
+msgstr "表示順変更"
+
+#: Links/View/Links/index.ctp:37
+msgid "Create link"
+msgstr "リンクの作成"
