@@ -1,6 +1,6 @@
 <?php
 /**
- * Block Model
+ * LinkBlock Model
  *
  * @property Language $Language
  * @property Room $Room
@@ -16,7 +16,7 @@
 App::uses('BlocksAppModel', 'Blocks.Model');
 
 /**
- * Block Model
+ * LinkBlock Model
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Blocks\Model
