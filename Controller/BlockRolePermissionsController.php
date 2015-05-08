@@ -44,7 +44,7 @@ class BlockRolePermissionsController extends LinksAppController {
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'permissionEditable' => array('edit')
+				'blockPermissionEditable' => array('edit')
 			),
 		),
 	);
