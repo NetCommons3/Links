@@ -79,7 +79,7 @@
 				'field' => 'url',
 			]); ?>
 
-		<div class="has-error" ng-show="urlError">
+		<div class="has-error" ng-show="urlError" ng-cloak>
 			<div class="help-block">
 				{{urlError}}
 			</div>
