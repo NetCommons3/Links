@@ -86,6 +86,7 @@ class LinkBlock extends BlocksAppModel {
 	public function saveLinkBlock($data) {
 		$this->loadModels([
 			'LinkSetting' => 'Links.LinkSetting',
+			'Category' => 'Categories.Category',
 			'Block' => 'Blocks.Block',
 			'Frame' => 'Frames.Frame',
 		]);
@@ -97,18 +98,21 @@ class LinkBlock extends BlocksAppModel {
 
 		try {
 			//バリデーション
-			if (! $this->validateLinkBlock($data, ['linkSetting'])) {
+			if (! $data = $this->validateLinkBlock($data, ['linkSetting', 'category'])) {
 				return false;
 			}
 
-			//ブロックの登録
+			//登録処理
 			$block = $this->Block->saveByFrameId($data['Frame']['id']);
 
-			//登録処理
 			$this->LinkSetting->data['LinkSetting']['block_key'] = $block['Block']['key'];
 			if (! $this->LinkSetting->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+
+			$data['Block']['id'] = (int)$block['Block']['id'];
+			$data['Block']['key'] = $block['Block']['key'];
+			$this->Category->saveCategories($data);
 
 			//トランザクションCommit
 			$dataSource->commit();
@@ -128,7 +132,7 @@ class LinkBlock extends BlocksAppModel {
  *
  * @param array $data received post data
  * @param array $contains Optional validate sets
- * @return bool True on success, false on validation errors
+ * @return mixed Array on success, false on validation errors
  */
 	public function validateLinkBlock($data, $contains = []) {
 		if (! $this->Block->validateBlock($data)) {
@@ -142,7 +146,18 @@ class LinkBlock extends BlocksAppModel {
 				return false;
 			}
 		}
-		return true;
+
+		if (in_array('category', $contains, true)) {
+			if (! isset($data['Categories'])) {
+				$data['Categories'] = [];
+			}
+			if (! $data = $this->Category->validateCategories($data)) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->Category->validationErrors);
+				return false;
+			}
+		}
+
+		return $data;
 	}
 
 /**

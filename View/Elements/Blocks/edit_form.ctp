@@ -64,8 +64,6 @@
 
 <?php echo $this->element('Blocks.public_type'); ?>
 
-<?php if ($this->request->params['action'] === 'edit') : ?>
-	<?php echo $this->element('Categories.index', array(
-			'categories' => $categories
-		)); ?>
-<?php endif;
+<?php echo $this->element('Categories.edit_form', array(
+		'categories' => isset($categories) ? $categories : null
+	));
