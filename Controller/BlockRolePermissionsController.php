@@ -20,6 +20,13 @@ App::uses('LinksAppController', 'Links.Controller');
 class BlockRolePermissionsController extends LinksAppController {
 
 /**
+ * layout
+ *
+ * @var array
+ */
+	public $layout = 'NetCommons.setting';
+
+/**
  * use models
  *
  * @var array
@@ -57,7 +64,6 @@ class BlockRolePermissionsController extends LinksAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->layout = 'NetCommons.setting';
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
 
