@@ -91,9 +91,7 @@ class LinkFrameSettingsController extends LinksAppController {
 			$data = $this->data;
 			$this->LinkFrameSetting->saveLinkFrameSetting($data);
 			if ($this->handleValidationError($this->LinkFrameSetting->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/' . $this->viewVars['cancelUrl']);
-				}
+				$this->redirectByFrameId();
 				return;
 			}
 		}
