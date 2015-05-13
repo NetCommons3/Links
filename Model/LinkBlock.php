@@ -135,6 +135,15 @@ class LinkBlock extends BlocksAppModel {
  * @return mixed Array on success, false on validation errors
  */
 	public function validateLinkBlock($data, $contains = []) {
+		$this->Block->validate = Hash::merge($this->Block->validate, array(
+			'name' => array(
+				'notEmpty' => array(
+					'rule' => array('notEmpty'),
+					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('links', 'Link list Title')),
+					'required' => true,
+				)
+			))
+		);
 		if (! $this->Block->validateBlock($data)) {
 			$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
 			return false;

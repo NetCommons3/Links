@@ -151,6 +151,7 @@ class BlocksController extends LinksAppController {
 			}
 			$data['Block']['id'] = null;
 			$data['Block']['key'] = null;
+			unset($data['Frame']);
 		}
 
 		$results = $this->camelizeKeyRecursive(Hash::merge($block, $data));
@@ -185,6 +186,7 @@ class BlocksController extends LinksAppController {
 				}
 				return;
 			}
+			unset($data['Frame']);
 
 			$results = $this->camelizeKeyRecursive($data);
 			$this->set($results);
