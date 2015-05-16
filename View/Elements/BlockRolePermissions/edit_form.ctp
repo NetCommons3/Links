@@ -22,11 +22,15 @@
 		'value' => $blockId,
 	)); ?>
 
-<?php echo $this->element('Blocks.content_role_setting', array(
+<?php echo $this->element('Blocks.block_role_setting', array(
 		'roles' => $roles,
-		'permissions' => isset($blockRolePermissions) ? $blockRolePermissions : null,
-		'useWorkflow' => array(
-			'name' => 'LinkSetting.use_workflow',
-			'value' => $linkSetting['useWorkflow']
+		'model' => 'LinkSetting',
+		'useWorkflow' => 'use_workflow',
+		'creatablePermissions' => array(
+			'contentCreatable' => __d('blocks', 'Content creatable roles'),
+		),
+		'options' => array(
+			Block::NEED_APPROVAL => __d('blocks', 'Need approval'),
+			Block::NOT_NEED_APPROVAL => __d('blocks', 'Not need approval'),
 		),
 	));
