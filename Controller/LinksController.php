@@ -388,7 +388,6 @@ class LinksController extends LinksAppController {
 				'Link.created_user !=' => (int)$this->viewVars['userId'],
 			);
 			$latestConditons = array(
-				'Link.is_active' => false,
 				'Link.is_latest' => true,
 				'Link.created_user' => (int)$this->viewVars['userId'],
 			);
