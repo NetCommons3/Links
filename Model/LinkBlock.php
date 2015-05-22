@@ -177,17 +177,17 @@ class LinkBlock extends BlocksAppModel {
  * @throws InternalErrorException
  */
 	public function deleteLinkBlock($data) {
-		$this->setDataSource('master');
-
 		$this->loadModels([
 			'Link' => 'Links.Link',
 			'LinkSetting' => 'Links.LinkSetting',
 			'LinkOrder' => 'Links.LinkOrder',
 			'Block' => 'Blocks.Block',
 			'Category' => 'Categories.Category',
+			'Comment' => 'Comments.Comment',
 		]);
 
 		//トランザクションBegin
+		$this->setDataSource('master');
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 
@@ -213,6 +213,9 @@ class LinkBlock extends BlocksAppModel {
 			if (! $this->LinkOrder->deleteAll(array($this->LinkOrder->alias . '.block_key' => $data['Block']['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+
+			//コメントの削除
+			$this->Comment->deleteByBlockKey($data['Block']['key']);
 
 			//Categoryデータ削除
 			$this->Category->deleteByBlockKey($data['Block']['key']);

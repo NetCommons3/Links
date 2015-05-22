@@ -225,6 +225,7 @@ class Link extends LinksAppModel {
 			}
 			//Comment登録
 			if (isset($data['Comment']) && $this->Comment->data) {
+				$this->Comment->data[$this->Comment->name]['block_key'] = $link['Block']['key'];
 				$this->Comment->data[$this->Comment->name]['content_key'] = $link[$this->name]['key'];
 				if (! $this->Comment->save(null, false)) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
@@ -306,6 +307,9 @@ class Link extends LinksAppModel {
 			)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+
+			//コメントの削除
+			$this->Comment->deleteByContentKey($data['Link']['key']);
 
 			//トランザクションCommit
 			$dataSource->commit();
