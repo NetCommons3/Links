@@ -45,7 +45,7 @@ class LinksController extends LinksAppController {
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'contentCreatable' => array('add', 'edit', 'delete'),
+				'contentCreatable' => array('add', 'edit', 'delete', 'get'),
 			),
 		),
 		'Categories.Categories',
