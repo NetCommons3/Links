@@ -29,7 +29,7 @@ App::uses('LinkFrameSetting', 'Links.Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Links\Test\Case\Model
  */
-class LinksBaseModel extends YACakeTestCase {
+class LinksModelTestBase extends YACakeTestCase {
 
 /**
  * Fixtures
@@ -120,13 +120,5 @@ class LinksBaseModel extends YACakeTestCase {
 		}
 
 		$this->assertEquals($expected, $result);
-	}
-
-/**
- * Called before the test().
- *
- * @return void
- */
-	public function test() {
 	}
 }

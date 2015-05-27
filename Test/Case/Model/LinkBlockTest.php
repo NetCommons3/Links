@@ -11,7 +11,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('LinksBaseModel', 'Links.Test/Case/Model');
+App::uses('LinksModelTestBase', 'Links.Test/Case/Model');
 
 /**
  * Common code of LinkBlock model test
@@ -19,7 +19,7 @@ App::uses('LinksBaseModel', 'Links.Test/Case/Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Links\Test\Case\Model
  */
-class LinkBlockTest extends LinksBaseModel {
+class LinkBlockTest extends LinksModelTestBase {
 
 /**
  * setUp
@@ -52,4 +52,13 @@ class LinkBlockTest extends LinksBaseModel {
 		unset($this->LinkSetting);
 		parent::tearDown();
 	}
+
+/**
+ * Called before the test().
+ *
+ * @return void
+ */
+	public function testIndex() {
+	}
+
 }
