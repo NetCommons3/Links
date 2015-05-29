@@ -123,6 +123,8 @@ class Initial extends CakeMigration {
 				'namespace' => 'netcommons/links',
 				'name' => 'リンクリスト',
 				'type' => 1,
+				'default_action' => 'links/index',
+				'default_setting_action' => 'link_blocks/index',
 			),
 		),
 
