@@ -63,9 +63,6 @@ class BlockRolePermissionsController extends LinksAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
-
 		//タブの設定
 		$this->initTabs('block_index', 'role_permissions');
 	}

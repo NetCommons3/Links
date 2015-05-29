@@ -26,6 +26,7 @@ class LinksAppController extends AppController {
  */
 	public $components = array(
 		'NetCommons.NetCommonsFrame',
+		'Pages.PageLayout',
 		'Security',
 	);
 
@@ -37,17 +38,6 @@ class LinksAppController extends AppController {
 	public $uses = array(
 		'Links.LinkBlock',
 	);
-
-/**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		$results = $this->camelizeKeyRecursive(['current' => $this->current]);
-		$this->set($results);
-	}
 
 /**
  * initLink

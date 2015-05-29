@@ -73,9 +73,6 @@ class BlocksController extends LinksAppController {
 		parent::beforeFilter();
 		$this->Auth->deny('index');
 
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
-
 		//タブの設定
 		$this->initTabs('block_index', 'block_settings');
 	}
