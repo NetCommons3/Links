@@ -48,10 +48,10 @@ class LinksModelTestBase extends YACakeTestCase {
 		'plugin.links.link_setting',
 		'plugin.links.link_frame_setting',
 		'plugin.frames.frame',
-		'plugin.frames.plugin',
 		'plugin.m17n.language',
-		'plugin.rooms.roles_room',
+		'plugin.plugin_manager.plugin',
 		'plugin.rooms.room',
+		'plugin.rooms.roles_room',
 		'plugin.users.user_attributes_user',
 		'plugin.users.user',
 	);

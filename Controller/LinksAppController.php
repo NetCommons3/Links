@@ -111,7 +111,7 @@ class LinksAppController extends AppController {
 				'block_index' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'blocks',
+						'controller' => 'link_blocks',
 						'action' => 'index',
 						$this->viewVars['frameId'],
 					)
@@ -134,7 +134,7 @@ class LinksAppController extends AppController {
 				'block_settings' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'blocks',
+						'controller' => 'link_blocks',
 						'action' => $this->params['action'],
 						$this->viewVars['frameId'],
 						$blockId
@@ -143,7 +143,7 @@ class LinksAppController extends AppController {
 				'role_permissions' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'block_role_permissions',
+						'controller' => 'link_block_role_permissions',
 						'action' => 'edit',
 						$this->viewVars['frameId'],
 						$blockId

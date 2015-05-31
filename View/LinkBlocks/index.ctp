@@ -15,7 +15,7 @@
 
 	<div class="tab-content">
 		<div class="text-right">
-			<a class="btn btn-success" href="<?php echo $this->Html->url('/links/blocks/add/' . $frameId);?>">
+			<a class="btn btn-success" href="<?php echo $this->Html->url('/links/link_blocks/add/' . $frameId);?>">
 				<span class="glyphicon glyphicon-plus"> </span>
 			</a>
 		</div>
@@ -35,9 +35,6 @@
 							<th></th>
 							<th>
 								<?php echo $this->Paginator->sort('Link.name', __d('links', 'Link list Title')); ?>
-							</th>
-							<th>
-								<?php echo $this->Paginator->sort('Block.public_type', __d('blocks', 'Publishing setting')); ?>
 							</th>
 							<th>
 								<?php echo $this->Paginator->sort('Block.modified', __d('net_commons', 'Updated date')); ?>
@@ -62,18 +59,9 @@
 										)); ?>
 								</td>
 								<td>
-									<a href="<?php echo $this->Html->url('/links/blocks/edit/' . $frameId . '/' . (int)$linkBlock['block']['id']); ?>">
+									<a href="<?php echo $this->Html->url('/links/link_blocks/edit/' . $frameId . '/' . (int)$linkBlock['block']['id']); ?>">
 										<?php echo h($linkBlock['linkBlock']['name']); ?>
 									</a>
-								</td>
-								<td>
-									<?php if ($linkBlock['block']['publicType'] === Block::TYPE_PRIVATE) : ?>
-										<?php echo __d('blocks', 'Private'); ?>
-									<?php elseif ($linkBlock['block']['publicType'] === Block::TYPE_PUBLIC) : ?>
-										<?php echo __d('blocks', 'Public'); ?>
-									<?php elseif ($linkBlock['block']['publicType'] === Block::TYPE_LIMITED) : ?>
-										<?php echo __d('blocks', 'Limited'); ?>
-									<?php endif; ?>
 								</td>
 								<td>
 									<?php echo $this->Date->dateFormat($linkBlock['block']['modified']); ?>
