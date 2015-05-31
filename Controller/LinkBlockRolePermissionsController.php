@@ -17,7 +17,7 @@ App::uses('LinksAppController', 'Links.Controller');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Links\Controller
  */
-class BlockRolePermissionsController extends LinksAppController {
+class LinkBlockRolePermissionsController extends LinksAppController {
 
 /**
  * layout
@@ -63,9 +63,6 @@ class BlockRolePermissionsController extends LinksAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
-
 		//タブの設定
 		$this->initTabs('block_index', 'role_permissions');
 	}
@@ -107,7 +104,7 @@ class BlockRolePermissionsController extends LinksAppController {
 			$this->LinkSetting->saveLinkSetting($data);
 			if ($this->handleValidationError($this->LinkSetting->validationErrors)) {
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/links/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/links/link_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}

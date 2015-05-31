@@ -17,7 +17,7 @@ App::uses('LinksAppController', 'Links.Controller');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Links\Controller
  */
-class BlocksController extends LinksAppController {
+class LinkBlocksController extends LinksAppController {
 
 /**
  * layout
@@ -73,9 +73,6 @@ class BlocksController extends LinksAppController {
 		parent::beforeFilter();
 		$this->Auth->deny('index');
 
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
-
 		//タブの設定
 		$this->initTabs('block_index', 'block_settings');
 	}
@@ -98,18 +95,10 @@ class BlocksController extends LinksAppController {
 				//'limit' => 1
 			)
 		);
-		try {
-			$linkBlocks = $this->Paginator->paginate('LinkBlock');
-		} catch (Exception $ex) {
-			if (isset($this->request['paging']) && $this->params['named']) {
-				$this->redirect('/links/blocks/index/' . $this->viewVars['frameId']);
-				return;
-			}
-			CakeLog::error($ex);
-			throw $ex;
-		}
+
+		$linkBlocks = $this->Paginator->paginate('LinkBlock');
 		if (! $linkBlocks) {
-			$this->view = 'Blocks/not_found';
+			$this->view = 'not_found';
 			return;
 		}
 
@@ -126,7 +115,7 @@ class BlocksController extends LinksAppController {
  * @return void
  */
 	public function add() {
-		$this->view = 'Blocks/edit';
+		$this->view = 'edit';
 
 		$this->set('blockId', null);
 		$block = $this->Block->create(
@@ -144,7 +133,7 @@ class BlocksController extends LinksAppController {
 			$this->LinkBlock->saveLinkBlock($data);
 			if ($this->handleValidationError($this->LinkBlock->validationErrors)) {
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/links/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/links/link_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}
@@ -181,7 +170,7 @@ class BlocksController extends LinksAppController {
 			$this->LinkBlock->saveLinkBlock($data);
 			if ($this->handleValidationError($this->LinkBlock->validationErrors)) {
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/links/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/links/link_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}
@@ -211,7 +200,7 @@ class BlocksController extends LinksAppController {
 		if ($this->request->isDelete()) {
 			if ($this->LinkBlock->deleteLinkBlock($this->data)) {
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/links/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/links/link_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}

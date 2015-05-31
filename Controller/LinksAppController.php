@@ -26,6 +26,7 @@ class LinksAppController extends AppController {
  */
 	public $components = array(
 		'NetCommons.NetCommonsFrame',
+		'Pages.PageLayout',
 		'Security',
 	);
 
@@ -37,17 +38,6 @@ class LinksAppController extends AppController {
 	public $uses = array(
 		'Links.LinkBlock',
 	);
-
-/**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		$results = $this->camelizeKeyRecursive(['current' => $this->current]);
-		$this->set($results);
-	}
 
 /**
  * initLink
@@ -121,7 +111,7 @@ class LinksAppController extends AppController {
 				'block_index' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'blocks',
+						'controller' => 'link_blocks',
 						'action' => 'index',
 						$this->viewVars['frameId'],
 					)
@@ -144,7 +134,7 @@ class LinksAppController extends AppController {
 				'block_settings' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'blocks',
+						'controller' => 'link_blocks',
 						'action' => $this->params['action'],
 						$this->viewVars['frameId'],
 						$blockId
@@ -153,7 +143,7 @@ class LinksAppController extends AppController {
 				'role_permissions' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'block_role_permissions',
+						'controller' => 'link_block_role_permissions',
 						'action' => 'edit',
 						$this->viewVars['frameId'],
 						$blockId
