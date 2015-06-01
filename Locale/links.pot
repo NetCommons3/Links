@@ -5,7 +5,6 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-05 15:03+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Links/Controller/BlocksController.php:131
+#: Links/Controller/LinkBlocksController.php:125
 msgid "New Bookmark List %s"
 msgstr ""
 
@@ -34,16 +33,17 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
+#: Links/Model/LinkBlock.php:142
+#: Links/View/Elements/LinkBlocks/edit_form.ctp:24
+#: Links/View/LinkBlocks/index.ctp:37
+msgid "Link list Title"
+msgstr ""
+
 #: Links/Model/LinkFrameSetting.php:95
 msgid "(no line)"
 msgstr ""
 
-#: Links/View/Blocks/index.ctp:37
-#: Links/View/Elements/Blocks/edit_form.ctp:46
-msgid "Link list Title"
-msgstr ""
-
-#: Links/View/Elements/Blocks/delete_form.ctp:14;25
+#: Links/View/Elements/LinkBlocks/delete_form.ctp:14;25
 msgid "Link List"
 msgstr ""
 
