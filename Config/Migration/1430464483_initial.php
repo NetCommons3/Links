@@ -111,39 +111,6 @@ class Initial extends CakeMigration {
 	);
 
 /**
- * recodes
- *
- * @var array $migration
- */
-	public $records = array(
-		'Plugin' => array(
-			array(
-				'language_id' => 2,
-				'key' => 'links',
-				'namespace' => 'netcommons/links',
-				'name' => 'リンクリスト',
-				'type' => 1,
-				'default_action' => 'links/index',
-				'default_setting_action' => 'link_blocks/index',
-			),
-		),
-
-		'PluginsRole' => array(
-			array(
-				'role_key' => 'room_administrator',
-				'plugin_key' => 'links'
-			),
-		),
-
-		'PluginsRoom' => array(
-			array(
-				'room_id' => '1',
-				'plugin_key' => 'links'
-			),
-		),
-	);
-
-/**
  * Before migration callback
  *
  * @param string $direction Direction of migration process (up or down)
@@ -160,34 +127,6 @@ class Initial extends CakeMigration {
  * @return bool Should process continue
  */
 	public function after($direction) {
-		if ($direction === 'down') {
-			return true;
-		}
-
-		foreach ($this->records as $model => $records) {
-			if (!$this->updateRecords($model, $records)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-/**
- * Update model records
- *
- * @param string $model model name to update
- * @param string $records records to be stored
- * @return bool Should process continue
- */
-	public function updateRecords($model, $records) {
-		$Model = $this->generateModel($model);
-		foreach ($records as $record) {
-			$Model->create();
-			if (!$Model->save($record, false)) {
-				return false;
-			}
-		}
-
 		return true;
 	}
 }
