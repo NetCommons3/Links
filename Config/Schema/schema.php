@@ -28,7 +28,7 @@ class AppSchema extends CakeSchema {
 /**
  * before
  *
- * @param array $event savent
+ * @param array $event event
  * @return bool
  */
 	public function before($event = array()) {
@@ -38,7 +38,7 @@ class AppSchema extends CakeSchema {
 /**
  * after
  *
- * @param array $event savent
+ * @param array $event event
  * @return void
  */
 	public function after($event = array()) {
