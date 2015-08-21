@@ -27,7 +27,7 @@ class LinksAppController extends AppController {
 	public $components = array(
 		'NetCommons.NetCommonsFrame',
 		'Pages.PageLayout',
-		'Security',
+		//'Security',
 	);
 
 /**

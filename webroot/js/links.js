@@ -45,7 +45,7 @@ NetCommonsApp.controller('LinksIndex', function($scope, $http, $window) {
 
     $http.get('/net_commons/net_commons/csrfToken.json')
       .success(function(token) {
-          $scope.data._Token.key = token.data._Token.key;
+          //$scope.data._Token.key = token.data._Token.key;
 
           //POSTリクエスト
           $http.post(
