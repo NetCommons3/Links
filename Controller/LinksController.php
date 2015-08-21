@@ -105,7 +105,8 @@ class LinksController extends LinksAppController {
 				'id' => $this->viewVars['frameId']
 			),
 			'Link' => array(
-				'id' => null
+				'id' => null,
+				'key' => null,
 			),
 		);
 		$tokenFields = Hash::flatten($this->request->data);
@@ -342,8 +343,8 @@ class LinksController extends LinksAppController {
  */
 	public function link() {
 		$linkKey = null;
-		if (isset($this->params['pass'][1])) {
-			$linkKey = $this->params['pass'][1];
+		if (isset($this->data['Link']['key'])) {
+			$linkKey = $this->data['Link']['key'];
 		}
 		$this->set('linkKey', $linkKey);
 
