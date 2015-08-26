@@ -10,7 +10,7 @@
  */
 
 $this->Token->unlockField('Link.id');
-$tokens = $this->Token->getToken($tokenFields, $hiddenFields);
+$tokens = $this->Token->getToken('Link', '/links/links/link/' . $frameId . '.json', $tokenFields, $hiddenFields);
 ?>
 
 <?php echo $this->Html->css('/links/css/style.css', false); ?>
