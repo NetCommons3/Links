@@ -228,7 +228,7 @@ class LinksController extends LinksAppController {
 
 			$this->Link->saveLink($data);
 			if ($this->handleValidationError($this->Link->validationErrors)) {
-				$this->redirectByFrameId();
+				$this->redirect(Current::backToPageUrl());
 				return;
 			}
 		}
@@ -290,7 +290,7 @@ class LinksController extends LinksAppController {
 			$this->Link->saveLink($data);
 
 			if ($this->handleValidationError($this->Link->validationErrors)) {
-				$this->redirectByFrameId();
+				$this->redirect(Current::backToPageUrl());
 				return;
 			}
 
@@ -333,7 +333,7 @@ class LinksController extends LinksAppController {
 			return;
 		}
 
-		$this->redirectByFrameId();
+		$this->redirect(Current::backToPageUrl());
 	}
 
 /**
@@ -363,7 +363,7 @@ class LinksController extends LinksAppController {
 			return;
 		}
 
-		$this->redirectByFrameId();
+		$this->redirect(Current::backToPageUrl());
 	}
 
 /**

@@ -82,7 +82,7 @@ class LinkOrdersController extends LinksAppController {
 			//validationError
 			if ($this->handleValidationError($this->LinkOrder->validationErrors)) {
 				//リダイレクト
-				$this->redirectByFrameId();
+				$this->redirect(Current::backToPageUrl());
 				return;
 			}
 		}
