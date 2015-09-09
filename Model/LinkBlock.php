@@ -137,8 +137,8 @@ class LinkBlock extends BlocksAppModel {
 	public function validateLinkBlock($data, $contains = []) {
 		$this->Block->validate = Hash::merge($this->Block->validate, array(
 			'name' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('links', 'Link list Title')),
 					'required' => true,
 				)
