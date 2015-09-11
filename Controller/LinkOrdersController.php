@@ -82,7 +82,7 @@ class LinkOrdersController extends LinksAppController {
 			//validationError
 			if ($this->NetCommons->handleValidationError($this->LinkOrder->validationErrors)) {
 				//リダイレクト
-				$this->redirect(Current::backToPageUrl());
+				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
 		}

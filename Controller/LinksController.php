@@ -228,7 +228,7 @@ class LinksController extends LinksAppController {
 
 			$this->Link->saveLink($data);
 			if ($this->NetCommons->handleValidationError($this->Link->validationErrors)) {
-				$this->redirect(Current::backToPageUrl());
+				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
 		}
@@ -290,7 +290,7 @@ class LinksController extends LinksAppController {
 			$this->Link->saveLink($data);
 
 			if ($this->NetCommons->handleValidationError($this->Link->validationErrors)) {
-				$this->redirect(Current::backToPageUrl());
+				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
 
@@ -333,7 +333,7 @@ class LinksController extends LinksAppController {
 			return;
 		}
 
-		$this->redirect(Current::backToPageUrl());
+		$this->redirect(NetCommonsUrl::backToPageUrl());
 	}
 
 /**
@@ -363,7 +363,7 @@ class LinksController extends LinksAppController {
 			return;
 		}
 
-		$this->redirect(Current::backToPageUrl());
+		$this->redirect(NetCommonsUrl::backToPageUrl());
 	}
 
 /**
