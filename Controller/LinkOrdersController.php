@@ -80,7 +80,7 @@ class LinkOrdersController extends LinksAppController {
 
 			$this->LinkOrder->saveLinkOrders($data);
 			//validationError
-			if ($this->handleValidationError($this->LinkOrder->validationErrors)) {
+			if ($this->NetCommons->handleValidationError($this->LinkOrder->validationErrors)) {
 				//リダイレクト
 				$this->redirect(Current::backToPageUrl());
 				return;

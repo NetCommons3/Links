@@ -131,7 +131,7 @@ class LinkBlocksController extends LinksAppController {
 			$data = $this->__parseRequestData();
 
 			$this->LinkBlock->saveLinkBlock($data);
-			if ($this->handleValidationError($this->LinkBlock->validationErrors)) {
+			if ($this->NetCommons->handleValidationError($this->LinkBlock->validationErrors)) {
 				if (! $this->request->is('ajax')) {
 					$this->redirect('/links/link_blocks/index/' . $this->viewVars['frameId']);
 				}
@@ -168,7 +168,7 @@ class LinkBlocksController extends LinksAppController {
 			$data['LinkSetting']['block_key'] = $data['Block']['key'];
 
 			$this->LinkBlock->saveLinkBlock($data);
-			if ($this->handleValidationError($this->LinkBlock->validationErrors)) {
+			if ($this->NetCommons->handleValidationError($this->LinkBlock->validationErrors)) {
 				if (! $this->request->is('ajax')) {
 					$this->redirect('/links/link_blocks/index/' . $this->viewVars['frameId']);
 				}

@@ -174,7 +174,7 @@ class LinksController extends LinksAppController {
 			$results['description'] = mb_convert_encoding($matches[3], 'utf-8', 'auto');
 		}
 
-		$this->renderJson($results);
+		$this->NetCommons->renderJson($results);
 	}
 
 /**
@@ -227,7 +227,7 @@ class LinksController extends LinksAppController {
 			unset($data['LinkOrder']['weight']);
 
 			$this->Link->saveLink($data);
-			if ($this->handleValidationError($this->Link->validationErrors)) {
+			if ($this->NetCommons->handleValidationError($this->Link->validationErrors)) {
 				$this->redirect(Current::backToPageUrl());
 				return;
 			}
@@ -289,7 +289,7 @@ class LinksController extends LinksAppController {
 
 			$this->Link->saveLink($data);
 
-			if ($this->handleValidationError($this->Link->validationErrors)) {
+			if ($this->NetCommons->handleValidationError($this->Link->validationErrors)) {
 				$this->redirect(Current::backToPageUrl());
 				return;
 			}
