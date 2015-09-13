@@ -30,6 +30,8 @@ class AllLinksTest extends CakeTestSuite {
 		$Folder = new Folder($directory);
 		$exceptions = array(
 			'LinksModelTestBase.php',
+			//後で削除
+			'LinkBlockTest.php'
 		);
 		$files = $Folder->tree(null, $exceptions, 'files');
 		foreach ($files as $file) {
