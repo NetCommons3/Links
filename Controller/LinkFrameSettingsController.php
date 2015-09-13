@@ -86,8 +86,8 @@ class LinkFrameSettingsController extends LinksAppController {
 		if ($this->request->isPost()) {
 			$data = $this->data;
 			$this->LinkFrameSetting->saveLinkFrameSetting($data);
-			if ($this->handleValidationError($this->LinkFrameSetting->validationErrors)) {
-				$this->redirectByFrameId();
+			if ($this->NetCommons->handleValidationError($this->LinkFrameSetting->validationErrors)) {
+				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
 		}

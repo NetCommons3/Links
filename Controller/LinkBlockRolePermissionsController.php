@@ -102,7 +102,7 @@ class LinkBlockRolePermissionsController extends LinksAppController {
 		if ($this->request->isPost()) {
 			$data = $this->data;
 			$this->LinkSetting->saveLinkSetting($data);
-			if ($this->handleValidationError($this->LinkSetting->validationErrors)) {
+			if ($this->NetCommons->handleValidationError($this->LinkSetting->validationErrors)) {
 				if (! $this->request->is('ajax')) {
 					$this->redirect('/links/link_blocks/index/' . $this->viewVars['frameId']);
 				}

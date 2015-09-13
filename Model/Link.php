@@ -98,8 +98,8 @@ class Link extends LinksAppModel {
 				),
 			),
 			'key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => false,
 					'required' => true,
@@ -120,8 +120,8 @@ class Link extends LinksAppModel {
 			//status to set in PublishableBehavior.
 
 			'url' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('links', 'URL')),
 					'allowEmpty' => false,
 					'required' => true,
@@ -134,8 +134,8 @@ class Link extends LinksAppModel {
 				),
 			),
 			'title' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('links', 'Title')),
 					'allowEmpty' => false,
 					'required' => true,

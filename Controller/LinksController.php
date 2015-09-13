@@ -174,7 +174,7 @@ class LinksController extends LinksAppController {
 			$results['description'] = mb_convert_encoding($matches[3], 'utf-8', 'auto');
 		}
 
-		$this->renderJson($results);
+		$this->NetCommons->renderJson($results);
 	}
 
 /**
@@ -227,8 +227,8 @@ class LinksController extends LinksAppController {
 			unset($data['LinkOrder']['weight']);
 
 			$this->Link->saveLink($data);
-			if ($this->handleValidationError($this->Link->validationErrors)) {
-				$this->redirectByFrameId();
+			if ($this->NetCommons->handleValidationError($this->Link->validationErrors)) {
+				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
 		}
@@ -289,8 +289,8 @@ class LinksController extends LinksAppController {
 
 			$this->Link->saveLink($data);
 
-			if ($this->handleValidationError($this->Link->validationErrors)) {
-				$this->redirectByFrameId();
+			if ($this->NetCommons->handleValidationError($this->Link->validationErrors)) {
+				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
 
@@ -333,7 +333,7 @@ class LinksController extends LinksAppController {
 			return;
 		}
 
-		$this->redirectByFrameId();
+		$this->redirect(NetCommonsUrl::backToPageUrl());
 	}
 
 /**
@@ -363,7 +363,7 @@ class LinksController extends LinksAppController {
 			return;
 		}
 
-		$this->redirectByFrameId();
+		$this->redirect(NetCommonsUrl::backToPageUrl());
 	}
 
 /**
