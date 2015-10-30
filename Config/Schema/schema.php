@@ -1,6 +1,6 @@
 <?php
 /**
- * AppSchema file
+ * Schema file
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,13 +10,14 @@
  */
 
 /**
- * AppSchema file
+ * Schema file
  *
+ * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\Faqs\Config\Schema
+ * @package NetCommons\Likes\Config\Schema
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class AppSchema extends CakeSchema {
+class LinksSchema extends CakeSchema {
 
 /**
  * Database connection
