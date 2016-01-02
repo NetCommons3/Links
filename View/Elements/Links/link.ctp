@@ -1,8 +1,6 @@
 <?php
 /**
- * Element of link
- * - $link: A result data of Link->getLinks()
- * - $linkFrameSetting: A result data of LinkFrameSetting->getLinkFrameSetting()
+ * リンク表示Element
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -12,20 +10,18 @@
  */
 ?>
 
-<a href="<?php echo h($link['link']['url']); ?>" onclick="return false;"
-   <?php echo $link['link']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED ?
-			'ng-click="clickLink($event, \'' . $link['link']['id'] . '\', \'' . $link['link']['key'] . '\')"' : ''; ?>
-   <?php echo $linkFrameSetting['openNewTab'] ? 'target="_blank"' : '' ?>>
+<a href="<?php echo h($link['Link']['url']); ?>"
+	<?php echo $link['Link']['status'] === WorkflowComponent::STATUS_PUBLISHED ?
+			' onclick="return false;" ' .
+			' ng-click="clickLink($event, \'' . $link['Link']['id'] . '\', \'' . $link['Link']['key'] . '\')"' : ''; ?>
+	<?php echo $linkFrameSetting['open_new_tab'] ? 'target="_blank"' : '' ?>>
 
-	<?php echo h($link['link']['title']); ?>
+	<?php echo h($link['Link']['title']); ?>
 </a>
-<?php if ($linkFrameSetting['displayClickCount']) : ?>
-	<span class="badge" id="<?php echo 'nc-badge-' . $frameId . '-' . $link['link']['id']; ?>">
-		<?php echo h($link['link']['clickCount']); ?>
+<?php if ($linkFrameSetting['display_click_count']) : ?>
+	<span class="badge" id="<?php echo 'nc-badge-' . Current::read('Frame.id') . '-' . $link['Link']['id']; ?>">
+		<?php echo h($link['Link']['click_count']); ?>
 	</span>
 <?php endif; ?>
 
-<small>
-	<?php echo $this->element('NetCommons.status_label',
-			array('status' => $link['link']['status'])); ?>
-</small>
+<?php echo $this->Workflow->label($link['Link']['status']);

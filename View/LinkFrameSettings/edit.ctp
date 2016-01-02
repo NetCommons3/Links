@@ -1,6 +1,6 @@
 <?php
 /**
- * BbsSettings edit template
+ * 表示方法変更
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -11,32 +11,33 @@
 
 $categorySeparators = Hash::combine(LinkFrameSetting::$categorySeparators, '{n}.key', '{n}');
 $listStyles = Hash::combine(LinkFrameSetting::$listStyles, '{n}.key', '{n}');
+$linkFrameSetting = NetCommonsAppController::camelizeKeyRecursive(
+	Hash::get($this->data, 'LinkFrameSetting', array())
+);
 ?>
 
-<?php echo $this->Html->css('/links/css/style.css', false); ?>
-<?php echo $this->Html->script('/links/js/links.js', false); ?>
+<?php echo $this->NetCommonsHtml->css('/links/css/style.css'); ?>
+<?php echo $this->NetCommonsHtml->script('/links/js/links.js'); ?>
 
 <div class="modal-body"
 	ng-controller="LinkFrameSettings"
 	ng-init="initialize(<?php echo h(json_encode(array(
-		'frameId' => $frameId,
 		'linkFrameSetting' => $linkFrameSetting,
-		'currentCategorySeparatorLine' =>
-						isset($categorySeparators[$linkFrameSetting['categorySeparatorLine']]) ?
-							$categorySeparators[$linkFrameSetting['categorySeparatorLine']] : array(),
-		'currentListStyle' =>
-						isset($listStyles[$linkFrameSetting['listStyle']]) ?
-							$listStyles[$linkFrameSetting['listStyle']] : array(),
+		'currentCategorySeparatorLine' => $categorySeparators[Hash::get($this->data, 'LinkFrameSetting.category_separator_line', '')],
+		'currentListStyle' => $listStyles[Hash::get($this->data, 'LinkFrameSetting.list_style', '')],
 	))); ?>)">
 
-	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
+	<?php echo $this->BlockTabs->main(BlockTabsComponent::MAIN_TAB_FRAME_SETTING); ?>
 
 	<div class="tab-content">
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'LinkFrameSettings',
-				'action' => 'edit' . '/' . $frameId,
+				'model' => 'LinkFrameSetting',
+				'action' => NetCommonsUrl::actionUrl(array(
+					'controller' => $this->params['controller'],
+					'action' => 'edit',
+					'frame_id' => Current::read('Frame.id')
+				)),
 				'callback' => 'Links.LinkFrameSettings/edit_form',
-				'cancelUrl' => '/' . $cancelUrl,
 			)); ?>
 	</div>
 </div>

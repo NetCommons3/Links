@@ -1,6 +1,6 @@
 <?php
 /**
- * Element of Question delete form
+ * 削除フォームElement
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,31 +10,16 @@
  */
 ?>
 
-<?php echo $this->Form->create('Link', array(
-			'type' => 'delete',
-			'controller' => 'links',
-			'action' => 'delete/' . $frameId . '/' . h($link['key'])
-		)); ?>
+<?php echo $this->NetCommonsForm->create('Link', array('type' => 'delete', 'action' => 'delete')); ?>
+	<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
+	<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
+	<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
+	<?php echo $this->NetCommonsForm->hidden('Link.id'); ?>
+	<?php echo $this->NetCommonsForm->hidden('Link.key'); ?>
+	<?php echo $this->NetCommonsForm->hidden('LinkOrder.id'); ?>
 
-	<?php echo $this->Form->hidden('Block.id', array(
-			'value' => $blockId,
-		)); ?>
+	<?php echo $this->Button->delete('',
+			sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('links', 'Link'))
+		); ?>
 
-	<?php echo $this->Form->hidden('Block.key', array(
-			'value' => $block['key'],
-		)); ?>
-
-	<?php echo $this->Form->hidden('Link.id', array(
-			'value' => isset($link['id']) ? (int)$link['id'] : null,
-		)); ?>
-
-	<?php echo $this->Form->hidden('Link.key', array(
-			'value' => $link['key'],
-		)); ?>
-
-	<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"> </span>', array(
-			'name' => 'delete',
-			'class' => 'btn btn-danger',
-			'onclick' => 'return confirm(\'' . sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('links', 'Link')) . '\')'
-		)); ?>
-<?php echo $this->Form->end();
+<?php echo $this->NetCommonsForm->end();

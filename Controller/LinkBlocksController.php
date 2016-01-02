@@ -32,10 +32,7 @@ class LinkBlocksController extends LinksAppController {
  * @var array
  */
 	public $uses = array(
-		'Blocks.Block',
-		'Frames.Frame',
-		'Links.LinkSetting',
-		'Categories.Category',
+		'Links.LinkBlock',
 	);
 
 /**
@@ -44,11 +41,14 @@ class LinkBlocksController extends LinksAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockEditable' => array('index', 'add', 'edit', 'delete')
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index', 'frame_settings'),
+			'blockTabs' => array('block_settings', 'role_permissions'),
+		),
+		'Categories.CategoryEdit',
+		'NetCommons.Permission' => array(
+			'allow' => array(
+				'index,add,edit,delete' => 'block_editable',
 			),
 		),
 		'Paginator',
@@ -61,7 +61,7 @@ class LinkBlocksController extends LinksAppController {
  * @var array
  */
 	public $helpers = array(
-		'NetCommons.Date',
+		'Blocks.BlockForm',
 	);
 
 /**
@@ -73,40 +73,32 @@ class LinkBlocksController extends LinksAppController {
 		parent::beforeFilter();
 		$this->Auth->deny('index');
 
-		//タブの設定
-		$this->initTabs('block_index', 'block_settings');
+		//CategoryEditComponentの削除
+		if ($this->params['action'] === 'index') {
+			$this->Components->unload('Categories.CategoryEdit');
+		}
 	}
 
 /**
  * index
  *
  * @return void
- * @throws Exception
  */
 	public function index() {
 		$this->Paginator->settings = array(
 			'LinkBlock' => array(
 				'order' => array('Block.id' => 'desc'),
-				'conditions' => array(
-					'Block.language_id' => $this->viewVars['languageId'],
-					'Block.room_id' => $this->viewVars['roomId'],
-					'Block.plugin_key ' => $this->params['plugin'],
-				),
-				//'limit' => 1
+				'conditions' => $this->LinkBlock->getBlockConditions(),
 			)
 		);
 
 		$linkBlocks = $this->Paginator->paginate('LinkBlock');
 		if (! $linkBlocks) {
-			$this->view = 'not_found';
+			$this->view = 'Blocks.Blocks/not_found';
 			return;
 		}
-
-		$results = array(
-			'linkBlocks' => $linkBlocks
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+		$this->set('linkBlocks', $linkBlocks);
+		$this->request->data['Frame'] = Current::read('Frame');
 	}
 
 /**
@@ -117,33 +109,19 @@ class LinkBlocksController extends LinksAppController {
 	public function add() {
 		$this->view = 'edit';
 
-		$this->set('blockId', null);
-		$block = $this->Block->create(
-			array(
-				'id' => null,
-				'key' => null,
-				'name' => __d('links', 'New Bookmark List %s', date('YmdHis')),
-			)
-		);
-
-		$data = array();
 		if ($this->request->isPost()) {
-			$data = $this->__parseRequestData();
-
-			$this->LinkBlock->saveLinkBlock($data);
-			if ($this->NetCommons->handleValidationError($this->LinkBlock->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/links/link_blocks/index/' . $this->viewVars['frameId']);
-				}
+			//登録処理
+			if ($this->LinkBlock->saveLinkBlock($this->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
-			$data['Block']['id'] = null;
-			$data['Block']['key'] = null;
-			unset($data['Frame']);
-		}
+			$this->NetCommons->handleValidationError($this->LinkBlock->validationErrors);
 
-		$results = $this->camelizeKeyRecursive(Hash::merge($block, $data));
-		$this->set($results);
+		} else {
+			//表示処理(初期データセット)
+			$this->request->data = $this->LinkBlock->createLinkBlock();
+			$this->request->data['Frame'] = Current::read('Frame');
+		}
 	}
 
 /**
@@ -152,32 +130,23 @@ class LinkBlocksController extends LinksAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-
-		if (! $this->initLink(['linkSetting'])) {
-			return;
-		}
-		$this->Categories->initCategories();
-
-		if ($this->request->isPost()) {
-			$data = $this->__parseRequestData();
-			$data['LinkSetting']['block_key'] = $data['Block']['key'];
-
-			$this->LinkBlock->saveLinkBlock($data);
-			if ($this->NetCommons->handleValidationError($this->LinkBlock->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/links/link_blocks/index/' . $this->viewVars['frameId']);
-				}
+		if ($this->request->isPut()) {
+			//登録処理
+			if ($this->LinkBlock->saveLinkBlock($this->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
-			unset($data['Frame']);
+			$this->NetCommons->handleValidationError($this->LinkBlock->validationErrors);
 
-			$results = $this->camelizeKeyRecursive($data);
-			$this->set($results);
+		} else {
+			//表示処理(初期データセット)
+			$linkBlock = $this->LinkBlock->getLinkBlock();
+			if (! $linkBlock) {
+				$this->throwBadRequest();
+				return false;
+			}
+			$this->request->data = Hash::merge($this->request->data, $linkBlock);
+			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
 
@@ -187,43 +156,13 @@ class LinkBlocksController extends LinksAppController {
  * @return void
  */
 	public function delete() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-
-		if (! $this->initLink()) {
-			return;
-		}
-
 		if ($this->request->isDelete()) {
 			if ($this->LinkBlock->deleteLinkBlock($this->data)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/links/link_blocks/index/' . $this->viewVars['frameId']);
-				}
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
 		}
 
 		$this->throwBadRequest();
 	}
-
-/**
- * Parse data from request
- *
- * @return array
- */
-	private function __parseRequestData() {
-		$data = $this->data;
-		if ($data['Block']['public_type'] === Block::TYPE_LIMITED) {
-			//$data['Block']['from'] = implode('-', $data['Block']['from']);
-			//$data['Block']['to'] = implode('-', $data['Block']['to']);
-		} else {
-			unset($data['Block']['from'], $data['Block']['to']);
-		}
-
-		return $data;
-	}
-
 }

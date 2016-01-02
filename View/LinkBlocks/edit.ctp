@@ -1,34 +1,38 @@
 <?php
 /**
- * Block edit template
+ * ブロック編集
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Ryo Ozawa <ozawa.ryo@withone.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
 
-<div class="modal-body">
-	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
+<article class="block-setting-body">
+	<?php echo $this->BlockTabs->main(BlockTabsComponent::MAIN_TAB_BLOCK_INDEX); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
+		<?php echo $this->BlockTabs->block(BlockTabsComponent::BLOCK_TAB_SETTING); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'LinkBlocks',
-				'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
+				'model' => 'LinkBlock',
 				'callback' => 'Links.LinkBlocks/edit_form',
-				'cancelUrl' => '/links/link_blocks/index/' . $frameId
+				'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 			)); ?>
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>
 			<?php echo $this->element('Blocks.delete_form', array(
-					'controller' => 'LinkBlocks',
-					'action' => 'delete/' . $frameId . '/' . $blockId,
+					'model' => 'LinkBlock',
+					'action' => NetCommonsUrl::actionUrl(array(
+						'controller' => $this->params['controller'],
+						'action' => 'delete',
+						'block_id' => Current::read('Block.id'),
+						'frame_id' => Current::read('Frame.id')
+					)),
 					'callback' => 'Links.LinkBlocks/delete_form'
 				)); ?>
 		<?php endif; ?>
 	</div>
-</div>
+</article>

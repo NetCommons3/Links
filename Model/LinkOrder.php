@@ -78,37 +78,32 @@ class LinkOrder extends LinksAppModel {
  * @see Model::save()
  */
 	public function beforeSave($options = array()) {
-		if (isset($this->data[$this->name]['block_key']) &&
-			isset($this->data[$this->name]['link_key']) &&
-			! $this->data[$this->name]['weight'] &&
-			array_key_exists('category_key', $this->data[$this->name])
-		) {
+		if (isset($this->data[$this->alias]['link_key']) &&
+				! $this->data[$this->alias]['weight'] &&
+				array_key_exists('category_key', $this->data[$this->alias])) {
+
 			$before = $this->find('first', array(
-					'recursive' => -1,
-					'fields' => array('block_key', 'category_key', 'weight'),
-					'conditions' => array('link_key' => $this->data[$this->name]['link_key']),
-				));
+				'recursive' => -1,
+				'fields' => array('category_key', 'weight'),
+				'conditions' => array('link_key' => $this->data[$this->alias]['link_key']),
+			));
 
 			if ($before) {
-				if ($before[$this->name]['category_key'] !== $this->data[$this->name]['category_key']) {
+				if ($before[$this->alias]['category_key'] !== $this->data[$this->alias]['category_key']) {
 					$this->updateAll(
-						array($this->name . '.weight' => $this->name . '.weight - 1'),
+						array($this->alias . '.weight' => $this->alias . '.weight - 1'),
 						array(
-							$this->name . '.weight > ' => $before[$this->name]['weight'],
-							$this->name . '.block_key' => $before[$this->name]['block_key'],
-							$this->name . '.category_key' => $before[$this->name]['category_key'],
+							$this->alias . '.weight > ' => $before[$this->alias]['weight'],
+							$this->alias . '.block_key' => Current::read('Block.key'),
+							$this->alias . '.category_key' => $before[$this->alias]['category_key'],
 						)
 					);
-					$this->data[$this->name]['weight'] = $this->getMaxWeight(
-							$this->data[$this->name]['block_key'],
-							$this->data[$this->name]['category_key']
-						) + 1;
+					$this->data[$this->alias]['weight'] = $this->getMaxWeight(
+							$this->data[$this->alias]['category_key']) + 1;
 				}
 			} elseif (! $this->id) {
-				$this->data[$this->name]['weight'] = $this->getMaxWeight(
-						$this->data[$this->name]['block_key'],
-						$this->data[$this->name]['category_key']
-					) + 1;
+				$this->data[$this->alias]['weight'] = $this->getMaxWeight(
+						$this->data[$this->alias]['category_key']) + 1;
 			}
 		}
 
@@ -124,19 +119,19 @@ class LinkOrder extends LinksAppModel {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function beforeDelete($cascade = true) {
-		if (isset($this->data[$this->name]['link_key']) && isset($this->data[$this->name]['category_key'])) {
+		if ($this->id) {
 			$before = $this->find('first', array(
-					'recursive' => -1,
-					'fields' => array('block_key', 'category_key', 'weight'),
-					'conditions' => array('link_key' => $this->data[$this->name]['link_key']),
-				));
+				'recursive' => -1,
+				'fields' => array('block_key', 'category_key', 'weight'),
+				'conditions' => array('id' => $this->id),
+			));
 
 			$this->updateAll(
-				array($this->name . '.weight' => $this->name . '.weight - 1'),
+				array($this->alias . '.weight' => $this->alias . '.weight - 1'),
 				array(
-					$this->name . '.weight > ' => $before[$this->name]['weight'],
-					$this->name . '.block_key' => $before[$this->name]['block_key'],
-					$this->name . '.category_key' => $before[$this->name]['category_key'],
+					$this->alias . '.weight > ' => $before[$this->alias]['weight'],
+					$this->alias . '.block_key' => $before[$this->alias]['block_key'],
+					$this->alias . '.category_key' => $before[$this->alias]['category_key'],
 				)
 			);
 		}
@@ -144,34 +139,21 @@ class LinkOrder extends LinksAppModel {
 	}
 
 /**
- * validate of link order
+ * Category毎の表示順序
  *
- * @param array $data received post data
- * @return bool True on success, false on validation errors
+ * @param string $categoryKey Category.key
+ * @return int $weight LinkOrders.weight
  */
-	public function validateLinkOrder($data) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
-		return true;
-	}
-
-/**
- * getMaxWeight
- *
- * @param string $blockKey blocks.key
- * @param string $categoryKey categories.key
- * @return int $weight link_orders.weight
- */
-	public function getMaxWeight($blockKey, $categoryKey) {
+	public function getMaxWeight($categoryKey) {
 		$order = $this->find('first', array(
-				'recursive' => -1,
-				'fields' => array('weight'),
-				'conditions' => array('block_key' => $blockKey, 'category_key' => $categoryKey),
-				'order' => array('weight' => 'DESC')
-			));
+			'recursive' => -1,
+			'fields' => array('weight'),
+			'conditions' => array(
+				'block_key' => Current::read('Block.key'),
+				'category_key' => $categoryKey
+			),
+			'order' => array('weight' => 'DESC')
+		));
 
 		if (isset($order[$this->alias]['weight'])) {
 			$weight = (int)$order[$this->alias]['weight'];
@@ -189,42 +171,28 @@ class LinkOrder extends LinksAppModel {
  * @throws InternalErrorException
  */
 	public function saveLinkOrders($data) {
-		$this->loadModels([
-			'LinkOrder' => 'Links.LinkOrder',
-		]);
-
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		//バリデーション
+		if (! $this->validateMany($data['LinkOrders'])) {
+			return false;
+		}
 
 		try {
-			//バリデーション
-			$indexes = array_keys($data['LinkOrders']);
-			foreach ($indexes as $i) {
-				if (! $this->validateLinkOrder($data['LinkOrders'][$i])) {
-					return false;
-				}
-			}
-
 			//登録処理
-			foreach ($indexes as $i) {
-				if (! $this->save($data['LinkOrders'][$i], false, false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
+			if (! $this->saveMany($data['LinkOrders'], ['validate' => false])) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;
 	}
-
 }

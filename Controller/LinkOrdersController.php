@@ -26,9 +26,8 @@ class LinkOrdersController extends LinksAppController {
  */
 	public $uses = array(
 		'Links.Link',
+		'Links.LinkBlock',
 		'Links.LinkOrder',
-		'Links.LinkFrameSetting',
-		'Categories.Category',
 	);
 
 /**
@@ -37,15 +36,12 @@ class LinkOrdersController extends LinksAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'contentEditable' => array('edit'),
+		'NetCommons.Permission' => array(
+			'allow' => array(
+				'edit' => 'content_editable',
 			),
 		),
 		'Categories.Categories',
-		'Paginator',
 	);
 
 /**
@@ -54,42 +50,42 @@ class LinkOrdersController extends LinksAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->initLink()) {
-			return;
+		$linkBlock = $this->LinkBlock->getLinkBlock();
+		if (! $linkBlock) {
+			$this->setAction('throwBadRequest');
+			return false;
 		}
-		$this->Categories->initCategories(true);
+		$this->set('linkBlock', $linkBlock['LinkBlock']);
 
-		$this->Paginator->settings = array(
-			'Link' => array(
-				'order' => array('LinkOrder.weight' => 'asc'),
-				'conditions' => array(
-					'Link.block_id' => $this->viewVars['blockId'],
-					'Link.is_latest' => true,
-				),
-				'limit' => -1
-			)
-		);
-		$links = $this->Paginator->paginate('Link');
-		$links = Hash::combine($links, '{n}.LinkOrder.weight', '{n}', '{n}.Category.id');
+		//カテゴリ
+		array_unshift($this->viewVars['categories'], $this->Category->create(array('id' => 0, 'name' => '')));
 
-		//POST処理
-		$data = array();
+		//リンクデータ取得
+		$links = $this->Link->find('all', array(
+			'recursive' => 0,
+			'conditions' => array(
+				'Link.block_id' => Current::read('Block.id'),
+				'Link.is_latest' => true,
+			),
+			'order' => array(
+				'CategoryOrder.weight' => 'asc',
+				'LinkOrder.weight' => 'asc',
+			),
+		));
+		$this->set('links', Hash::combine($links, '{n}.LinkOrder.weight', '{n}', '{n}.Link.category_id'));
+
 		if ($this->request->isPost()) {
-			//登録処理
-			$data = $this->data;
-
-			$this->LinkOrder->saveLinkOrders($data);
-			//validationError
-			if ($this->NetCommons->handleValidationError($this->LinkOrder->validationErrors)) {
-				//リダイレクト
+			if ($this->LinkOrder->saveLinkOrders($this->data)) {
 				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
-		}
+			$this->NetCommons->handleValidationError($this->LinkOrder->validationErrors);
 
-		$data = Hash::merge(array('links' => $links), $data);
-		$results = $this->camelizeKeyRecursive($data);
-		$this->set($results);
+		} else {
+			$this->request->data['LinkOrders'] = Hash::combine($links, '{n}.LinkOrder.id', '{n}');
+			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Block'] = Current::read('Block');
+		}
 	}
 
 }

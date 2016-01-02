@@ -25,11 +25,10 @@ NetCommonsApp.controller('LinksIndex', function($scope, $http, $window) {
    * @return {void}
    */
   $scope.initialize = function(data) {
-    $scope.frameId = data.frameId;
-
     $scope.data = {
       _Token: data['_Token'],
-      Frame: {id: data['frameId']},
+      Frame: {id: data['Frame']['id']},
+      Block: {id: data['Block']['id']},
       Link: {id: '', key: ''}
     };
   };
@@ -42,33 +41,34 @@ NetCommonsApp.controller('LinksIndex', function($scope, $http, $window) {
    */
   $scope.clickLink = function($event, id, key) {
     $scope.data.Link.id = id;
+    $scope.data.Link.key = key;
 
     $http.get('/net_commons/net_commons/csrfToken.json')
       .success(function(token) {
           $scope.data._Token.key = token.data._Token.key;
-          $scope.data.Link.key = key;
 
           //POSTリクエスト
           $http.post(
-              '/links/links/link/' + $scope.frameId + '.json',
+              '/links/links/link.json',
               $.param({_method: 'POST', data: $scope.data}),
               {cache: false,
                 headers:
                     {'Content-Type': 'application/x-www-form-urlencoded'}
               }
           ).success(function() {
-            var element = $('#nc-badge-' + $scope.frameId + '-' + id);
+            var element = $('#nc-badge-' + $scope.data.Frame.id + '-' + id);
             if (element) {
               var count = parseInt(element.html()) + 1;
               element.html(count);
             }
-            if ($event.target.target) {
-              $window.open($event.target.href, $event.target.target);
-            } else {
-              $window.location.href = $event.target.href;
-            }
           });
         });
+
+    if ($event.target.target) {
+      $window.open($event.target.href, $event.target.target);
+    } else {
+      $window.location.href = $event.target.href;
+    }
   };
 });
 
@@ -82,26 +82,19 @@ NetCommonsApp.controller('LinksIndex', function($scope, $http, $window) {
 NetCommonsApp.controller('LinksEdit', function($scope, $http) {
 
   /**
-   * initialize
-   *
-   * @return {void}
-   */
-  $scope.initialize = function(data) {
-    $scope.link = data.link;
-    $scope.frameId = data.frameId;
-    $scope.action = data.action;
-  };
-
-  /**
    * Get url
    *
    * @return {void}
    */
-  $scope.getUrl = function() {
+  $scope.getUrl = function(frameId) {
     var element = $('input[name="data[Link][url]"]');
 
-    $http.get('/links/links/get/' + $scope.frameId + '.json',
-        {params: {url: element[0].value}})
+    if (angular.isUndefined(element[0]) || ! element[0].value) {
+      return;
+    }
+
+    $http.get('/links/links/get.json',
+        {params: {frame_id: frameId, url: element[0].value}})
       .success(function(data) {
           element = $('input[name="data[Link][title]"]');
           if (! angular.isUndefined(element[0]) &&
@@ -141,7 +134,6 @@ NetCommonsApp.controller('LinkFrameSettings', function($scope) {
    */
   $scope.initialize = function(data) {
     $scope.linkFrameSetting = data.linkFrameSetting;
-    $scope.frameId = data.frameId;
     $scope.currentCategorySeparatorLine = data.currentCategorySeparatorLine;
     $scope.currentListStyle = data.currentListStyle;
   };
@@ -197,10 +189,21 @@ NetCommonsApp.controller('LinkOrders', function($scope) {
    * @return {void}
    */
   $scope.initialize = function(data) {
+    var categoryId = '';
     angular.forEach(data.categories, function(value) {
       $scope.categories.push(value);
+
+      categoryId = value.category.id;
+
+      if (! angular.isUndefined(data.links[categoryId])) {
+        angular.forEach(data.links[categoryId], function(link) {
+          if (angular.isUndefined($scope.links['_' + categoryId])) {
+            $scope.links['_' + categoryId] = new Array();
+          }
+          $scope.links['_' + categoryId].push(link);
+        });
+      }
     });
-    $scope.links = data.links;
   };
 
   /**
@@ -209,17 +212,16 @@ NetCommonsApp.controller('LinkOrders', function($scope) {
    * @return {void}
    */
   $scope.move = function(categoryId, type, index) {
-    index = index + 1;
-
     var dest = (type === 'up') ? index - 1 : index + 1;
-    if (angular.isUndefined($scope.links[categoryId][dest])) {
+
+    if (angular.isUndefined($scope.links['_' + categoryId][dest])) {
       return false;
     }
 
-    var destLink = angular.copy($scope.links[categoryId][dest]);
-    var targetLink = angular.copy($scope.links[categoryId][index]);
-    $scope.links[categoryId][index] = destLink;
-    $scope.links[categoryId][dest] = targetLink;
+    var destLink = angular.copy($scope.links['_' + categoryId][dest]);
+    var targetLink = angular.copy($scope.links['_' + categoryId][index]);
+    $scope.links['_' + categoryId][index] = destLink;
+    $scope.links['_' + categoryId][dest] = targetLink;
   };
 
 });

@@ -27,6 +27,15 @@ class LinkSetting extends LinksAppModel {
 	public $validate = array();
 
 /**
+ * use behaviors
+ *
+ * @var array
+ */
+	public $actsAs = array(
+		'Blocks.BlockRolePermission',
+	);
+
+/**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
  *
@@ -58,26 +67,6 @@ class LinkSetting extends LinksAppModel {
 	}
 
 /**
- * Get link setting data
- *
- * @param string $blockKey blocks.key
- * @return array
- */
-	public function getLinkSetting($blockKey) {
-		$conditions = array(
-			'block_key' => $blockKey
-		);
-
-		$linkSetting = $this->find('first', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-			)
-		);
-
-		return $linkSetting;
-	}
-
-/**
  * Save link settings
  *
  * @param array $data received post data
@@ -87,58 +76,30 @@ class LinkSetting extends LinksAppModel {
 	public function saveLinkSetting($data) {
 		$this->loadModels([
 			'LinkSetting' => 'Links.LinkSetting',
-			'BlockRolePermission' => 'Blocks.BlockRolePermission',
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		//バリデーション
+		$this->set($data);
+		if (! $this->validates()) {
+			return false;
+		}
 
 		try {
-			if (! $this->validateLinkSetting($data)) {
-				return false;
-			}
-			foreach ($data[$this->BlockRolePermission->alias] as $value) {
-				if (! $this->BlockRolePermission->validateBlockRolePermissions($value)) {
-					$this->validationErrors = Hash::merge($this->validationErrors, $this->BlockRolePermission->validationErrors);
-					return false;
-				}
-			}
-
 			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-			foreach ($data[$this->BlockRolePermission->alias] as $value) {
-				if (! $this->BlockRolePermission->saveMany($value, ['validate' => false])) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			}
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
+
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
-		return true;
-	}
-
-/**
- * validate linkSettings
- *
- * @param array $data received post data
- * @return bool True on success, false on validation errors
- */
-	public function validateLinkSetting($data) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
 		return true;
 	}
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Links edit
+ * リンク編集
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,44 +10,35 @@
  */
 ?>
 
-<?php echo $this->Html->script('/links/js/links.js', false); ?>
+<?php echo $this->NetCommonsHtml->script('/links/js/links.js'); ?>
 
-<div class="frame">
-	<div id="nc-links-<?php echo $frameId; ?>" class="nc-content-list"
-		 ng-controller="LinksEdit"
-		 ng-init="initialize(<?php echo h(json_encode(array(
-				'action' => $this->params['action'], 'frameId' => $frameId, 'link' => $link
-			))); ?>)">
+<div class="nc-content-list" ng-controller="LinksEdit">
+	<article>
+		<h1>
+			<small><?php echo h($linkBlock['name']); ?></small>
+		</h1>
 
-		<article>
-			<h1>
-				<small><?php echo h($linkBlock['name']); ?></small>
-			</h1>
+		<div class="panel panel-default">
+			<?php echo $this->NetCommonsForm->create('Link'); ?>
+				<div class="panel-body">
+					<?php echo $this->element('Links/edit_form'); ?>
 
-			<div class="panel panel-default">
-				<?php echo $this->Form->create('Link', array('novalidate' => true)); ?>
-					<div class="panel-body">
+					<hr />
 
-						<?php echo $this->element('Links/edit_form'); ?>
+					<?php echo $this->Workflow->inputComment('Link.status'); ?>
+				</div>
 
-						<hr />
+			<?php echo $this->Workflow->buttons('Link.status'); ?>
 
-						<?php echo $this->element('Comments.form'); ?>
+			<?php echo $this->NetCommonsForm->end(); ?>
 
-					</div>
-					<div class="panel-footer text-center">
-						<?php echo $this->element('NetCommons.workflow_buttons'); ?>
-					</div>
-				<?php echo $this->Form->end(); ?>
+			<?php if ($this->request->params['action'] === 'edit' && $this->Workflow->canDelete('Link', $this->data)) : ?>
+				<div class="panel-footer text-right">
+					<?php echo $this->element('Links/delete_form'); ?>
+				</div>
+			<?php endif; ?>
+		</div>
 
-				<?php if ($this->request->params['action'] === 'edit') : ?>
-					<div class="panel-footer text-right">
-						<?php echo $this->element('Links/delete_form'); ?>
-					</div>
-				<?php endif; ?>
-			</div>
-
-			<?php echo $this->element('Comments.index'); ?>
-		</article>
-	</div>
+		<?php echo $this->Workflow->comments(); ?>
+	</article>
 </div>
