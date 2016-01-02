@@ -1,10 +1,6 @@
 <?php
 /**
- * Element of link
- * - $link: A result data of Link->getLinks()
- * - $frameId: frames.id
- * - $userId: users.id
- * - $contentEditable: Content editable status
+ * 編集リンクElement
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -12,17 +8,11 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-
-$editUrl = $this->Html->url(array(
-		'controller' => 'links',
-		'action' => 'edit',
-		$frameId,
-		$link['link']['key']
-	));
 ?>
 
-<?php if ($contentEditable || $link['link']['createdUser'] === $userId) : ?>
-	<a class="btn btn-xs btn-primary nc-links-edit-anchor" href="<?php echo $editUrl; ?>">
-		<span class="glyphicon glyphicon-edit"> </span>
-	</a>
+<?php if ($this->Workflow->canEdit('Links.Link', $link)) : ?>
+	<?php echo $this->LinkButton->edit('', array('key' => $link['Link']['key']), array(
+			'tooltip' => true,
+			'iconSize' => 'btn-xs nc-links-edit-anchor'
+		)); ?>
 <?php endif;

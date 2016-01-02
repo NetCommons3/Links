@@ -28,8 +28,9 @@ class Link extends LinksAppModel {
  * @var array
  */
 	public $actsAs = array(
-		'NetCommons.Publishable',
 		'NetCommons.OriginalKey',
+		'Workflow.WorkflowComment',
+		'Workflow.Workflow',
 	);
 
 /**
@@ -53,13 +54,6 @@ class Link extends LinksAppModel {
 			'conditions' => 'LinkOrder.link_key=Link.key',
 			'fields' => '',
 			'order' => array('LinkOrder.weight' => 'asc')
-		),
-		'Block' => array(
-			'className' => 'Block',
-			'foreignKey' => 'block_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		),
 		'Category' => array(
 			'className' => 'Categories.Category',
@@ -106,9 +100,6 @@ class Link extends LinksAppModel {
 					'on' => 'update', // Limit validation to 'create' or 'update' operations
 				),
 			),
-
-			//status to set in PublishableBehavior.
-
 			'click_count' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
@@ -143,46 +134,35 @@ class Link extends LinksAppModel {
 			),
 		));
 
+		if (isset($this->data['LinkOrder'])) {
+			$this->LinkOrder->set($this->data['LinkOrder']);
+			if (! $this->LinkOrder->validates()) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->LinkOrder->validationErrors);
+				return false;
+			}
+		}
+
 		return parent::beforeValidate($options);
 	}
 
 /**
- * Get Links
+ * Called after each successful save operation.
  *
- * @param array $conditions findAll conditions
- * @return array Links
+ * @param bool $created True if this save created a new record
+ * @param array $options Options passed from Model::save().
+ * @return void
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#aftersave
+ * @see Model::save()
+ * @throws InternalErrorException
  */
-	public function getLinks($conditions) {
-		$links = $this->find('all', array(
-			'recursive' => 0,
-			'conditions' => $conditions,
-			'order' => array(
-				'CategoryOrder.weight' => 'asc',
-				'LinkOrder.weight' => 'asc',
-			),
-		));
-		return $links;
-	}
-
-/**
- * Get Link
- *
- * @param int $blockId blocks.id
- * @param string $linkKey links.key
- * @param array $conditions find conditions
- * @return array Link
- */
-	public function getLink($blockId, $linkKey, $conditions = []) {
-		$conditions[$this->alias . '.block_id'] = $blockId;
-		$conditions[$this->alias . '.key'] = $linkKey;
-
-		$link = $this->find('first', array(
-				'recursive' => 0,
-				'conditions' => $conditions,
-			)
-		);
-
-		return $link;
+	public function afterSave($created, $options = array()) {
+		//LinkOrder登録
+		if (isset($this->LinkOrder->data['LinkOrder'])) {
+			$this->LinkOrder->data['LinkOrder']['link_key'] = $this->data[$this->alias]['key'];
+			if (! $this->LinkOrder->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+		}
 	}
 
 /**
@@ -194,83 +174,34 @@ class Link extends LinksAppModel {
  */
 	public function saveLink($data) {
 		$this->loadModels([
-			'Link' => 'Links.Link',
+			'Category' => 'Categories.Category',
 			'LinkOrder' => 'Links.LinkOrder',
-			'Comment' => 'Comments.Comment',
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		//バリデーション
+		$this->set($data);
+		if (! $this->validates()) {
+			return false;
+		}
 
 		try {
-			//バリデーション
-			if (! $this->validateLink($data, ['linkOrder', 'comment'])) {
-				return false;
-			}
-
 			//Link登録
 			if (! $link = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//LinkOrder登録
-			$this->LinkOrder->data['LinkOrder']['category_key'] = $data['Category']['key'];
-			if (! $data['LinkOrder']['link_key']) {
-				$this->LinkOrder->data['LinkOrder']['link_key'] = $link[$this->alias]['key'];
-			}
-			if (! $this->LinkOrder->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			//Comment登録
-			if (isset($data['Comment']) && $this->Comment->data) {
-				$this->Comment->data[$this->Comment->name]['block_key'] = $link['Block']['key'];
-				$this->Comment->data[$this->Comment->name]['content_key'] = $link[$this->name]['key'];
-				if (! $this->Comment->save(null, false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			}
-
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return $link;
-	}
-
-/**
- * validate of Link
- *
- * @param array $data received post data
- * @param array $contains Optional validate sets
- * @return bool True on success, false on validation errors
- */
-	public function validateLink($data, $contains = []) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
-		if (in_array('linkOrder', $contains, true)) {
-			if (! $this->LinkOrder->validateLinkOrder($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->LinkOrder->validationErrors);
-				return false;
-			}
-		}
-		if (in_array('comment', $contains, true) && isset($data['Comment'])) {
-			if (! $this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-				return false;
-			}
-		}
-		return true;
 	}
 
 /**
@@ -282,44 +213,30 @@ class Link extends LinksAppModel {
  */
 	public function deleteLink($data) {
 		$this->loadModels([
-			'Link' => 'Links.Link',
 			'LinkOrder' => 'Links.LinkOrder',
-			'Comment' => 'Comments.Comment',
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
 		try {
 			if (! $this->deleteAll(array($this->alias . '.key' => $data['Link']['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			$this->LinkOrder->data = array(
-				$this->LinkOrder->name => array(
-					'link_key' => $data['Link']['key'],
-				)
-			);
-			if (! $this->LinkOrder->deleteAll(
-				$this->LinkOrder->data[$this->LinkOrder->name], false
-			)) {
+			if (! $this->LinkOrder->delete($data['LinkOrder']['id'])) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			//コメントの削除
-			$this->Comment->deleteByContentKey($data['Link']['key']);
+			$this->deleteCommentsByContentKey($data['Link']['key']);
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			//エラー出力
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;
@@ -329,38 +246,30 @@ class Link extends LinksAppModel {
  * Update count
  *
  * @param int $id links.id
- * @param int $blockId blocks.id
  * @return bool True on success, false on validation errors
- * @throws InternalErrorException
  */
-	public function updateCount($id, $blockId) {
-		$this->loadModels([
-			'Link' => 'Links.Link',
-		]);
-
+	public function updateCount($id) {
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
 		try {
 			$this->updateAll(
-				array($this->name . '.click_count' => $this->name . '.click_count + 1'),
+				array($this->alias . '.click_count' => $this->alias . '.click_count + 1'),
 				array(
-					$this->name . '.id' => $id,
-					$this->name . '.block_id' => $blockId,
+					$this->alias . '.id' => $id,
+					$this->alias . '.block_id' => Current::read('Block.id'),
 				)
 			);
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
+
+		$this->setSlaveDataSource();
 
 		return true;
 	}

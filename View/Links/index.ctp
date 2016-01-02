@@ -1,6 +1,6 @@
 <?php
 /**
- * Links index
+ * リンク一覧
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -9,51 +9,65 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+$this->request->data = array(
+	'Frame' => array(
+		'id' => Current::read('Frame.id')
+	),
+	'Block' => array(
+		'id' => Current::read('Block.id')
+	),
+	'Link' => array(
+		'id' => null,
+		'key' => null,
+	),
+);
+$tokenFields = Hash::flatten($this->request->data);
+$hiddenFields = array('Frame.id', 'Block.id');
+
 $this->Token->unlockField('Link.id');
-$tokens = $this->Token->getToken('Link', '/links/links/link/' . $frameId . '.json', $tokenFields, $hiddenFields);
+$tokens = $this->Token->getToken('Link',
+	$this->NetCommonsHtml->url('/links/links/link.json'),
+	$tokenFields,
+	$hiddenFields
+);
+
+echo $this->NetCommonsHtml->css('/links/css/style.css');
+echo $this->NetCommonsHtml->script('/links/js/links.js');
 ?>
 
-<?php echo $this->Html->css('/links/css/style.css', false); ?>
-<?php echo $this->Html->script('/links/js/links.js', false); ?>
+<div class="nc-content-list" ng-controller="LinksIndex"
+	 ng-init="initialize(<?php echo h(json_encode(Hash::merge($this->request->data, $tokens))); ?>)">
 
-<div class="frame">
-	<div class="nc-content-list" ng-controller="LinksIndex"
-		 ng-init="initialize(<?php echo h(json_encode(Hash::merge(['frameId' => $frameId], $tokens))); ?>)">
+	<article>
+		<div class="clearfix">
+			<h1 class="pull-left">
+				<small>
+					<?php echo h(Hash::get($linkBlock, 'name', '')); ?>
+				</small>
+			</h1>
 
-		<article>
-			<div class="clearfix">
-				<h1 class="pull-left">
-					<small><?php echo h($linkBlock['name']); ?></small>
-				</h1>
-				<div class="pull-right h1">
-					<?php if ($contentEditable) : ?>
-						<span class="nc-tooltip " tooltip="<?php echo __d('links', 'Sort link'); ?>">
-							<a href="<?php echo $this->Html->url('/links/link_orders/edit/' . $frameId); ?>" class="btn btn-default">
-								<span class="glyphicon glyphicon-sort"> </span>
-							</a>
-						</span>
-					<?php endif; ?>
-					<?php if ($contentCreatable) : ?>
-						<span class="nc-tooltip " tooltip="<?php echo __d('links', 'Create link'); ?>">
-							<a href="<?php echo $this->Html->url('/links/links/add/' . $frameId); ?>" class="btn btn-success">
-								<span class="glyphicon glyphicon-plus"> </span>
-							</a>
-						</span>
-					<?php endif; ?>
-				</div>
+			<div class="pull-right h1">
+				<?php if (Current::permission('content_editable') && $links) : ?>
+					<?php echo $this->LinkButton->sort('',
+							$this->NetCommonsHtml->url(array('controller' => 'link_orders', 'action' => 'edit'))
+						); ?>
+				<?php endif; ?>
+
+				<?php echo $this->Workflow->addLinkButton('', null, array('tooltip' => __d('links', 'Create link'))); ?>
 			</div>
+		</div>
 
-			<hr>
-			<?php if ($linkFrameSetting['displayType'] === LinkFrameSetting::TYPE_DROPDOWN) : ?>
-				<?php echo $this->element('Links/index_dropdown'); ?>
+		<?php
+			$displayType = Hash::get($linkFrameSetting, 'display_type');
+			if ($displayType === LinkFrameSetting::TYPE_DROPDOWN) {
+				echo $this->element('Links/index_dropdown');
 
-			<?php elseif ($linkFrameSetting['displayType'] === LinkFrameSetting::TYPE_LIST_ONLY_TITLE) : ?>
-				<?php echo $this->element('Links/index_list_only_title'); ?>
+			} elseif ($displayType === LinkFrameSetting::TYPE_LIST_ONLY_TITLE) {
+				echo $this->element('Links/index_list_only_title');
 
-			<?php elseif ($linkFrameSetting['displayType'] === LinkFrameSetting::TYPE_LIST_WITH_DESCRIPTION) : ?>
-				<?php echo $this->element('Links/index_list_with_description'); ?>
-
-			<?php endif; ?>
-		</article>
-	</div>
+			} elseif ($displayType === LinkFrameSetting::TYPE_LIST_WITH_DESCRIPTION) {
+				echo $this->element('Links/index_list_with_description');
+			}
+		?>
+	</article>
 </div>

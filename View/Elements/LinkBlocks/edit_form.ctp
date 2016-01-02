@@ -1,6 +1,6 @@
 <?php
 /**
- * Blocks edit template
+ * ブロック編集フォームElement
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -11,37 +11,15 @@
 ?>
 
 <?php echo $this->element('Blocks.form_hidden'); ?>
+<?php echo $this->NetCommonsForm->hidden('LinkSetting.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('LinkSetting.block_key'); ?>
 
-<?php echo $this->Form->hidden('LinkSetting.id', array(
-		'value' => isset($linkSetting['id']) ? (int)$linkSetting['id'] : null,
+<?php echo $this->NetCommonsForm->input('LinkBlock.name', array(
+		'type' => 'text',
+		'label' => __d('links', 'Link list Title'),
+		'required' => true
 	)); ?>
-
-<div class="row form-group">
-	<div class="col-xs-12">
-		<?php echo $this->Form->input(
-				'Block.name', array(
-					'type' => 'text',
-					'label' => __d('links', 'Link list Title') . $this->element('NetCommons.required'),
-					'error' => false,
-					'class' => 'form-control',
-					'autofocus' => true,
-					'value' => (isset($block['name']) ? $block['name'] : '')
-				)
-			); ?>
-	</div>
-
-	<div class="col-xs-12">
-		<?php echo $this->element(
-			'NetCommons.errors', [
-				'errors' => $this->validationErrors,
-				'model' => 'Block',
-				'field' => 'name',
-			]); ?>
-	</div>
-</div>
 
 <?php echo $this->element('Blocks.public_type'); ?>
 
-<?php echo $this->element('Categories.edit_form', array(
-		'categories' => isset($categories) ? $categories : null
-	));
+<?php echo $this->element('Categories.edit_form');

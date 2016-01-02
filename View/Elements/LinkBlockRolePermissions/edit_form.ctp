@@ -1,6 +1,6 @@
 <?php
 /**
- * Link edit template
+ * 権限設定フォームElement
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,25 +10,21 @@
  */
 ?>
 
-<?php echo $this->Form->hidden('LinkSetting.id', array(
-		'value' => isset($linkSetting['id']) ? (int)$linkSetting['id'] : null,
+<?php echo $this->NetCommonsForm->hidden('LinkSetting.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('LinkSetting.block_key'); ?>
+<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
+
+
+<?php echo $this->element('Blocks.block_creatable_setting', array(
+		'settingPermissions' => array(
+			'content_creatable' => __d('links', 'Link creatable roles'),
+		),
 	)); ?>
 
-<?php echo $this->Form->hidden('LinkSetting.block_key', array(
-		'value' => isset($linkSetting['blockKey']) ? $linkSetting['blockKey'] : null,
-	)); ?>
-
-<?php echo $this->Form->hidden('Block.id', array(
-		'value' => $blockId,
-	)); ?>
-
-<?php echo $this->element('Blocks.block_role_setting', array(
-		'roles' => $roles,
+<?php echo $this->element('Blocks.block_approval_setting', array(
 		'model' => 'LinkSetting',
 		'useWorkflow' => 'use_workflow',
-		'creatablePermissions' => array(
-			'contentCreatable' => __d('blocks', 'Content creatable roles'),
-		),
 		'options' => array(
 			Block::NEED_APPROVAL => __d('blocks', 'Need approval'),
 			Block::NOT_NEED_APPROVAL => __d('blocks', 'Not need approval'),

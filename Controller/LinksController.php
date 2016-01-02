@@ -26,12 +26,11 @@ class LinksController extends LinksAppController {
  * @var array
  */
 	public $uses = array(
-		'Blocks.Block',
 		'Links.Link',
+		'Links.LinkBlock',
 		'Links.LinkOrder',
 		'Links.LinkFrameSetting',
 		'Categories.Category',
-		'Comments.Comment',
 	);
 
 /**
@@ -40,12 +39,9 @@ class LinksController extends LinksAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsWorkflow',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'contentCreatable' => array('add', 'edit', 'delete', 'get'),
+		'NetCommons.Permission' => array(
+			'allow' => array(
+				'link,add,edit,delete' => 'content_creatable',
 			),
 		),
 		'Categories.Categories',
@@ -57,7 +53,8 @@ class LinksController extends LinksAppController {
  * @var array
  */
 	public $helpers = array(
-		'NetCommons.Token'
+		'NetCommons.Token',
+		'Workflow.Workflow',
 	);
 
 /**
@@ -67,7 +64,18 @@ class LinksController extends LinksAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index', 'view', 'link');
+
+		if (! Current::read('Block.id')) {
+			$this->setAction('emptyRender');
+			return false;
+		}
+
+		$linkBlock = $this->LinkBlock->getLinkBlock();
+		if (! $linkBlock) {
+			$this->setAction('throwBadRequest');
+			return false;
+		}
+		$this->set('linkBlock', $linkBlock['LinkBlock']);
 	}
 
 /**
@@ -76,43 +84,28 @@ class LinksController extends LinksAppController {
  * @return void
  */
 	public function index() {
-		if (! $this->viewVars['blockId']) {
-			$this->autoRender = false;
+		$linkFrameSetting = $this->LinkFrameSetting->getLinkFrameSetting(true);
+		if (! $linkFrameSetting) {
+			$this->throwBadRequest();
 			return;
 		}
-		if (! $this->initLink(['linkFrameSetting'])) {
-			return;
-		}
-		$this->Categories->initCategories(true, '{n}.Category.id');
+		$this->set('linkFrameSetting', $linkFrameSetting['LinkFrameSetting']);
 
-		//条件
-		$conditions = $this->__setConditions();
+		//カテゴリ
+		array_unshift($this->viewVars['categories'], $this->Category->create(array('id' => 0)));
 
 		//取得
-		$links = $this->Link->getLinks($conditions);
-		$links = Hash::combine($links, '{n}.Link.id', '{n}', '{n}.Category.id');
-
-		//Viewにセット
-		$results = array(
-			'links' => $links
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
-
-		//Tokenセット
-		$this->request->data = array(
-			'Frame' => array(
-				'id' => $this->viewVars['frameId']
+		$links = $this->Link->getWorkflowContents('all', array(
+			'recursive' => 0,
+			'conditions' => array(
+				'Link.block_id' => Current::read('Block.id'),
 			),
-			'Link' => array(
-				'id' => null,
-				'key' => null,
+			'order' => array(
+				'CategoryOrder.weight' => 'asc',
+				'LinkOrder.weight' => 'asc',
 			),
-		);
-		$tokenFields = Hash::flatten($this->request->data);
-		$hiddenFields = array('Frame.id');
-		$this->set('tokenFields', $tokenFields);
-		$this->set('hiddenFields', $hiddenFields);
+		));
+		$this->set('links', Hash::combine($links, '{n}.Link.id', '{n}', '{n}.Category.id'));
 	}
 
 /**
@@ -121,17 +114,29 @@ class LinksController extends LinksAppController {
  * @return void
  */
 	public function view() {
-		$linkKey = null;
-		if (isset($this->params['pass'][1])) {
-			$linkKey = $this->params['pass'][1];
-		}
-		$this->set('linkKey', $linkKey);
-
-		//データ取得
-		if (! $this->__initLink(['linkFrameSetting'])) {
+		$link = $this->Link->getWorkflowContents('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				$this->Link->alias . '.block_id' => Current::read('Block.id'),
+				$this->Link->alias . '.key' => Hash::get($this->params['pass'], '1')
+			)
+		));
+		if (! $link) {
+			$this->throwBadRequest();
 			return;
 		}
-		$this->Categories->initCategories();
+		$this->set('link', $link);
+
+		$category = Hash::extract(
+			$this->viewVars['categories'],
+			'{n}.Category[id=' . $link['Link']['category_id'] . ']'
+		);
+		$this->set('category', Hash::get($category, '0', array()));
+
+		if (! $this->Link->updateCount($link['Link']['id'])) {
+			$this->throwBadRequest();
+			return;
+		}
 	}
 
 /**
@@ -185,61 +190,31 @@ class LinksController extends LinksAppController {
 	public function add() {
 		$this->view = 'edit';
 
-		//データ取得
-		if (! $this->initLink()) {
-			return;
-		}
-		$this->Categories->initCategories(false, '{n}.Category.id');
-
-		$link = $this->Link->create(
-			array(
-				'id' => null,
-				'key' => null,
-				'block_id' => $this->viewVars['blockId'],
-				'category_id' => null,
-			)
-		);
-		$linkOrder = $this->LinkOrder->create(
-			array(
-				'id' => null,
-				'block_key' => $this->viewVars['blockKey'],
-				'link_key' => null,
-			)
-		);
-
-		//POSTの場合、登録処理
-		$data = array();
 		if ($this->request->isPost()) {
-			if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
-				return;
-			}
-			if (isset($this->viewVars['categories'][$this->data['Link']['category_id']])) {
-				$category['Category'] = $this->viewVars['categories'][$this->data['Link']['category_id']]['category'];
-			} else {
-				$category = $this->Category->create(array('key' => null));
-			}
-			$data = Hash::merge(
-				$this->data, array(
-					'Link' => array('status' => $status),
-				),
-				$category
+			//登録処理
+			$data = $this->data;
+			$data['Link']['status'] = $this->Workflow->parseStatus();
+			$category = Hash::extract(
+				$this->viewVars['categories'],
+				'{n}.Category[id=' . Hash::get($data, 'Link.category_id', '') . ']'
 			);
-			unset($data['LinkOrder']['weight']);
+			$data['LinkOrder']['category_key'] = Hash::get($category, '0.key', '');
+			unset($data['Link']['id'], $data['LinkOrder']['weight']);
 
-			$this->Link->saveLink($data);
-			if ($this->NetCommons->handleValidationError($this->Link->validationErrors)) {
+			if ($this->Link->saveLink($data)) {
 				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
-		}
+			$this->NetCommons->handleValidationError($this->Link->validationErrors);
 
-		//Viewにセット
-		$data = Hash::merge(
-			$link, $linkOrder, $data,
-			['contentStatus' => null, 'comments' => []]
-		);
-		$results = $this->camelizeKeyRecursive($data);
-		$this->set($results);
+		} else {
+			$this->request->data = Hash::merge($this->request->data,
+				$this->Link->create(),
+				$this->LinkOrder->create()
+			);
+			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Block'] = Current::read('Block');
+		}
 	}
 
 /**
@@ -248,62 +223,51 @@ class LinksController extends LinksAppController {
  * @return void
  */
 	public function edit() {
-		$linkKey = null;
-		if (isset($this->params['pass'][1])) {
-			$linkKey = $this->params['pass'][1];
-		}
-		$this->set('linkKey', $linkKey);
-
 		//データ取得
-		if (! $this->__initLink(['comments'])) {
-			return;
+		$linkKey = $this->params['pass'][1];
+		if ($this->request->isPut()) {
+			$linkKey = $this->data['Link']['key'];
 		}
-		$this->Categories->initCategories(false, '{n}.Category.id');
+		$link = $this->Link->getWorkflowContents('first', array(
+			'recursive' => 0,
+			'conditions' => array(
+				$this->Link->alias . '.block_id' => Current::read('Block.id'),
+				$this->Link->alias . '.key' => $linkKey
+			)
+		));
 
-		//POSTの場合、登録処理
-		$data = array();
-		if ($this->request->isPost()) {
-			if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
-				return;
-			}
+		//編集権限チェック
+		if (! $this->Link->canEditWorkflowContent($link)) {
+			$this->throwBadRequest();
+			return false;
+		}
 
+		if ($this->request->isPut()) {
+			//登録処理
 			$data = $this->data;
-
-			$categoryId = $data['Link']['category_id'];
-			$category = array();
-			if (isset($this->viewVars['categories'][$categoryId])) {
-				$category['Category'] = $this->viewVars['categories'][$categoryId]['category'];
-			} else {
-				$category = $this->Category->create(array('key' => null));
-			}
-
-			$data = Hash::merge(
-				$data, $category,
-				array('Link' => array(
-					'status' => $status,
-					'click_count' => $this->viewVars['link']['clickCount'],
-					'created_user' => $this->viewVars['link']['createdUser']
-				))
+			$data['Link']['status'] = $this->Workflow->parseStatus();
+			$category = Hash::extract(
+				$this->viewVars['categories'],
+				'{n}.Category[id=' . $data['Link']['category_id'] . ']'
 			);
-			unset($data['Link']['id'], $data['LinkOrder']['weight']);
+			$data['LinkOrder']['category_key'] = Hash::get($category, '0.key', '');
+			unset($data['Link']['id']);
 
-			$this->Link->saveLink($data);
-
-			if ($this->NetCommons->handleValidationError($this->Link->validationErrors)) {
+			if ($this->Link->saveLink($data)) {
 				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
+			$this->NetCommons->handleValidationError($this->Link->validationErrors);
 
-			$data['contentStatus'] = null;
-			$data['comments'] = null;
+		} else {
+			$this->request->data = $link;
+			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Block'] = Current::read('Block');
 		}
 
-		$data = Hash::merge(
-			$this->viewVars, $data,
-			['contentStatus' => $this->viewVars['link']['status']]
-		);
-		$results = $this->camelizeKeyRecursive($data);
-		$this->set($results);
+		//コメント取得
+		$comments = $this->Link->getCommentsByContentKey($linkKey);
+		$this->set('comments', $comments);
 	}
 
 /**
@@ -312,20 +276,24 @@ class LinksController extends LinksAppController {
  * @return void
  */
 	public function delete() {
-		$linkKey = null;
-		if (isset($this->params['pass'][1])) {
-			$linkKey = $this->params['pass'][1];
-		}
-		$this->set('linkKey', $linkKey);
-
-		//データ取得
-		if (! $this->__initLink()) {
-			return;
-		}
-
 		if (! $this->request->isDelete()) {
 			$this->throwBadRequest();
 			return;
+		}
+
+		//データ取得
+		$link = $this->Link->getWorkflowContents('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				$this->Link->alias . '.block_id' => Current::read('Block.id'),
+				$this->Link->alias . '.key' => $this->data['Link']['key']
+			)
+		));
+
+		//削除権限チェック
+		if (! $this->Link->canDeleteWorkflowContent($link)) {
+			$this->throwBadRequest();
+			return false;
 		}
 
 		if (! $this->Link->deleteLink($this->data)) {
@@ -342,101 +310,28 @@ class LinksController extends LinksAppController {
  * @return void
  */
 	public function link() {
-		$linkKey = null;
-		if (isset($this->data['Link']['key'])) {
-			$linkKey = $this->data['Link']['key'];
-		}
-		$this->set('linkKey', $linkKey);
-
-		//データ取得
-		if (! $this->__initLink()) {
-			return;
-		}
-
 		if (! $this->request->isPost()) {
 			$this->throwBadRequest();
 			return;
 		}
 
-		if (! $this->Link->updateCount($this->data['Link']['id'], $this->viewVars['blockId'])) {
+		$link = $this->Link->getWorkflowContents('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				$this->Link->alias . '.block_id' => Current::read('Block.id'),
+				$this->Link->alias . '.id' => Hash::get($this->data, 'Link.id')
+			)
+		));
+		if (! $link) {
+			$this->throwBadRequest();
+			return;
+		}
+
+		if (! $this->Link->updateCount($this->data['Link']['id'])) {
 			$this->throwBadRequest();
 			return;
 		}
 
 		$this->redirect(NetCommonsUrl::backToPageUrl());
 	}
-
-/**
- * Get conditions function for getting the Link data.
- *
- * @return array Conditions data
- */
-	private function __setConditions() {
-		//言語の指定
-		$activeConditions = array(
-			'Link.is_active' => true,
-		);
-		$latestConditons = array();
-
-		if ($this->viewVars['contentEditable']) {
-			$activeConditions = array();
-			$latestConditons = array(
-				'Link.is_latest' => true,
-			);
-		} elseif ($this->viewVars['contentCreatable']) {
-			$activeConditions = array(
-				'Link.is_active' => true,
-				'Link.created_user !=' => (int)$this->viewVars['userId'],
-			);
-			$latestConditons = array(
-				'Link.is_latest' => true,
-				'Link.created_user' => (int)$this->viewVars['userId'],
-			);
-		}
-
-		$conditions = array(
-			'Link.block_id' => $this->viewVars['blockId'],
-			'OR' => array($activeConditions, $latestConditons)
-		);
-
-		return $conditions;
-	}
-
-/**
- * Function do set into view with getting the Link data.
- *
- * @param array $contains Optional result sets
- * @return bool True on success, False on failure
- */
-	private function __initLink($contains = []) {
-		if (! $this->initLink($contains)) {
-			return false;
-		}
-
-		$conditions = $this->__setConditions();
-		if (! $link = $this->Link->getLink(
-			$this->viewVars['blockId'],
-			$this->viewVars['linkKey'],
-			$conditions
-		)) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$link = $this->camelizeKeyRecursive($link);
-		$this->set($link);
-
-		if (in_array('comments', $contains, true)) {
-			$comments = $this->Comment->getComments(
-				array(
-					'plugin_key' => $this->params['plugin'],
-					'content_key' => $this->viewVars['linkKey'],
-				)
-			);
-			$comments = $this->camelizeKeyRecursive($comments);
-			$this->set(['comments' => $comments]);
-		}
-
-		return true;
-	}
-
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Dropdown type element of Links index
+ * Dropdownタイプ表示Element
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -23,18 +23,17 @@
 	</button>
 	<ul class="dropdown-menu" role="menu">
 		<li class="divider"> </li>
-
-		<?php foreach ($categories as $categoryId => $category) : ?>
-			<?php if (isset($links[$categoryId])) : ?>
-				<?php if (isset($category['category']['name'])) : ?>
+		<?php foreach ($categories as $category) : ?>
+			<?php if (isset($links[$category['Category']['id']])) : ?>
+				<?php if (isset($category['Category']['name'])) : ?>
 					<li>
 						<span class="nc-dropdown-block">
-							<strong><?php echo h($category['category']['name']); ?></strong>
+							<strong><?php echo h($category['Category']['name']); ?></strong>
 						</span>
 					</li>
 				<?php endif; ?>
 
-				<?php foreach ($links[$categoryId] as $linkId => $link) : ?>
+				<?php foreach ($links[$category['Category']['id']] as $link) : ?>
 					<li>
 						<div class="nc-dropdown-block">
 							<?php echo $this->element('Links/link', array('link' => $link)); ?>

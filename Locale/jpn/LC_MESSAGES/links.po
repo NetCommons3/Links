@@ -110,3 +110,7 @@ msgstr ""
 #: Links/View/Links/index.ctp:37
 msgid "Create link"
 msgstr "リンクの作成"
+
+#: Links/View/Links/index.ctp:37
+msgid "Link creatable roles"
+msgstr "リンクを追加できる権限"

@@ -2,7 +2,6 @@
 /**
  * LinkApp Model
  *
- *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project

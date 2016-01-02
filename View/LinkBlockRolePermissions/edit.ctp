@@ -1,6 +1,6 @@
 <?php
 /**
- * BbsSettings edit template
+ * 権限設定
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,19 +10,16 @@
  */
 ?>
 
-<?php //echo $this->Html->script('/links/js/links.js', false); ?>
-
-<div class="modal-body">
-	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
+<div class="block-setting-body">
+	<?php echo $this->BlockTabs->main(BlockTabsComponent::MAIN_TAB_BLOCK_INDEX); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
+		<?php echo $this->BlockTabs->block(BlockTabsComponent::BLOCK_TAB_PERMISSION); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'LinkBlockRolePermission',
-				'action' => 'edit' . '/' . $frameId . '/' . $blockId,
+				'model' => 'LinkBlockRolePermission',
 				'callback' => 'Links.LinkBlockRolePermissions/edit_form',
-				'cancelUrl' => '/links/link_blocks/index/' . $frameId,
+				'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 			)); ?>
 	</div>
 </div>

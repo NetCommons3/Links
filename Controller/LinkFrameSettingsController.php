@@ -41,25 +41,16 @@ class LinkFrameSettingsController extends LinksAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'pageEditable' => array('edit')
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index', 'frame_settings'),
+			'blockTabs' => array('block_settings', 'role_permissions'),
+		),
+		'NetCommons.Permission' => array(
+			'allow' => array(
+				'edit' => 'page_editable',
 			),
 		),
 	);
-
-/**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-
-		//タブの設定
-		$this->initTabs('frame_settings', '');
-	}
 
 /**
  * edit
@@ -67,35 +58,16 @@ class LinkFrameSettingsController extends LinksAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsFrame->validateFrameId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		if (! $linkFrameSetting = $this->LinkFrameSetting->getLinkFrameSetting($this->viewVars['frameKey'])) {
-			$linkFrameSetting = $this->LinkFrameSetting->create(array(
-				'id' => null,
-				'display_type' => LinkFrameSetting::TYPE_DROPDOWN,
-				'frame_key' => $this->viewVars['frameKey'],
-				'category_separator_line' => null,
-				'list_style' => null,
-			));
-		}
-		$linkFrameSetting = $this->camelizeKeyRecursive($linkFrameSetting);
-
-		$data = array();
-		if ($this->request->isPost()) {
-			$data = $this->data;
-			$this->LinkFrameSetting->saveLinkFrameSetting($data);
-			if ($this->NetCommons->handleValidationError($this->LinkFrameSetting->validationErrors)) {
+		if ($this->request->isPut() || $this->request->isPost()) {
+			if ($this->LinkFrameSetting->saveLinkFrameSetting($this->data)) {
 				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
-		}
+			$this->NetCommons->handleValidationError($this->LinkFrameSetting->validationErrors);
 
-		$data = Hash::merge(
-			$linkFrameSetting, $data
-		);
-		$results = $this->camelizeKeyRecursive($data);
-		$this->set($results);
+		} else {
+			$this->request->data = $this->LinkFrameSetting->getLinkFrameSetting(true);
+			$this->request->data['Frame'] = Current::read('Frame');
+		}
 	}
 }

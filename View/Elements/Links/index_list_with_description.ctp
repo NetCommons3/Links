@@ -1,6 +1,6 @@
 <?php
 /**
- * List only title type element of Links index
+ * 一覧表示(説明付き)タイプ表示Element
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,28 +10,28 @@
  */
 ?>
 
-<?php foreach ($categories as $categoryId => $category) : ?>
-	<?php if (isset($links[$categoryId])) : ?>
+<?php foreach ($categories as $category) : ?>
+	<?php if (isset($links[$category['Category']['id']])) : ?>
 		<article>
 			<h2>
-				<?php echo h($category['category']['name']); ?>
+				<?php echo h($category['Category']['name']); ?>
 			</h2>
 
-			<ul class="list-group nc-links-list-style" style="<?php echo $linkFrameSetting['listStyleCss']; ?>">
-				<?php foreach ($links[$categoryId] as $linkId => $link) : ?>
+			<ul class="list-group nc-links-list-style" style="<?php echo $linkFrameSetting['list_style_css']; ?>">
+				<?php foreach ($links[$category['Category']['id']] as $link) : ?>
 					<li class="list-group-item nc-links-li">
 						<h3 class="nc-links-li-title">
 							<?php echo $this->element('Links/link', array('link' => $link)); ?>
 							<?php echo $this->element('Links/edit_link', array('link' => $link)); ?>
 						</h3>
 						<div class="nc-links-li-description text-muted">
-							<?php echo h($link['link']['description']); ?>
+							<?php echo h($link['Link']['description']); ?>
 						</div>
 					</li>
 				<?php endforeach; ?>
 
-				<?php if (isset($linkFrameSetting['categorySeparatorLine'])) : ?>
-					<hr style="<?php echo $linkFrameSetting['categorySeparatorLineCss']; ?>">
+				<?php if (isset($linkFrameSetting['category_separator_line'])) : ?>
+					<hr style="<?php echo $linkFrameSetting['category_separator_line_css']; ?>">
 				<?php endif; ?>
 			</ul>
 		</article>

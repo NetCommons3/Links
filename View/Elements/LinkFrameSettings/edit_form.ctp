@@ -1,6 +1,6 @@
 <?php
 /**
- * Link edit template
+ * 表示方法変更用編集フォームElement
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -11,64 +11,39 @@
 
 ?>
 
-<?php echo $this->Form->hidden('LinkFrameSetting.id', array(
-		'value' => isset($linkFrameSetting['id']) ? (int)$linkFrameSetting['id'] : null,
+<?php echo $this->NetCommonsForm->hidden('LinkFrameSetting.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('LinkFrameSetting.frame_key'); ?>
+<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Frame.key'); ?>
+
+<?php echo $this->NetCommonsForm->input('LinkFrameSetting.display_type', array(
+		'label' => __d('links', 'Display method'),
+		'type' => 'select',
+		'options' => array(
+			LinkFrameSetting::TYPE_DROPDOWN => __d('links', 'Show by dropdown'),
+			LinkFrameSetting::TYPE_LIST_ONLY_TITLE => __d('links', 'Show list'),
+			LinkFrameSetting::TYPE_LIST_WITH_DESCRIPTION => __d('links', 'Show list (Description)'),
+		),
 	)); ?>
 
-<?php echo $this->Form->hidden('LinkFrameSetting.frame_key', array(
-		'value' => $frameKey,
+<?php echo $this->NetCommonsForm->inlineCheckbox('LinkFrameSetting.open_new_tab', array(
+		'label' => __d('links', 'Open as a new tab'),
+		'type' => 'checkbox',
 	)); ?>
 
-<?php echo $this->Form->hidden('Frame.id', array(
-		'value' => $frameId,
+<?php echo $this->NetCommonsForm->inlineCheckbox('LinkFrameSetting.display_click_count', array(
+		'label' => __d('links', 'Count view'),
+		'type' => 'checkbox',
 	)); ?>
 
-<?php echo $this->Form->hidden('Frame.key', array(
-		'value' => $frameKey,
-	)); ?>
-
-<div class='form-group'>
-	<?php echo $this->Form->input('LinkFrameSetting.display_type', array(
-			'label' => __d('links', 'Display method'),
-			'type' => 'select',
-			'error' => false,
-			'class' => 'form-control',
-			'options' => array(
-				LinkFrameSetting::TYPE_DROPDOWN => __d('links', 'Show by dropdown'),
-				LinkFrameSetting::TYPE_LIST_ONLY_TITLE => __d('links', 'Show list'),
-				LinkFrameSetting::TYPE_LIST_WITH_DESCRIPTION => __d('links', 'Show list (Description)'),
-			),
-			'value' => (isset($linkFrameSetting['displayType']) ? $linkFrameSetting['displayType'] : LinkFrameSetting::TYPE_DROPDOWN)
-		)); ?>
-</div>
-
-<div class='form-group'>
-	<?php echo $this->Form->input('LinkFrameSetting.open_new_tab', array(
-			'label' => __d('links', 'Open as a new tab'),
-			'type' => 'checkbox',
-			'error' => false,
-			'checked' => (isset($linkFrameSetting['openNewTab']) ? (int)$linkFrameSetting['openNewTab'] : null)
-		)); ?>
-</div>
-
-<div class='form-group'>
-	<?php echo $this->Form->input('LinkFrameSetting.display_click_count', array(
-			'label' => __d('links', 'Count view'),
-			'type' => 'checkbox',
-			'error' => false,
-			'checked' => (isset($linkFrameSetting['displayClickCount']) ? (int)$linkFrameSetting['displayClickCount'] : null)
-		)); ?>
-</div>
-
-<div class='form-group'>
-	<?php echo $this->Form->label('LinkFrameSetting.category_separator_line',
+<div class='form-group form-inline'>
+	<?php echo $this->NetCommonsForm->label('LinkFrameSetting.category_separator_line',
 			__d('links', 'Line')
 		); ?>
-
-	<?php echo $this->Form->hidden('LinkFrameSetting.category_separator_line', array(
+	<?php echo $this->NetCommonsForm->hidden('LinkFrameSetting.category_separator_line', array(
 			'ng-value' => 'linkFrameSetting.categorySeparatorLine'
 		)); ?>
-	<?php $this->Form->unlockField('LinkFrameSetting.category_separator_line'); ?>
+	<?php $this->NetCommonsForm->unlockField('LinkFrameSetting.category_separator_line'); ?>
 
 	<div class="btn-group nc-input-dropdown">
 		<button type="button" class="dropdown-toggle btn btn-default" data-toggle="dropdown" aria-expanded="false">
@@ -102,13 +77,13 @@
 </div>
 
 <div class='form-group'>
-	<?php echo $this->Form->label('LinkFrameSetting.list_style',
+	<?php echo $this->NetCommonsForm->label('LinkFrameSetting.list_style',
 			__d('links', 'Marker')
 		); ?>
-	<?php echo $this->Form->hidden('LinkFrameSetting.list_style', array(
+	<?php echo $this->NetCommonsForm->hidden('LinkFrameSetting.list_style', array(
 			'ng-value' => 'linkFrameSetting.listStyle'
 		)); ?>
-	<?php $this->Form->unlockField('LinkFrameSetting.list_style'); ?>
+	<?php $this->NetCommonsForm->unlockField('LinkFrameSetting.list_style'); ?>
 
 	<div class="btn-group nc-input-dropdown">
 		<button type="button" class="dropdown-toggle btn btn-default" data-toggle="dropdown" aria-expanded="false">

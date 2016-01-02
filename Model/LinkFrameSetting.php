@@ -2,7 +2,6 @@
 /**
  * LinkFrameSetting Model
  *
- *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
@@ -228,63 +227,40 @@ class LinkFrameSetting extends LinksAppModel {
 	}
 
 /**
- * Get link setting data
+ * LinkFrameSettingデータ取得
  *
- * @param string $frameKey frames.key
- * @return array
+ * @param bool $created 作成フラグ
+ * @return array LinkFrameSettingデータ配列
  */
-	public function getLinkFrameSetting($frameKey) {
+	public function getLinkFrameSetting($created) {
 		$conditions = array(
-			'frame_key' => $frameKey
+			'frame_key' => Current::read('Frame.key')
 		);
 
 		$linkFrameSetting = $this->find('first', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-			)
-		);
+			'recursive' => -1,
+			'conditions' => $conditions,
+		));
+
+		if ($created && ! $linkFrameSetting) {
+			$linkFrameSetting = $this->create();
+		}
+
+		//カテゴリ間の区切り線
+		$separatorLine = $linkFrameSetting['LinkFrameSetting']['category_separator_line'];
+		$linkFrameSetting['LinkFrameSetting']['category_separator_line_css'] =
+				Hash::get(Hash::extract(self::$categorySeparators, '{n}[key=' . $separatorLine . ']'), '0.style');
+
+		//リストマーク
+		$listStyle = $linkFrameSetting['LinkFrameSetting']['list_style'];
+		$linkFrameSetting['LinkFrameSetting']['list_style_css'] =
+				Hash::get(Hash::extract(self::$listStyles, '{n}[key=' . $listStyle . ']'), '0.style');
 
 		return $linkFrameSetting;
 	}
 
 /**
- * Get category_separator_line data
- *
- * @param string $categorySeparator category_separator_line data
- * @return array
- */
-	public function getCategorySeparatorLineCss($categorySeparator) {
-		//カテゴリ間の区切り線
-		$categorySeparators = Hash::combine(self::$categorySeparators, '{n}.key', '{n}');
-		if (isset($categorySeparators[$categorySeparator])) {
-			$result = $categorySeparators[$categorySeparator]['style'];
-		} else {
-			$result = null;
-		}
-
-		return $result;
-	}
-
-/**
- * Get line_style data
- *
- * @param string $lineStyle line_style data
- * @return array
- */
-	public function getLineStyleCss($lineStyle) {
-		//カテゴリ間の区切り線
-		$listStyles = Hash::combine(self::$listStyles, '{n}.key', '{n}');
-		if (isset($listStyles[$lineStyle])) {
-			$result = $listStyles[$lineStyle]['style'];
-		} else {
-			$result = null;
-		}
-
-		return $result;
-	}
-
-/**
- * Save link settings
+ * LinkFrameSettingデータ登録処理
  *
  * @param array $data received post data
  * @return bool True on success, false on failure
@@ -296,43 +272,27 @@ class LinkFrameSetting extends LinksAppModel {
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		//バリデーション
+		$this->set($data);
+		if (! $this->validates()) {
+			return false;
+		}
 
 		try {
-			if (! $this->validateLinkFrameSetting($data)) {
-				return false;
-			}
-
 			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
+
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
-		return true;
-	}
-
-/**
- * Validate linkFrameSettings
- *
- * @param array $data received post data
- * @return bool True on success, false on validation errors
- */
-	public function validateLinkFrameSetting($data) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
 		return true;
 	}
 }

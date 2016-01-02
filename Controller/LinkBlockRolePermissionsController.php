@@ -32,12 +32,8 @@ class LinkBlockRolePermissionsController extends LinksAppController {
  * @var array
  */
 	public $uses = array(
-		'Roles.Role',
-		'Roles.DefaultRolePermission',
-		'Blocks.Block',
-		'Blocks.BlockRolePermission',
-		'Rooms.RolesRoom',
-		'Links.LinkSetting'
+		'Links.LinkBlock',
+		'Links.LinkSetting',
 	);
 
 /**
@@ -46,26 +42,25 @@ class LinkBlockRolePermissionsController extends LinksAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockPermissionEditable' => array('edit')
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index', 'frame_settings'),
+			'blockTabs' => array('block_settings', 'role_permissions'),
+		),
+		'NetCommons.Permission' => array(
+			'allow' => array(
+				'edit' => 'block_permission_editable',
 			),
 		),
 	);
 
 /**
- * beforeFilter
+ * use helpers
  *
- * @return void
+ * @var array
  */
-	public function beforeFilter() {
-		parent::beforeFilter();
-
-		//タブの設定
-		$this->initTabs('block_index', 'role_permissions');
-	}
+	public $helpers = array(
+		'Blocks.BlockRolePermissionForm'
+	);
 
 /**
  * edit
@@ -73,48 +68,32 @@ class LinkBlockRolePermissionsController extends LinksAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
+		if (! $linkBlock = $this->LinkBlock->getLinkBlock()) {
 			$this->throwBadRequest();
 			return false;
 		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-		if (! $this->initLink(['linkSetting'])) {
-			return;
-		}
 
-		if (! $block = $this->Block->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'Block.id' => $this->viewVars['blockId'],
-			),
-		))) {
-			$this->throwBadRequest();
-			return false;
-		};
-		$this->set('blockId', $block['Block']['id']);
-		$this->set('blockKey', $block['Block']['key']);
-
-		$permissions = $this->NetCommonsBlock->getBlockRolePermissions(
-			$this->viewVars['blockKey'],
-			['content_creatable', 'content_publishable']
+		$permissions = $this->Workflow->getBlockRolePermissions(
+			array('content_creatable', 'content_publishable')
 		);
+		$this->set('roles', $permissions['Roles']);
 
 		if ($this->request->isPost()) {
-			$data = $this->data;
-			$this->LinkSetting->saveLinkSetting($data);
-			if ($this->NetCommons->handleValidationError($this->LinkSetting->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/links/link_blocks/index/' . $this->viewVars['frameId']);
-				}
+			if ($this->LinkSetting->saveLinkSetting($this->request->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
-		}
+			$this->NetCommons->handleValidationError($this->FaqSetting->validationErrors);
+			$this->request->data['BlockRolePermission'] = Hash::merge(
+				$permissions['BlockRolePermissions'],
+				$this->request->data['BlockRolePermission']
+			);
 
-		$results = array(
-			'BlockRolePermissions' => $permissions['BlockRolePermissions'],
-			'roles' => $permissions['Roles'],
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+		} else {
+			$this->request->data['LinkSetting'] = $linkBlock['LinkSetting'];
+			$this->request->data['Block'] = $linkBlock['Block'];
+			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
+			$this->request->data['Frame'] = Current::read('Frame');
+		}
 	}
 }
