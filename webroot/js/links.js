@@ -43,13 +43,13 @@ NetCommonsApp.controller('LinksIndex', function($scope, $http, $window) {
     $scope.data.Link.id = id;
     $scope.data.Link.key = key;
 
-    $http.get('/net_commons/net_commons/csrfToken.json')
+    $http.get($scope.baseUrl + '/net_commons/net_commons/csrfToken.json')
       .success(function(token) {
           $scope.data._Token.key = token.data._Token.key;
 
           //POSTリクエスト
           $http.post(
-              '/links/links/link.json',
+              $scope.baseUrl + '/links/links/link.json',
               $.param({_method: 'POST', data: $scope.data}),
               {cache: false,
                 headers:
