@@ -45,30 +45,35 @@ class LinkOrderFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
+			'id' => 1,
 			'block_key' => 'block_1',
 			'category_key' => 'category_1',
 			'link_key' => 'link_content_1',
 			'weight' => 1,
 		),
 		array(
+			'id' => 2,
 			'block_key' => 'block_1',
 			'category_key' => 'category_1',
 			'link_key' => 'link_content_2',
 			'weight' => 2,
 		),
 		array(
+			'id' => 3,
 			'block_key' => 'block_1',
 			'category_key' => null,
 			'link_key' => 'link_content_3',
 			'weight' => 1,
 		),
 		array(
+			'id' => 4,
 			'block_key' => 'block_1',
 			'category_key' => 'category_1',
 			'link_key' => 'link_content_4',
 			'weight' => 3,
 		),
 		array(
+			'id' => 5,
 			'block_key' => 'block_1',
 			'category_key' => 'category_1',
 			'link_key' => 'link_content_5',
