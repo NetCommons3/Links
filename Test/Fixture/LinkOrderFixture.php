@@ -33,9 +33,9 @@ class LinkOrderFixture extends CakeTestFixture {
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'modified user | 更新者 | users.id | '),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 |  | '),
 		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
+			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 	);
 
 /**
@@ -45,15 +45,34 @@ class LinkOrderFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'block_key' => 'Lorem ipsum dolor sit amet',
-			'category_key' => 'Lorem ipsum dolor sit amet',
-			'link_key' => 'Lorem ipsum dolor sit amet',
+			'block_key' => 'block_1',
+			'category_key' => 'category_1',
+			'link_key' => 'link_content_1',
 			'weight' => 1,
-			'created_user' => 1,
-			'created' => '2015-05-01 07:17:55',
-			'modified_user' => 1,
-			'modified' => '2015-05-01 07:17:55'
+		),
+		array(
+			'block_key' => 'block_1',
+			'category_key' => 'category_1',
+			'link_key' => 'link_content_2',
+			'weight' => 2,
+		),
+		array(
+			'block_key' => 'block_1',
+			'category_key' => null,
+			'link_key' => 'link_content_3',
+			'weight' => 1,
+		),
+		array(
+			'block_key' => 'block_1',
+			'category_key' => 'category_1',
+			'link_key' => 'link_content_4',
+			'weight' => 3,
+		),
+		array(
+			'block_key' => 'block_1',
+			'category_key' => 'category_1',
+			'link_key' => 'link_content_5',
+			'weight' => 4,
 		),
 	);
 
