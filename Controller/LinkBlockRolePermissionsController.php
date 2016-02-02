@@ -83,7 +83,7 @@ class LinkBlockRolePermissionsController extends LinksAppController {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
-			$this->NetCommons->handleValidationError($this->FaqSetting->validationErrors);
+			$this->NetCommons->handleValidationError($this->LinkSetting->validationErrors);
 			$this->request->data['BlockRolePermission'] = Hash::merge(
 				$permissions['BlockRolePermissions'],
 				$this->request->data['BlockRolePermission']
