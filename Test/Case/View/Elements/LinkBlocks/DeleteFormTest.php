@@ -17,7 +17,7 @@ App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Links\Test\Case\View\Elements\LinkBlocks\DeleteForm
  */
-class ViewElementsLinkBlocksDeleteFormTest extends NetCommonsControllerTestCase {
+class LinksViewElementsLinkBlocksDeleteFormTest extends NetCommonsControllerTestCase {
 
 /**
  * Fixtures
@@ -43,6 +43,8 @@ class ViewElementsLinkBlocksDeleteFormTest extends NetCommonsControllerTestCase 
 
 		//テストプラグインのロード
 		NetCommonsCakeTestCase::loadTestPlugin($this, 'Links', 'TestLinks');
+		//テストコントローラ生成
+		$this->generateNc('TestLinks.TestViewElementsLinkBlocksDeleteForm');
 	}
 
 /**
@@ -51,11 +53,8 @@ class ViewElementsLinkBlocksDeleteFormTest extends NetCommonsControllerTestCase 
  * @return void
  */
 	public function testDeleteForm() {
-		//テストコントローラ生成
-		$this->generateNc('TestLinks.TestViewElementsLinkBlocks');
-
 		//テスト実行
-		$this->_testNcAction('/test_links/test_view_elements_link_blocks/delete_form', array(
+		$this->_testNcAction('/test_links/test_view_elements_link_blocks_delete_form/delete_form', array(
 			'method' => 'get'
 		));
 
@@ -67,7 +66,6 @@ class ViewElementsLinkBlocksDeleteFormTest extends NetCommonsControllerTestCase 
 		$this->assertInput('input', 'data[Block][key]', 'block_key_1', $this->view);
 		$this->assertInput('input', 'data[LinkBlock][key]', 'block_key_1', $this->view);
 
-		$this->assertInput('button', 'delete', null, $this->view);
 	}
 
 }
