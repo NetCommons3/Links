@@ -100,6 +100,12 @@ class Link extends LinksAppModel {
 					'on' => 'update', // Limit validation to 'create' or 'update' operations
 				),
 			),
+			'language_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
 			'click_count' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
