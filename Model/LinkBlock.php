@@ -84,6 +84,18 @@ class LinkBlock extends BlocksAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
+			'language_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
+			'room_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
 			'name' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
@@ -94,6 +106,7 @@ class LinkBlock extends BlocksAppModel {
 		));
 
 		if (isset($this->data['LinkSetting'])) {
+			$this->loadModels(['LinkSetting' => 'Links.LinkSetting']);
 			$this->LinkSetting->set($this->data['LinkSetting']);
 			if (! $this->LinkSetting->validates()) {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->LinkSetting->validationErrors);
