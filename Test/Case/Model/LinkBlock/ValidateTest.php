@@ -27,13 +27,7 @@ class LinkBlockValidateTest extends NetCommonsValidateTest {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.categories.category',
-		'plugin.categories.category_order',
-		'plugin.links.link',
-		'plugin.links.link_frame_setting',
-		'plugin.links.link_order',
 		'plugin.links.link_setting',
-		'plugin.workflow.workflow_comment',
 	);
 
 /**
