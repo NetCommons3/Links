@@ -92,7 +92,7 @@ class LinkValidateTest extends NetCommonsValidateTest {
 	}
 
 /**
- * save()のテスト
+ * LinkOrder->validates()のエラーテスト
  *
  * @return void
  */
