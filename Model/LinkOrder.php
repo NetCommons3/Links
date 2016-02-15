@@ -60,7 +60,6 @@ class LinkOrder extends LinksAppModel {
 					'rule' => array('numeric'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => false,
-					//'required' => true,
 				),
 			),
 		));
