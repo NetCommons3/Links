@@ -248,7 +248,7 @@ class LinksController extends LinksAppController {
 			$data['Link']['status'] = $this->Workflow->parseStatus();
 			$category = Hash::extract(
 				$this->viewVars['categories'],
-				'{n}.Category[id=' . $data['Link']['category_id'] . ']'
+				'{n}.Category[id=' . Hash::get($data, 'Link.category_id', '') . ']'
 			);
 			$data['LinkOrder']['category_key'] = Hash::get($category, '0.key', '');
 			unset($data['Link']['id']);
