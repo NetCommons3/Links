@@ -65,7 +65,7 @@ class LinkFixture extends CakeTestFixture {
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Lorem ipsum dolor sit amet',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-			'click_count' => 1,
+			'click_count' => '1',
 			'created_user' => '1'
 		),
 		array(
@@ -80,7 +80,7 @@ class LinkFixture extends CakeTestFixture {
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Lorem ipsum dolor sit amet',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-			'click_count' => 1,
+			'click_count' => '1',
 			'created_user' => '1'
 		),
 		//リンク 2(一般が書いた質問＆一度も公開していない)
@@ -96,7 +96,7 @@ class LinkFixture extends CakeTestFixture {
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Lorem ipsum dolor sit amet',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-			'click_count' => 1,
+			'click_count' => '1',
 			'created_user' => '4'
 		),
 		//リンク 3
@@ -112,7 +112,7 @@ class LinkFixture extends CakeTestFixture {
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Lorem ipsum dolor sit amet',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-			'click_count' => 1,
+			'click_count' => '1',
 			'created_user' => '4'
 		),
 		//リンク 4(一般が書いた質問＆一度公開している)
@@ -128,7 +128,7 @@ class LinkFixture extends CakeTestFixture {
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Lorem ipsum dolor sit amet',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-			'click_count' => 1,
+			'click_count' => '1',
 			'created_user' => '4'
 		),
 		array(
@@ -143,7 +143,7 @@ class LinkFixture extends CakeTestFixture {
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Lorem ipsum dolor sit amet',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-			'click_count' => 1,
+			'click_count' => '1',
 			'created_user' => '4'
 		),
 		//リンク 5(chief_userが書いた質問＆一度も公開していない)
@@ -159,7 +159,7 @@ class LinkFixture extends CakeTestFixture {
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Lorem ipsum dolor sit amet',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-			'click_count' => 1,
+			'click_count' => '1',
 			'created_user' => '3'
 		),
 	);
