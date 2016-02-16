@@ -78,7 +78,7 @@ class LinkOrder extends LinksAppModel {
  */
 	public function beforeSave($options = array()) {
 		if (isset($this->data[$this->alias]['link_key']) &&
-				! $this->data[$this->alias]['weight'] &&
+				! Hash::get($this->data[$this->alias], 'weight') &&
 				array_key_exists('category_key', $this->data[$this->alias])) {
 
 			$before = $this->find('first', array(
