@@ -348,6 +348,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 				'block_id' => $data['Block']['id'],
 				'key' => 'link_content_key_1',
 			),
+			'validationError' => array(),
 		);
 
 		//テストデータ
@@ -416,13 +417,15 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 
 		//テスト実行
 		$data = $this->__data();
-		$urlOptions = array(
-			'action' => 'edit',
-			'block_id' => $data['Block']['id'],
-			'frame_id' => $data['Frame']['id'],
-			'key' => 'link_content_key_1',
+		$this->_testGetAction(
+			array(
+				'action' => 'edit',
+				'block_id' => $data['Block']['id'],
+				'frame_id' => $data['Frame']['id'],
+				'key' => 'link_content_key_1',
+			),
+			array('method' => 'assertNotEmpty')
 		);
-		$this->_testGetAction($urlOptions, array('method' => 'assertNotEmpty'));
 
 		//チェック
 		$this->__assertEditGet($data);
