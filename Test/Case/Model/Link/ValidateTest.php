@@ -69,9 +69,13 @@ class LinkValidateTest extends NetCommonsValidateTest {
 		$data['LinkOrder'] = (new LinkOrderFixture())->records[0];
 
 		return array(
+			array('data' => $data, 'field' => 'block_id', 'value' => null,
+				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'block_id', 'value' => 'a',
 				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'key', 'value' => '',
+				'message' => __d('net_commons', 'Invalid request.')),
+			array('data' => $data, 'field' => 'language_id', 'value' => null,
 				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'language_id', 'value' => 'a',
 				'message' => __d('net_commons', 'Invalid request.')),

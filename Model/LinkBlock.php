@@ -88,12 +88,14 @@ class LinkBlock extends BlocksAppModel {
 				'numeric' => array(
 					'rule' => array('numeric'),
 					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
 				),
 			),
 			'room_id' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
 					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
 				),
 			),
 			'name' => array(

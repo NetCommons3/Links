@@ -104,6 +104,7 @@ class Link extends LinksAppModel {
 				'numeric' => array(
 					'rule' => array('numeric'),
 					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
 				),
 			),
 			'click_count' => array(

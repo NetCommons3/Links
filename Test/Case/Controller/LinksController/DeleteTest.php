@@ -158,102 +158,97 @@ class LinksControllerDeleteTest extends WorkflowControllerDeleteTest {
  */
 	public function dataProviderDeletePost() {
 		$data = $this->__data();
+		$contentKey1 = 'link_content_key_1';
+		$contentKey2 = 'link_content_key_2';
+		$contentKey4 = 'link_content_key_4';
 
 		//テストデータ
 		$results = array();
 		// * ログインなし
-		$contentKey = 'link_content_key_1';
 		array_push($results, array(
-			'data' => $this->__data($contentKey),
+			'data' => $this->__data($contentKey1),
 			'role' => null,
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => $contentKey
+				'key' => $contentKey1
 			),
 			'exception' => 'ForbiddenException'
 		));
 		// * 作成権限のみ
 		// ** 他人の記事
-		$contentKey = 'link_content_key_1';
 		array_push($results, array(
-			'data' => $this->__data($contentKey),
+			'data' => $this->__data($contentKey1),
 			'role' => Role::ROOM_ROLE_KEY_GENERAL_USER,
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => $contentKey
+				'key' => $contentKey1
 			),
 			'exception' => 'BadRequestException'
 		));
-		$contentKey = 'link_content_key_1';
 		array_push($results, array(
-			'data' => $this->__data($contentKey),
+			'data' => $this->__data($contentKey1),
 			'role' => Role::ROOM_ROLE_KEY_GENERAL_USER,
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => $contentKey
+				'key' => $contentKey1
 			),
 			'exception' => 'BadRequestException', 'return' => 'json'
 		));
 		// ** 自分の記事＆一度も公開されていない
-		$contentKey = 'link_content_key_2';
 		array_push($results, array(
-			'data' => $this->__data($contentKey),
+			'data' => $this->__data($contentKey2),
 			'role' => Role::ROOM_ROLE_KEY_GENERAL_USER,
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => $contentKey
+				'key' => $contentKey2
 			),
 		));
 		// ** 自分の記事＆一度公開している
-		$contentKey = 'link_content_key_4';
 		array_push($results, array(
-			'data' => $this->__data($contentKey),
+			'data' => $this->__data($contentKey4),
 			'role' => Role::ROOM_ROLE_KEY_GENERAL_USER,
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => $contentKey
+				'key' => $contentKey4
 			),
 			'exception' => 'BadRequestException'
 		));
 		// * 編集権限あり
 		// ** 公開していない
-		$contentKey = 'link_content_key_2';
 		array_push($results, array(
-			'data' => $this->__data($contentKey),
+			'data' => $this->__data($contentKey2),
 			'role' => Role::ROOM_ROLE_KEY_EDITOR,
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => $contentKey
+				'key' => $contentKey2
 			),
 		));
 		// ** 公開している
-		$contentKey = 'link_content_key_4';
 		array_push($results, array(
-			'data' => $this->__data($contentKey),
+			'data' => $this->__data($contentKey4),
 			'role' => Role::ROOM_ROLE_KEY_EDITOR,
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => $contentKey
+				'key' => $contentKey4
 			),
 			'exception' => 'BadRequestException'
 		));
 		// * 公開権限あり
 		// ** フレームID指定なしテスト
-		$contentKey = 'link_content_key_1';
 		array_push($results, array(
-			'data' => $this->__data($contentKey),
+			'data' => $this->__data($contentKey1),
 			'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
 			'urlOptions' => array(
 				'frame_id' => null,
 				'block_id' => $data['Block']['id'],
-				'key' => $contentKey
+				'key' => $contentKey1
 			),
 		));
 
@@ -293,8 +288,6 @@ class LinksControllerDeleteTest extends WorkflowControllerDeleteTest {
 		$results[1] = Hash::merge($results[0], array(
 			'return' => 'json'
 		));
-
-		//TODO:必要なデータをここに書く
 
 		return $results;
 	}

@@ -65,7 +65,6 @@ class LinksViewElementsLinkBlocksDeleteFormTest extends NetCommonsControllerTest
 		$this->assertInput('input', 'data[Block][id]', '1', $this->view);
 		$this->assertInput('input', 'data[Block][key]', 'block_key_1', $this->view);
 		$this->assertInput('input', 'data[LinkBlock][key]', 'block_key_1', $this->view);
-
 	}
 
 }

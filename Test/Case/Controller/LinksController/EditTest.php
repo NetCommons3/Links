@@ -185,7 +185,6 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 		// * 編集権限あり
 		$results = array();
 		// ** コンテンツあり
-		$base = 0;
 		$results[0] = array(
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],

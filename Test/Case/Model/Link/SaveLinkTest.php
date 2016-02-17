@@ -68,7 +68,6 @@ class LinkSaveLinkTest extends WorkflowSaveTest {
 		$data['Link'] = (new LinkFixture())->records[1];
 		$data['Link']['status'] = '1';
 
-		//TODO:テストパタンを書く
 		$results = array();
 		// * 編集の登録処理
 		$results[0] = array($data);
@@ -94,7 +93,6 @@ class LinkSaveLinkTest extends WorkflowSaveTest {
 	public function dataProviderSaveOnExceptionError() {
 		$data['Link'] = (new LinkFixture())->records[0];
 
-		//TODO:テストパタンを書く
 		return array(
 			array($data, 'Links.Link', 'save'),
 		);
@@ -113,7 +111,6 @@ class LinkSaveLinkTest extends WorkflowSaveTest {
 	public function dataProviderSaveOnValidationError() {
 		$data['Link'] = (new LinkFixture())->records[0];
 
-		//TODO:テストパタンを書く
 		return array(
 			array($data, 'Links.Link'),
 		);
