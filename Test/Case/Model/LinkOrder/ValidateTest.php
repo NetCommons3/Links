@@ -54,7 +54,7 @@ class LinkOrderValidateTest extends NetCommonsValidateTest {
  *
  * @var string
  */
-	protected $_methodName = 'validate';
+	protected $_methodName = 'validates';
 
 /**
  * ValidationErrorのDataProvider
