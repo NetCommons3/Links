@@ -63,7 +63,6 @@ class LinkFrameSettingsControllerEditTest extends FrameSettingsControllerTest {
 			'LinkFrameSetting' => array(
 				'id' => $linkFrameId,
 				'frame_key' => $frameKey,
-				//TODO: その他のフィールド記述
 				'display_type' => '1',
 				'category_separator_line' => '',
 				'list_style' => '',
