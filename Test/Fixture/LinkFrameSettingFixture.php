@@ -47,11 +47,11 @@ class LinkFrameSettingFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 6,
+			'id' => '6',
 			'frame_key' => 'frame_3',
-			'display_type' => 1,
-			'open_new_tab' => 1,
-			'display_click_count' => 1,
+			'display_type' => '1',
+			'open_new_tab' => '1',
+			'display_click_count' => '1',
 			'category_separator_line' => '',
 			'list_style' => '',
 		),

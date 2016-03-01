@@ -60,10 +60,10 @@ class LinkFrameSettingsController extends LinksAppController {
 	public function edit() {
 		if ($this->request->isPut() || $this->request->isPost()) {
 			if ($this->LinkFrameSetting->saveLinkFrameSetting($this->data)) {
-				$this->redirect(NetCommonsUrl::backToPageUrl());
-				return;
+				return $this->redirect(NetCommonsUrl::backToPageUrl());
+			} else {
+				return $this->throwBadRequest();
 			}
-			$this->NetCommons->handleValidationError($this->LinkFrameSetting->validationErrors);
 
 		} else {
 			$this->request->data = $this->LinkFrameSetting->getLinkFrameSetting(true);
