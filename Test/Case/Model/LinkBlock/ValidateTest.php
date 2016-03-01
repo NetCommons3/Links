@@ -67,11 +67,11 @@ class LinkBlockValidateTest extends NetCommonsValidateTest {
 		$data['LinkBlock'] = (new LinkBlockFixture())->records[0];
 
 		return array(
-			array('data' => $data, 'field' => 'language_id', 'value' => null,
+			array('data' => $data, 'field' => 'language_id', 'value' => '',
 				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'language_id', 'value' => 'a',
 				'message' => __d('net_commons', 'Invalid request.')),
-			array('data' => $data, 'field' => 'room_id', 'value' => null,
+			array('data' => $data, 'field' => 'room_id', 'value' => '',
 				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'room_id', 'value' => 'a',
 				'message' => __d('net_commons', 'Invalid request.')),

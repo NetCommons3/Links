@@ -56,7 +56,7 @@ class LinkFixture extends CakeTestFixture {
 		array(
 			'id' => '1',
 			'block_id' => '2',
-			'key' => 'link_content_key_1',
+			'key' => 'content_key_1',
 			'language_id' => '2',
 			'category_id' => '1',
 			'status' => '1',
@@ -71,7 +71,7 @@ class LinkFixture extends CakeTestFixture {
 		array(
 			'id' => '2',
 			'block_id' => '2',
-			'key' => 'link_content_key_1',
+			'key' => 'content_key_1',
 			'language_id' => '2',
 			'category_id' => '1',
 			'status' => '4',
@@ -87,7 +87,7 @@ class LinkFixture extends CakeTestFixture {
 		array(
 			'id' => '3',
 			'block_id' => '2',
-			'key' => 'link_content_key_2',
+			'key' => 'content_key_2',
 			'language_id' => '2',
 			'category_id' => '1',
 			'status' => '3',
@@ -103,7 +103,7 @@ class LinkFixture extends CakeTestFixture {
 		array(
 			'id' => '4',
 			'block_id' => '2',
-			'key' => 'link_content_key_3',
+			'key' => 'content_key_3',
 			'language_id' => '2',
 			'category_id' => null,
 			'status' => '1',
@@ -119,7 +119,7 @@ class LinkFixture extends CakeTestFixture {
 		array(
 			'id' => '5',
 			'block_id' => '2',
-			'key' => 'link_content_key_4',
+			'key' => 'content_key_4',
 			'language_id' => '2',
 			'category_id' => '1',
 			'status' => '1',
@@ -134,7 +134,7 @@ class LinkFixture extends CakeTestFixture {
 		array(
 			'id' => '6',
 			'block_id' => '2',
-			'key' => 'link_content_key_4',
+			'key' => 'content_key_4',
 			'language_id' => '2',
 			'category_id' => '1',
 			'status' => '3',
@@ -150,7 +150,7 @@ class LinkFixture extends CakeTestFixture {
 		array(
 			'id' => '7',
 			'block_id' => '2',
-			'key' => 'link_content_key_5',
+			'key' => 'content_key_5',
 			'language_id' => '2',
 			'category_id' => '1',
 			'status' => '3',

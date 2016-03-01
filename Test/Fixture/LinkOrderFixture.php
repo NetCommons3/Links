@@ -48,7 +48,7 @@ class LinkOrderFixture extends CakeTestFixture {
 			'id' => '1',
 			'block_key' => 'block_1',
 			'category_key' => 'category_1',
-			'link_key' => 'link_content_key_1',
+			'link_key' => 'content_key_1',
 			'weight' => '1',
 		),
 		array(
@@ -62,21 +62,21 @@ class LinkOrderFixture extends CakeTestFixture {
 			'id' => '3',
 			'block_key' => 'block_1',
 			'category_key' => null,
-			'link_key' => 'link_content_key_3',
+			'link_key' => 'content_key_3',
 			'weight' => '1',
 		),
 		array(
 			'id' => '4',
 			'block_key' => 'block_1',
 			'category_key' => 'category_1',
-			'link_key' => 'link_content_key_4',
+			'link_key' => 'content_key_4',
 			'weight' => '3',
 		),
 		array(
 			'id' => '5',
 			'block_key' => 'block_1',
 			'category_key' => 'category_1',
-			'link_key' => 'link_content_key_5',
+			'link_key' => 'content_key_5',
 			'weight' => '4',
 		),
 	);

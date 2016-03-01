@@ -84,20 +84,20 @@ class LinkBlock extends BlocksAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
-			//'language_id' => array(
-			//	'numeric' => array(
-			//		'rule' => array('numeric'),
-			//		'message' => __d('net_commons', 'Invalid request.'),
-			//		'required' => true,
-			//	),
-			//),
-			//'room_id' => array(
-			//	'numeric' => array(
-			//		'rule' => array('numeric'),
-			//		'message' => __d('net_commons', 'Invalid request.'),
-			//		'required' => true,
-			//	),
-			//),
+			'language_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
+				),
+			),
+			'room_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
+				),
+			),
 			'name' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),

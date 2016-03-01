@@ -58,10 +58,10 @@ class LinksControllerDeleteTest extends WorkflowControllerDeleteTest {
 		$frameId = '6';
 		$blockId = '2';
 		$blockKey = 'block_1';
-		if ($contentKey === 'link_content_key_2') {
+		if ($contentKey === 'content_key_2') {
 			$contentId = '3';
 			$contentOrderId = '2';
-		} elseif ($contentKey === 'link_content_key_4') {
+		} elseif ($contentKey === 'content_key_4') {
 			$contentId = '5';
 			$contentOrderId = '4';
 		} else {
@@ -112,7 +112,7 @@ class LinksControllerDeleteTest extends WorkflowControllerDeleteTest {
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => 'link_content_key_1',
+				'key' => 'content_key_1',
 			),
 			'assert' => null, 'exception' => 'ForbiddenException'
 		);
@@ -122,7 +122,7 @@ class LinksControllerDeleteTest extends WorkflowControllerDeleteTest {
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => 'link_content_key_2',
+				'key' => 'content_key_2',
 			),
 			'assert' => null, 'exception' => 'BadRequestException'
 		)));
@@ -158,9 +158,9 @@ class LinksControllerDeleteTest extends WorkflowControllerDeleteTest {
  */
 	public function dataProviderDeletePost() {
 		$data = $this->__data();
-		$contentKey1 = 'link_content_key_1';
-		$contentKey2 = 'link_content_key_2';
-		$contentKey4 = 'link_content_key_4';
+		$contentKey1 = 'content_key_1';
+		$contentKey2 = 'content_key_2';
+		$contentKey4 = 'content_key_4';
 
 		//テストデータ
 		$results = array();
@@ -280,7 +280,7 @@ class LinksControllerDeleteTest extends WorkflowControllerDeleteTest {
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => 'link_content_key_1',
+				'key' => 'content_key_1',
 			),
 			'exception' => 'BadRequestException',
 			'return' => 'view'

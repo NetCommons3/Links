@@ -62,10 +62,10 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 		$blockKey = 'block_1';
 		if ($role === Role::ROOM_ROLE_KEY_GENERAL_USER) {
 			$contentId = '3';
-			$contentKey = 'link_content_key_2';
+			$contentKey = 'content_key_2';
 		} else {
 			$contentId = '2';
-			$contentKey = 'link_content_key_1';
+			$contentKey = 'content_key_1';
 		}
 
 		$data = array(
@@ -111,7 +111,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => 'link_content_key_1'
+				'key' => 'content_key_1'
 			),
 			'assert' => null, 'exception' => 'ForbiddenException'
 		);
@@ -141,7 +141,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => 'link_content_key_1'
+				'key' => 'content_key_1'
 			),
 			'assert' => null, 'exception' => 'BadRequestException'
 		);
@@ -150,7 +150,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => 'link_content_key_1'
+				'key' => 'content_key_1'
 			),
 			'assert' => null, 'exception' => 'BadRequestException', 'return' => 'json'
 		);
@@ -159,7 +159,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => 'link_content_key_2'
+				'key' => 'content_key_2'
 			),
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
@@ -189,7 +189,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => 'link_content_key_1'
+				'key' => 'content_key_1'
 			),
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
@@ -229,7 +229,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 			'urlOptions' => array(
 				'frame_id' => null,
 				'block_id' => $data['Block']['id'],
-				'key' => 'link_content_key_1'
+				'key' => 'content_key_1'
 			),
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
@@ -255,7 +255,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 		//テストデータ
 		$results = array();
 		// * ログインなし
-		$contentKey = 'link_content_key_1';
+		$contentKey = 'content_key_1';
 		array_push($results, array(
 			'data' => $data,
 			'role' => null,
@@ -268,7 +268,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 		));
 		// * 作成権限のみ
 		// ** 他人の記事
-		$contentKey = 'link_content_key_1';
+		$contentKey = 'content_key_1';
 		array_push($results, array(
 			'data' => $data,
 			'role' => Role::ROOM_ROLE_KEY_GENERAL_USER,
@@ -279,7 +279,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 			),
 			'exception' => 'BadRequestException'
 		));
-		$contentKey = 'link_content_key_1';
+		$contentKey = 'content_key_1';
 		array_push($results, array(
 			'data' => $data,
 			'role' => Role::ROOM_ROLE_KEY_GENERAL_USER,
@@ -291,7 +291,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 			'exception' => 'BadRequestException', 'return' => 'json'
 		));
 		// ** 自分の記事
-		$contentKey = 'link_content_key_2';
+		$contentKey = 'content_key_2';
 		array_push($results, array(
 			'data' => $this->__data(Role::ROOM_ROLE_KEY_GENERAL_USER),
 			'role' => Role::ROOM_ROLE_KEY_GENERAL_USER,
@@ -303,7 +303,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 		));
 		// * 編集権限あり
 		// ** コンテンツあり
-		$contentKey = 'link_content_key_1';
+		$contentKey = 'content_key_1';
 		array_push($results, array(
 			'data' => $data,
 			'role' => Role::ROOM_ROLE_KEY_EDITOR,
@@ -314,7 +314,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 			),
 		));
 		// ** フレームID指定なしテスト
-		$contentKey = 'link_content_key_1';
+		$contentKey = 'content_key_1';
 		array_push($results, array(
 			'data' => $data,
 			'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
@@ -345,7 +345,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
-				'key' => 'link_content_key_1',
+				'key' => 'content_key_1',
 			),
 			'validationError' => array(),
 		);
@@ -421,7 +421,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 				'action' => 'edit',
 				'block_id' => $data['Block']['id'],
 				'frame_id' => $data['Frame']['id'],
-				'key' => 'link_content_key_1',
+				'key' => 'content_key_1',
 			),
 			array('method' => 'assertNotEmpty')
 		);
@@ -450,7 +450,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 			'action' => 'edit',
 			'block_id' => $data['Block']['id'],
 			'frame_id' => $data['Frame']['id'],
-			'key' => 'link_content_key_1',
+			'key' => 'content_key_1',
 		);
 		$this->_testGetAction($urlOptions, array('method' => 'assertNotEmpty'));
 
