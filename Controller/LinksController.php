@@ -66,14 +66,12 @@ class LinksController extends LinksAppController {
 		parent::beforeFilter();
 
 		if (! Current::read('Block.id')) {
-			$this->setAction('emptyRender');
-			return false;
+			return $this->setAction('emptyRender');
 		}
 
 		$linkBlock = $this->LinkBlock->getLinkBlock();
 		if (! $linkBlock) {
-			$this->setAction('throwBadRequest');
-			return false;
+			return $this->setAction('throwBadRequest');
 		}
 		$this->set('linkBlock', $linkBlock['LinkBlock']);
 	}
