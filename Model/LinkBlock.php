@@ -74,6 +74,26 @@ class LinkBlock extends BlocksAppModel {
 	);
 
 /**
+ * Constructor
+ *
+ * @param bool|int|string|array $id Set this ID for this model on startup,
+ * can also be an array of options, see above.
+ * @param string $table Name of database table to use.
+ * @param string $ds DataSource connection name.
+ * @return void
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+
+		$this->loadModels([
+			'Link' => 'Links.Link',
+			'LinkSetting' => 'Links.LinkSetting',
+			'LinkOrder' => 'Links.LinkOrder',
+		]);
+	}
+
+/**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
  *
@@ -108,7 +128,6 @@ class LinkBlock extends BlocksAppModel {
 		));
 
 		if (isset($this->data['LinkSetting'])) {
-			$this->loadModels(['LinkSetting' => 'Links.LinkSetting']);
 			$this->LinkSetting->set($this->data['LinkSetting']);
 			if (! $this->LinkSetting->validates()) {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->LinkSetting->validationErrors);
@@ -149,8 +168,6 @@ class LinkBlock extends BlocksAppModel {
  * @return array LinkBlockデータ配列
  */
 	public function createLinkBlock() {
-		$this->LinkSetting = ClassRegistry::init('Links.LinkSetting');
-
 		$linkBlock = $this->createAll(array(
 			'LinkBlock' => array(
 				'name' => __d('links', 'New Bookmark List %s', date('YmdHis')),
@@ -166,8 +183,6 @@ class LinkBlock extends BlocksAppModel {
  * @return array LinkBlockデータ配列
  */
 	public function getLinkBlock() {
-		$this->LinkSetting = ClassRegistry::init('Links.LinkSetting');
-
 		$linkBlock = $this->find('all', array(
 			'recursive' => -1,
 			'fields' => array(
@@ -210,10 +225,6 @@ class LinkBlock extends BlocksAppModel {
  * @throws InternalErrorException
  */
 	public function saveLinkBlock($data) {
-		$this->loadModels([
-			'LinkSetting' => 'Links.LinkSetting',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 
@@ -248,12 +259,6 @@ class LinkBlock extends BlocksAppModel {
  * @throws InternalErrorException
  */
 	public function deleteLinkBlock($data) {
-		$this->loadModels([
-			'Link' => 'Links.Link',
-			'LinkSetting' => 'Links.LinkSetting',
-			'LinkOrder' => 'Links.LinkOrder',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 
