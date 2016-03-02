@@ -9,6 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('LinkFrameSetting', 'Links.Model');
+$LinkFrameSetting = new LinkFrameSetting();
 ?>
 
 <?php echo $this->NetCommonsForm->hidden('LinkFrameSetting.id'); ?>
@@ -20,9 +22,9 @@
 		'label' => __d('links', 'Display method'),
 		'type' => 'select',
 		'options' => array(
-			LinkFrameSetting::TYPE_DROPDOWN => __d('links', 'Show by dropdown'),
-			LinkFrameSetting::TYPE_LIST_ONLY_TITLE => __d('links', 'Show list'),
-			LinkFrameSetting::TYPE_LIST_WITH_DESCRIPTION => __d('links', 'Show list (Description)'),
+			$LinkFrameSetting::TYPE_DROPDOWN => __d('links', 'Show by dropdown'),
+			$LinkFrameSetting::TYPE_LIST_ONLY_TITLE => __d('links', 'Show list'),
+			$LinkFrameSetting::TYPE_LIST_WITH_DESCRIPTION => __d('links', 'Show list (Description)'),
 		),
 	)); ?>
 
@@ -62,7 +64,7 @@
 		</button>
 
 		<ul class="dropdown-menu text-left" role="menu"
-			ng-init="categorySeparatorLines = <?php echo h(json_encode(LinkFrameSetting::$categorySeparators)); ?>">
+			ng-init="categorySeparatorLines = <?php echo h(json_encode($LinkFrameSetting->categorySeparators)); ?>">
 
 			<li ng-repeat="line in categorySeparatorLines track by $index" ng-class="{active: (line.key===currentCategorySeparatorLine.key)}">
 				<a class="text-left" href="" ng-click="selectCategorySeparatorLine(line)">
@@ -105,7 +107,7 @@
 		</button>
 
 		<ul class="dropdown-menu" role="menu"
-			ng-init="listStyles = <?php echo h(json_encode(LinkFrameSetting::$listStyles)); ?>">
+			ng-init="listStyles = <?php echo h(json_encode($LinkFrameSetting->listStyles)); ?>">
 
 			<li ng-repeat="mark in listStyles track by $index" ng-class="{active: (mark.key===currentListStyle.key)}" ng-cloak>
 				<a href="" ng-click="selectListStyle(mark)">
