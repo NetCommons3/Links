@@ -55,7 +55,7 @@ class LinkOrderFixture extends CakeTestFixture {
 			'id' => '2',
 			'block_key' => 'block_1',
 			'category_key' => 'category_1',
-			'link_key' => 'link_contentkey_2',
+			'link_key' => 'content_key_2',
 			'weight' => '2',
 		),
 		array(

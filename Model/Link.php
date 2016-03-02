@@ -144,6 +144,7 @@ class Link extends LinksAppModel {
 		if (isset($this->data['LinkOrder'])) {
 			$this->LinkOrder->set($this->data['LinkOrder']);
 			if (! $this->LinkOrder->validates()) {
+				debug($this->LinkOrder->validationErrors);
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->LinkOrder->validationErrors);
 				return false;
 			}
@@ -165,10 +166,12 @@ class Link extends LinksAppModel {
 	public function afterSave($created, $options = array()) {
 		//LinkOrder登録
 		if (isset($this->LinkOrder->data['LinkOrder'])) {
-			$this->LinkOrder->data['LinkOrder']['link_key'] = $this->data[$this->alias]['key'];
-			if (! $this->LinkOrder->save(null, false)) {
+			$this->data['LinkOrder']['link_key'] = $this->data[$this->alias]['key'];
+			$result = $this->LinkOrder->save($this->data['LinkOrder'], false);
+			if (! $result) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+			$this->data['LinkOrder'] = $result['LinkOrder'];
 		}
 	}
 
