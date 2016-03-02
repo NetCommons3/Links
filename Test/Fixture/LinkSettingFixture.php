@@ -43,14 +43,14 @@ class LinkSettingFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
+			'id' => '1',
 			'block_key' => 'block_1',
-			'use_workflow' => 1,
+			'use_workflow' => true,
 		),
 		array(
-			'id' => 2,
+			'id' => '2',
 			'block_key' => 'block_2',
-			'use_workflow' => 1,
+			'use_workflow' => true,
 		),
 	);
 
