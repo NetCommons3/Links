@@ -57,7 +57,7 @@ class LinksViewElementsLinksEditFormTest extends NetCommonsControllerTestCase {
  */
 	public function testEditForm() {
 		//テスト実行
-		$this->_testGetAction('/test_links/test_view_elements_links_edit_form/edit_form',
+		$this->_testGetAction('/test_links/test_view_elements_links_edit_form/edit_form/2',
 				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
@@ -77,6 +77,7 @@ class LinksViewElementsLinksEditFormTest extends NetCommonsControllerTestCase {
 		$this->assertInput('input', 'data[Link][url]', 'http://www.netcommons.org', $this->view);
 		$this->assertInput('input', 'data[Link][title]', 'Title 2" id="LinkTitle', $this->view);
 		$this->assertInput('textarea', 'data[Link][description]', 'Description 2', $this->view);
+		$this->assertInput('select', 'data[Link][category_id]', '', $this->view);
 	}
 
 }
