@@ -120,8 +120,7 @@ class LinksController extends LinksAppController {
 			)
 		));
 		if (! $link) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 		$this->set('link', $link);
 
@@ -132,8 +131,7 @@ class LinksController extends LinksAppController {
 		$this->set('category', Hash::get($category, '0', array()));
 
 		if (! $this->Link->updateCount($link['Link']['id'])) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 	}
 
