@@ -145,19 +145,17 @@ class LinksController extends LinksAppController {
 	public function get() {
 		$url = Hash::get($this->request->query, 'url');
 		if (! $url) {
-			return false;
+			return $this->throwBadRequest(sprintf(__d('net_commons', 'Please input %s.'), __d('links', 'URL')));
 		}
 		try {
 			$socket = new HttpSocket(array('request' => array('redirect' => 10)));
 			$response = $socket->get($url);
 			if (! $response->isOk()) {
-				$this->throwBadRequest(__d('links', 'Failed to obtain the title for this page.'));
-				return;
+				throw new SocketException(__d('links', 'Failed to obtain the title for this page.'));
 			}
 		} catch (SocketException $ex) {
 			CakeLog::error($ex);
-			$this->throwBadRequest(__d('links', 'Failed to obtain the title for this page.'));
-			return;
+			return $this->throwBadRequest(__d('links', 'Failed to obtain the title for this page.'));
 		}
 
 		$results = array(
