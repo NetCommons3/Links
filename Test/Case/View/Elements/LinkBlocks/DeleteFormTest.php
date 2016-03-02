@@ -54,9 +54,8 @@ class LinksViewElementsLinkBlocksDeleteFormTest extends NetCommonsControllerTest
  */
 	public function testDeleteForm() {
 		//テスト実行
-		$this->_testNcAction('/test_links/test_view_elements_link_blocks_delete_form/delete_form', array(
-			'method' => 'get'
-		));
+		$this->_testGetAction('/test_links/test_view_elements_link_blocks_delete_form/delete_form',
+				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
 		$pattern = '/' . preg_quote('View/Elements/LinkBlocks/delete_form', '/') . '/';
