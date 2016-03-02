@@ -287,37 +287,47 @@ class LinksControllerViewTest extends WorkflowControllerViewTest {
 			if ($isLatest) {
 				//コンテンツのデータ(id=2, key=content_key_1)に対する期待値
 				$this->assertTextContains('Title 2', $this->view);
+				$this->assertTextContains('Description 2', $this->view);
 			} else {
 				//コンテンツのデータ(id=1, key=content_key_1)に対する期待値
 				$this->assertTextContains('Title 1', $this->view);
+				$this->assertTextContains('Description 1', $this->view);
 			}
 
 		} elseif ($contentKey === 'content_key_2') {
 			//コンテンツのデータ(id=3, key=content_key_2)に対する期待値
 			$this->assertTextContains('Title 3', $this->view);
+				$this->assertTextContains('Description 3', $this->view);
 
 		} elseif ($contentKey === 'content_key_3') {
 			if ($isLatest) {
 				//コンテンツのデータ(id=5, key=content_key_3)に対する期待値
 				$this->assertTextContains('Title 5', $this->view);
+				$this->assertTextContains('Description 5', $this->view);
 			} else {
 				//コンテンツのデータ(id=4, key=content_key_3)に対する期待値
 				$this->assertTextContains('Title 4', $this->view);
+				$this->assertTextContains('Description 4', $this->view);
 			}
 
 		} elseif ($contentKey === 'content_key_4') {
 			if ($isLatest) {
 				//コンテンツのデータ(id=7, key=content_key_4)に対する期待値
 				$this->assertTextContains('Title 7', $this->view);
+				$this->assertTextContains('Description 7', $this->view);
 			} else {
 				//コンテンツのデータ(id=6, key=content_key_4)に対する期待値
 				$this->assertTextContains('Title 6', $this->view);
+				$this->assertTextContains('Description 6', $this->view);
 			}
 
 		} elseif ($contentKey === 'content_key_5') {
 			//コンテンツのデータ(id=8, key=content_key_5)に対する期待値
 			$this->assertTextContains('Title 8', $this->view);
+			$this->assertTextContains('Description 8', $this->view);
 		}
+
+		$this->assertTextContains('<span class="badge">1</span>', $this->view);
 	}
 
 /**
