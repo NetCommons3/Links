@@ -35,7 +35,7 @@ class LinkFrameSetting extends LinksAppModel {
  *
  * @var array
  */
-	static public $categorySeparators = array();
+	public $categorySeparators = array();
 
 /**
  * categorySeparatorLine default
@@ -60,7 +60,7 @@ class LinkFrameSetting extends LinksAppModel {
  *
  * @var array
  */
-	static public $listStyles = array();
+	public $listStyles = array();
 
 /**
  * Validation rules
@@ -88,7 +88,7 @@ class LinkFrameSetting extends LinksAppModel {
 		$files = $dir->find('.*\..*');
 		$files = Hash::sort($files, '{n}', 'asc');
 
-		self::$categorySeparators = array(
+		$this->categorySeparators = array(
 			array(
 				'key' => null,
 				'name' => __d('links', '(no line)'),
@@ -103,7 +103,7 @@ class LinkFrameSetting extends LinksAppModel {
 		foreach ($files as $file) {
 			$info = getimagesize($dir->pwd() . DS . $file);
 			$img = '/' . Inflector::underscore($this->plugin) . DS . 'img' . DS . 'line' . DS . $file;
-			self::$categorySeparators[] = array(
+			$this->categorySeparators[] = array(
 				'key' => $file,
 				'name' => '',
 				'style' => 'background-image: url(' . $img . '); ' . 'border-image: url(' . $img . '); ' . 'height: ' . $info[1] . 'px;',
@@ -115,7 +115,7 @@ class LinkFrameSetting extends LinksAppModel {
 		$dir = new Folder($pluginDir . 'mark');
 		$files = $dir->find('.*\..*');
 		$files = Hash::sort($files, '{n}', 'asc');
-		self::$listStyles = array(
+		$this->listStyles = array(
 			array(
 				'key' => null,
 				'name' => '',
@@ -146,7 +146,7 @@ class LinkFrameSetting extends LinksAppModel {
 		foreach ($files as $file) {
 			$info = getimagesize($dir->pwd() . DS . $file);
 			$img = '/' . Inflector::underscore($this->plugin) . DS . 'img' . DS . 'mark' . DS . $file;
-			self::$listStyles[] = array(
+			$this->listStyles[] = array(
 				'key' => $file,
 				'name' => '',
 				'style' => 'list-style-type: none; ' . 'list-style-image: url(' . $img . '); '
@@ -206,7 +206,7 @@ class LinkFrameSetting extends LinksAppModel {
 			'category_separator_line' => array(
 				'inList' => array(
 					'rule' => array('inList',
-						array_keys(Hash::combine(self::$categorySeparators, '{n}.key', '{n}.key'))
+						array_keys(Hash::combine($this->categorySeparators, '{n}.key', '{n}.key'))
 					),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => true,
@@ -215,7 +215,7 @@ class LinkFrameSetting extends LinksAppModel {
 			'list_style' => array(
 				'inList' => array(
 					'rule' => array('inList',
-						array_keys(Hash::combine(self::$listStyles, '{n}.key', '{n}.key'))
+						array_keys(Hash::combine($this->listStyles, '{n}.key', '{n}.key'))
 					),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => true,
@@ -253,12 +253,12 @@ class LinkFrameSetting extends LinksAppModel {
 		//カテゴリ間の区切り線
 		$separatorLine = $linkFrameSetting['LinkFrameSetting']['category_separator_line'];
 		$linkFrameSetting['LinkFrameSetting']['category_separator_line_css'] =
-				Hash::get(Hash::extract(self::$categorySeparators, '{n}[key=' . $separatorLine . ']'), '0.style');
+				Hash::get(Hash::extract($this->categorySeparators, '{n}[key=' . $separatorLine . ']'), '0.style');
 
 		//リストマーク
 		$listStyle = $linkFrameSetting['LinkFrameSetting']['list_style'];
 		$linkFrameSetting['LinkFrameSetting']['list_style_css'] =
-				Hash::get(Hash::extract(self::$listStyles, '{n}[key=' . $listStyle . ']'), '0.style');
+				Hash::get(Hash::extract($this->listStyles, '{n}[key=' . $listStyle . ']'), '0.style');
 
 		return $linkFrameSetting;
 	}
