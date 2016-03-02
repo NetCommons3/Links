@@ -51,8 +51,7 @@ class LinkFixture extends CakeTestFixture {
  * @var array
  */
 	public $records = array(
-		//LinkBlock 1  日本語
-		//リンク 1
+		// * ルーム管理者が書いたコンテンツ＆一度公開して、下書き中
 		array(
 			'id' => '1',
 			'block_id' => '2',
@@ -63,7 +62,7 @@ class LinkFixture extends CakeTestFixture {
 			'is_active' => true,
 			'is_latest' => false,
 			'url' => 'http://www.netcommons.org',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 1',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'click_count' => '1',
 			'created_user' => '1'
@@ -74,32 +73,32 @@ class LinkFixture extends CakeTestFixture {
 			'key' => 'content_key_1',
 			'language_id' => '2',
 			'category_id' => '1',
-			'status' => '4',
+			'status' => '3',
 			'is_active' => false,
 			'is_latest' => true,
 			'url' => 'http://www.netcommons.org',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 2',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'click_count' => '1',
 			'created_user' => '1'
 		),
-		//リンク 2(一般が書いた質問＆一度も公開していない)
+		// * 一般が書いたコンテンツ＆一度も公開していない（承認待ち）
 		array(
 			'id' => '3',
 			'block_id' => '2',
 			'key' => 'content_key_2',
 			'language_id' => '2',
 			'category_id' => '1',
-			'status' => '3',
+			'status' => '2',
 			'is_active' => false,
 			'is_latest' => true,
 			'url' => 'http://www.netcommons.org',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 3',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'click_count' => '1',
 			'created_user' => '4'
 		),
-		//リンク 3
+		// * 一般が書いたコンテンツ＆公開して、一時保存
 		array(
 			'id' => '4',
 			'block_id' => '2',
@@ -108,47 +107,62 @@ class LinkFixture extends CakeTestFixture {
 			'category_id' => null,
 			'status' => '1',
 			'is_active' => true,
-			'is_latest' => true,
+			'is_latest' => false,
 			'url' => 'http://www.netcommons.org',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 4',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'click_count' => '1',
 			'created_user' => '4'
 		),
-		//リンク 4(一般が書いた質問＆一度公開している)
 		array(
 			'id' => '5',
 			'block_id' => '2',
-			'key' => 'content_key_4',
+			'key' => 'content_key_3',
 			'language_id' => '2',
-			'category_id' => '1',
-			'status' => '1',
-			'is_active' => true,
+			'category_id' => null,
+			'status' => '3',
+			'is_active' => false,
 			'is_latest' => true,
 			'url' => 'http://www.netcommons.org',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 5',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'click_count' => '1',
 			'created_user' => '4'
 		),
+		// * 編集者が書いたコンテンツ＆一度公開して、差し戻し
 		array(
 			'id' => '6',
 			'block_id' => '2',
 			'key' => 'content_key_4',
 			'language_id' => '2',
 			'category_id' => '1',
-			'status' => '3',
+			'status' => '1',
+			'is_active' => true,
+			'is_latest' => false,
+			'url' => 'http://www.netcommons.org',
+			'title' => 'Title 6',
+			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'click_count' => '1',
+			'created_user' => '3'
+		),
+		array(
+			'id' => '7',
+			'block_id' => '2',
+			'key' => 'content_key_4',
+			'language_id' => '2',
+			'category_id' => '1',
+			'status' => '4',
 			'is_active' => false,
 			'is_latest' => true,
 			'url' => 'http://www.netcommons.org',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 7',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'click_count' => '1',
-			'created_user' => '4'
+			'created_user' => '3'
 		),
-		//リンク 5(chief_userが書いた質問＆一度も公開していない)
+		// * 編集長が書いたコンテンツ＆一度も公開していない（下書き中）
 		array(
-			'id' => '7',
+			'id' => '8',
 			'block_id' => '2',
 			'key' => 'content_key_5',
 			'language_id' => '2',
@@ -157,10 +171,10 @@ class LinkFixture extends CakeTestFixture {
 			'is_active' => false,
 			'is_latest' => true,
 			'url' => 'http://www.netcommons.org',
-			'title' => 'Lorem ipsum dolor sit amet',
+			'title' => 'Title 8',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'click_count' => '1',
-			'created_user' => '3'
+			'created_user' => '2'
 		),
 	);
 
