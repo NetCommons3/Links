@@ -49,11 +49,11 @@ class LinkFrameSettingFixture extends CakeTestFixture {
 		array(
 			'id' => '6',
 			'frame_key' => 'frame_3',
-			'display_type' => '1',
+			'display_type' => '3',
 			'open_new_tab' => '1',
 			'display_click_count' => '1',
-			'category_separator_line' => '',
-			'list_style' => '',
+			'category_separator_line' => 'line_a2.gif',
+			'list_style' => 'mark_a1.gif',
 		),
 	);
 

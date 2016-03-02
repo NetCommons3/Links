@@ -242,8 +242,12 @@ class LinkFrameSetting extends LinksAppModel {
 			'conditions' => $conditions,
 		));
 
-		if ($created && ! $linkFrameSetting) {
-			$linkFrameSetting = $this->create();
+		if (! $linkFrameSetting) {
+			if ($created) {
+				$linkFrameSetting = $this->create();
+			} else {
+				return $linkFrameSetting;
+			}
 		}
 
 		//カテゴリ間の区切り線
