@@ -63,7 +63,7 @@ class LinkFixture extends CakeTestFixture {
 			'is_latest' => false,
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Title 1',
-			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'description' => 'Description 1',
 			'click_count' => '1',
 			'created_user' => '1'
 		),
@@ -78,7 +78,7 @@ class LinkFixture extends CakeTestFixture {
 			'is_latest' => true,
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Title 2',
-			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'description' => 'Description 2',
 			'click_count' => '1',
 			'created_user' => '1'
 		),
@@ -94,7 +94,7 @@ class LinkFixture extends CakeTestFixture {
 			'is_latest' => true,
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Title 3',
-			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'description' => 'Description 3',
 			'click_count' => '1',
 			'created_user' => '4'
 		),
@@ -110,7 +110,7 @@ class LinkFixture extends CakeTestFixture {
 			'is_latest' => false,
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Title 4',
-			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'description' => 'Description 4',
 			'click_count' => '1',
 			'created_user' => '4'
 		),
@@ -125,7 +125,7 @@ class LinkFixture extends CakeTestFixture {
 			'is_latest' => true,
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Title 5',
-			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'description' => 'Description 5',
 			'click_count' => '1',
 			'created_user' => '4'
 		),
@@ -141,7 +141,7 @@ class LinkFixture extends CakeTestFixture {
 			'is_latest' => false,
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Title 6',
-			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'description' => 'Description 6',
 			'click_count' => '1',
 			'created_user' => '3'
 		),
@@ -156,7 +156,7 @@ class LinkFixture extends CakeTestFixture {
 			'is_latest' => true,
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Title 7',
-			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'description' => 'Description 7',
 			'click_count' => '1',
 			'created_user' => '3'
 		),
@@ -172,7 +172,7 @@ class LinkFixture extends CakeTestFixture {
 			'is_latest' => true,
 			'url' => 'http://www.netcommons.org',
 			'title' => 'Title 8',
-			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'description' => 'Description 8',
 			'click_count' => '1',
 			'created_user' => '2'
 		),
