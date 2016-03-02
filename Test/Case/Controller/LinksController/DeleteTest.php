@@ -136,10 +136,6 @@ class LinksControllerDeleteTest extends WorkflowControllerDeleteTest {
 			'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
 			'assert' => null, 'exception' => 'BadRequestException'
 		)));
-		array_push($results, Hash::merge($results[0], array(
-			'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
-			'assert' => null, 'exception' => 'BadRequestException', 'return' => 'json'
-		)));
 
 		return $results;
 	}
@@ -186,16 +182,6 @@ class LinksControllerDeleteTest extends WorkflowControllerDeleteTest {
 				'key' => $contentKey1
 			),
 			'exception' => 'BadRequestException'
-		));
-		array_push($results, array(
-			'data' => $this->__data($contentKey1),
-			'role' => Role::ROOM_ROLE_KEY_GENERAL_USER,
-			'urlOptions' => array(
-				'frame_id' => $data['Frame']['id'],
-				'block_id' => $data['Block']['id'],
-				'key' => $contentKey1
-			),
-			'exception' => 'BadRequestException', 'return' => 'json'
 		));
 		// ** 自分の記事＆一度も公開されていない
 		array_push($results, array(
@@ -285,9 +271,6 @@ class LinksControllerDeleteTest extends WorkflowControllerDeleteTest {
 			'exception' => 'BadRequestException',
 			'return' => 'view'
 		);
-		$results[1] = Hash::merge($results[0], array(
-			'return' => 'json'
-		));
 
 		return $results;
 	}

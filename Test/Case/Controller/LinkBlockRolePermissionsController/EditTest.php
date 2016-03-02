@@ -116,23 +116,6 @@ class LinkBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCon
 	}
 
 /**
- * editアクションのGET(JSON)テスト(Exceptionエラー)
- *
- * @param array $approvalFields コンテンツ承認の利用有無のフィールド
- * @param string|null $exception Exception
- * @param string $return testActionの実行後の結果
- * @dataProvider dataProviderEditGet
- * @return void
- */
-	public function testEditGetJsonExceptionError($approvalFields, $exception = null, $return = 'view') {
-		$this->_mockForReturnFalse('Links.LinkBlock', 'getLinkBlock');
-
-		$exception = 'BadRequestException';
-		$return = 'json';
-		$this->testEditGet($approvalFields, $exception, $return);
-	}
-
-/**
  * edit()アクションDataProvider
  *
  * ### 戻り値

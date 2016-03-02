@@ -145,17 +145,8 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 			),
 			'assert' => null, 'exception' => 'BadRequestException'
 		);
-		// ** 他人の記事(JSON形式)
-		$results[1] = array(
-			'urlOptions' => array(
-				'frame_id' => $data['Frame']['id'],
-				'block_id' => $data['Block']['id'],
-				'key' => 'content_key_1'
-			),
-			'assert' => null, 'exception' => 'BadRequestException', 'return' => 'json'
-		);
 		// ** 自分の記事
-		$results[2] = array(
+		$results[1] = array(
 			'urlOptions' => array(
 				'frame_id' => $data['Frame']['id'],
 				'block_id' => $data['Block']['id'],
@@ -278,17 +269,6 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 				'key' => $contentKey,
 			),
 			'exception' => 'BadRequestException'
-		));
-		$contentKey = 'content_key_1';
-		array_push($results, array(
-			'data' => $data,
-			'role' => Role::ROOM_ROLE_KEY_GENERAL_USER,
-			'urlOptions' => array(
-				'frame_id' => $data['Frame']['id'],
-				'block_id' => $data['Block']['id'],
-				'key' => $contentKey,
-			),
-			'exception' => 'BadRequestException', 'return' => 'json'
 		));
 		// ** 自分の記事
 		$contentKey = 'content_key_2';
