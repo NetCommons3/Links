@@ -48,9 +48,9 @@ NetCommonsApp.controller('LinksIndex', function($scope, $http, $window) {
           $scope.data._Token.key = token.data._Token.key;
 
           //POSTリクエスト
-          $http.post(
+          $http.put(
               $scope.baseUrl + '/links/links/link.json',
-              $.param({_method: 'POST', data: $scope.data}),
+              $.param({_method: 'PUT', data: $scope.data}),
               {cache: false,
                 headers:
                     {'Content-Type': 'application/x-www-form-urlencoded'}

@@ -304,9 +304,8 @@ class LinksController extends LinksAppController {
  * @return void
  */
 	public function link() {
-		if (! $this->request->isPost()) {
-			$this->throwBadRequest();
-			return;
+		if (! $this->request->isPut()) {
+			return $this->throwBadRequest();
 		}
 
 		$link = $this->Link->getWorkflowContents('first', array(
@@ -317,15 +316,13 @@ class LinksController extends LinksAppController {
 			)
 		));
 		if (! $link) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 
 		if (! $this->Link->updateCount($this->data['Link']['id'])) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 
-		$this->redirect(NetCommonsUrl::backToPageUrl());
+		$this->NetCommons->renderJson();
 	}
 }
