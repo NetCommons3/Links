@@ -143,9 +143,9 @@ class LinkSaveTest extends NetCommonsModelTestCase {
 		$model = $this->_modelName;
 		$methodName = $this->_methodName;
 		$this->_mockForReturnFalse($model, 'Links.LinkOrder', 'save');
-		$this->setExpectedException('InternalErrorException');
 
 		//テスト実施
+		$this->setExpectedException('InternalErrorException');
 		$data = $this->__data();
 		$this->$model->$methodName($data);
 	}

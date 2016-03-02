@@ -253,23 +253,29 @@ class Link extends LinksAppModel {
 	}
 
 /**
- * Update count
+ * クリック数の更新
  *
  * @param int $id links.id
  * @return bool True on success, false on validation errors
+ * @throws InternalErrorException
  */
 	public function updateCount($id) {
 		//トランザクションBegin
 		$this->begin();
 
 		try {
-			$this->updateAll(
-				array($this->alias . '.click_count' => $this->alias . '.click_count + 1'),
+			$result = $this->updateAll(
+				array(
+					$this->alias . '.click_count' => $this->alias . '.click_count + 1'
+				),
 				array(
 					$this->alias . '.id' => $id,
 					$this->alias . '.block_id' => Current::read('Block.id'),
 				)
 			);
+			if (! $result) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
 
 			//トランザクションCommit
 			$this->commit();
