@@ -1,6 +1,6 @@
 <?php
 /**
- * View/Elements/Links/index_dropdownのテスト
+ * View/Elements/Links/index_list_only_titleのテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -12,12 +12,12 @@
 App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 
 /**
- * View/Elements/Links/index_dropdownのテスト
+ * View/Elements/Links/index_list_only_titleのテスト
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\Links\Test\Case\View\Elements\Links\IndexDropdown
+ * @package NetCommons\Links\Test\Case\View\Elements\Links\IndexListOnlyTitle
  */
-class LinksViewElementsLinksIndexDropdownTest extends NetCommonsControllerTestCase {
+class LinksViewElementsLinksIndexListOnlyTitleTest extends NetCommonsControllerTestCase {
 
 /**
  * Fixtures
@@ -51,7 +51,7 @@ class LinksViewElementsLinksIndexDropdownTest extends NetCommonsControllerTestCa
 		//テストプラグインのロード
 		NetCommonsCakeTestCase::loadTestPlugin($this, 'Links', 'TestLinks');
 		//テストコントローラ生成
-		$this->generateNc('TestLinks.TestViewElementsLinksIndexDropdown');
+		$this->generateNc('TestLinks.TestViewElementsLinksIndexListOnlyTitle');
 		//ログイン
 		TestAuthGeneral::login($this);
 	}
@@ -68,20 +68,22 @@ class LinksViewElementsLinksIndexDropdownTest extends NetCommonsControllerTestCa
 	}
 
 /**
- * View/Elements/Links/index_dropdownのテスト
+ * View/Elements/Links/index_list_only_titleのテスト
  *
  * @return void
  */
-	public function testIndexDropdown() {
+	public function testIndexListOnlyTitle() {
 		//テスト実行
-		$this->_testGetAction('/test_links/test_view_elements_links_index_dropdown/index_dropdown/2?frame_id=6',
+		$this->_testGetAction('/test_links/test_view_elements_links_index_list_only_title/index_list_only_title/2?frame_id=6',
 				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
-		$pattern = '/' . preg_quote('View/Elements/Links/index_dropdown', '/') . '/';
+		$pattern = '/' . preg_quote('View/Elements/Links/index_list_only_title', '/') . '/';
 		$this->assertRegExp($pattern, $this->view);
 
-		$this->assertTextContains('<ul class="dropdown-menu" role="menu">', $this->view);
+		$this->assertTextContains('<ul class="list-group nc-links-list-style"', $this->view);
+		$this->assertTextContains('/links/img/line/line_a2.gif', $this->view);
+		$this->assertTextContains('/links/img/mark/mark_a1.gif', $this->view);
 
 		$this->assertTextContains('Category 1', $this->view);
 		$this->assertTextContains('Title 2', $this->view);
