@@ -151,8 +151,6 @@ class LinkBlock extends BlocksAppModel {
 		//LinkSetting登録
 		if (isset($this->data['LinkSetting'])) {
 			$this->LinkSetting->set($this->data['LinkSetting']);
-		}
-		if (isset($this->LinkSetting->data['LinkSetting'])) {
 			if (! $this->LinkSetting->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}

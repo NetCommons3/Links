@@ -94,6 +94,8 @@ class LinkBlocksControllerEditTest extends BlocksControllerEditTest {
 				'block_key' => $linkKey,
 			),
 			'LinkBlock' => array(
+				'id' => $blockId,
+				'key' => $blockKey,
 				'name' => 'Link name',
 			),
 		);
