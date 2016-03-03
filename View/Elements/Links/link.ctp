@@ -8,14 +8,17 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
+$attribute = '';
+if ($link['Link']['status'] === WorkflowComponent::STATUS_PUBLISHED) {
+	$attribute .= ' onclick="return false;" ng-click="clickLink($event, \'' . $link['Link']['id'] . '\', \'' . $link['Link']['key'] . '\')"';
+}
+if ($linkFrameSetting['open_new_tab']) {
+	$attribute .= ' target="_blank"';
+}
 ?>
 
-<a href="<?php echo h($link['Link']['url']); ?>"
-	<?php echo $link['Link']['status'] === WorkflowComponent::STATUS_PUBLISHED ?
-			' onclick="return false;" ' .
-			' ng-click="clickLink($event, \'' . $link['Link']['id'] . '\', \'' . $link['Link']['key'] . '\')"' : ''; ?>
-	<?php echo $linkFrameSetting['open_new_tab'] ? 'target="_blank"' : '' ?>>
-
+<a <?php echo 'href="' . h($link['Link']['url']) . '"' . $attribute; ?>>
 	<?php echo h($link['Link']['title']); ?>
 </a>
 <?php if ($linkFrameSetting['display_click_count']) : ?>
