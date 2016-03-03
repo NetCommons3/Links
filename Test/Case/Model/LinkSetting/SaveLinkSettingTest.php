@@ -75,6 +75,7 @@ class LinkSettingSaveLinkSettingTest extends NetCommonsSaveTest {
 		$results[1] = array($data);
 		$results[1] = Hash::insert($results[1], '0.LinkSetting.id', null);
 		$results[1] = Hash::remove($results[1], '0.LinkSetting.created_user');
+		$results[1] = Hash::insert($results[1], '0.LinkSetting.use_workflow', true);
 
 		return $results;
 	}
