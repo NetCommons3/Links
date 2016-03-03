@@ -262,7 +262,7 @@ class LinkBlock extends BlocksAppModel {
 		$this->begin();
 
 		$conditions = array(
-			$this->alias . '.key' => $data['Block']['key']
+			$this->alias . '.key' => $data[$this->alias]['key']
 		);
 		$blocks = $this->find('list', array(
 			'recursive' => -1,
@@ -271,7 +271,7 @@ class LinkBlock extends BlocksAppModel {
 		$blocks = array_keys($blocks);
 
 		try {
-			if (! $this->LinkSetting->deleteAll(array($this->LinkSetting->alias . '.block_key' => $data['Block']['key']), false)) {
+			if (! $this->LinkSetting->deleteAll(array($this->LinkSetting->alias . '.block_key' => $data[$this->alias]['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
@@ -279,12 +279,12 @@ class LinkBlock extends BlocksAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->LinkOrder->deleteAll(array($this->LinkOrder->alias . '.block_key' => $data['Block']['key']), false)) {
+			if (! $this->LinkOrder->deleteAll(array($this->LinkOrder->alias . '.block_key' => $data[$this->alias]['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			//Blockデータ削除
-			$this->deleteBlock($data['Block']['key']);
+			$this->deleteBlock($data[$this->alias]['key']);
 
 			//トランザクションCommit
 			$this->commit();

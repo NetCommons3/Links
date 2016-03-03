@@ -67,18 +67,15 @@ class LinkBlockDeleteLinkBlockTest extends WorkflowDeleteTest {
  */
 	public function dataProviderDelete() {
 		$data = array(
-			'Block' => array(
-				'id' => '2',
-				'key' => 'block_1'
-			),
 			'LinkBlock' => array(
+				'id' => '2',
 				'key' => 'block_1'
 			)
 		);
 		$association = array(
-			'LinkSetting' => array('block_key' => $data['Block']['key']),
-			'Link' => array('block_id' => $data['Block']['id']),
-			'LinkOrder' => array('block_key' => $data['Block']['key']),
+			'LinkSetting' => array('block_key' => $data['LinkBlock']['key']),
+			'Link' => array('block_id' => $data['LinkBlock']['id']),
+			'LinkOrder' => array('block_key' => $data['LinkBlock']['key']),
 		);
 
 		$results = array();

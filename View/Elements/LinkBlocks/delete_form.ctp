@@ -14,8 +14,7 @@
 	<?php echo sprintf(__d('net_commons', 'Delete all data associated with the %s.'), __d('links', 'Link List')); ?>
 </div>
 
-<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
-<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
+<?php echo $this->NetCommonsForm->hidden('LinkBlock.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('LinkBlock.key'); ?>
 
 <?php echo $this->Button->delete(

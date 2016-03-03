@@ -64,6 +64,9 @@ class LinksViewElementsLinkBlocksEditFormTest extends NetCommonsControllerTestCa
 		$this->assertInput('input', 'data[LinkSetting][id]', '1', $this->view);
 		$this->assertInput('input', 'data[LinkSetting][block_key]', 'block_1', $this->view);
 		$this->assertInput('input', 'data[LinkBlock][name]', 'Block name 1', $this->view);
+		$this->assertInput('input', 'data[LinkBlock][id]', '2', $this->view);
+		$this->assertInput('input', 'data[LinkBlock][key]', 'block_1', $this->view);
+		$this->assertInput('input', 'data[LinkBlock][language_id]', '2', $this->view);
 
 		//$this->element('Blocks.form_hidden')のチェック
 		//⇒ここでは、呼ばれているかどうかのチェックのみ
