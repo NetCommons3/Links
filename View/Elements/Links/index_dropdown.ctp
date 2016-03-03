@@ -36,8 +36,8 @@
 				<?php foreach ($links[$category['Category']['id']] as $link) : ?>
 					<li>
 						<div class="nc-dropdown-block">
-							<?php echo $this->element('Links/link', array('link' => $link)); ?>
-							<?php echo $this->element('Links/edit_link', array('link' => $link)); ?>
+							<?php echo $this->element('Links.Links/link', array('link' => $link)); ?>
+							<?php echo $this->element('Links.Links/edit_link', array('link' => $link)); ?>
 						</div>
 					</li>
 				<?php endforeach; ?>

@@ -297,7 +297,7 @@ class LinksControllerViewTest extends WorkflowControllerViewTest {
 		} elseif ($contentKey === 'content_key_2') {
 			//コンテンツのデータ(id=3, key=content_key_2)に対する期待値
 			$this->assertTextContains('Title 3', $this->view);
-				$this->assertTextContains('Description 3', $this->view);
+			$this->assertTextContains('Description 3', $this->view);
 
 		} elseif ($contentKey === 'content_key_3') {
 			if ($isLatest) {
