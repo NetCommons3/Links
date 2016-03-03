@@ -65,8 +65,6 @@ class LinkOrderSaveLinkOrdersTest extends NetCommonsSaveTest {
  * @return array テストデータ
  */
 	public function dataProviderSave() {
-		$data['LinkOrder'] = (new LinkOrderFixture())->records[1];
-
 		$results = array();
 		$results[0][0]['LinkOrders'] = array();
 		$results[0][0]['LinkOrders'][] = array('LinkOrder' => Hash::insert((new LinkOrderFixture())->records[2], 'weight', '1'));

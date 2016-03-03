@@ -52,8 +52,7 @@ class LinkOrdersController extends LinksAppController {
 	public function edit() {
 		$linkBlock = $this->LinkBlock->getLinkBlock();
 		if (! $linkBlock) {
-			$this->setAction('throwBadRequest');
-			return false;
+			return $this->throwBadRequest();
 		}
 		$this->set('linkBlock', $linkBlock['LinkBlock']);
 
@@ -74,10 +73,9 @@ class LinkOrdersController extends LinksAppController {
 		));
 		$this->set('links', Hash::combine($links, '{n}.LinkOrder.weight', '{n}', '{n}.Link.category_id'));
 
-		if ($this->request->isPost()) {
+		if ($this->request->isPut()) {
 			if ($this->LinkOrder->saveLinkOrders($this->data)) {
-				$this->redirect(NetCommonsUrl::backToPageUrl());
-				return;
+				return $this->redirect(NetCommonsUrl::backToPageUrl());
 			}
 			$this->NetCommons->handleValidationError($this->LinkOrder->validationErrors);
 
