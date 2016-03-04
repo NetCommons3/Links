@@ -33,6 +33,7 @@ class TestViewElementsLinkBlocksDeleteFormController extends AppController {
 				'key' => 'block_key_1',
 			),
 			'LinkBlock' => array(
+				'id' => '1',
 				'key' => 'block_key_1',
 			),
 		);

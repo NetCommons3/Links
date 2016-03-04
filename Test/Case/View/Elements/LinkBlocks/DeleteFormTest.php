@@ -61,7 +61,7 @@ class LinksViewElementsLinkBlocksDeleteFormTest extends NetCommonsControllerTest
 		$pattern = '/' . preg_quote('View/Elements/LinkBlocks/delete_form', '/') . '/';
 		$this->assertRegExp($pattern, $this->view);
 
-		$this->assertInput('input', 'data[LinkBlock][id]', '2', $this->view);
+		$this->assertInput('input', 'data[LinkBlock][id]', '1', $this->view);
 		$this->assertInput('input', 'data[LinkBlock][key]', 'block_key_1', $this->view);
 	}
 
