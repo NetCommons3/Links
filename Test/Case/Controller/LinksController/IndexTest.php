@@ -202,4 +202,16 @@ class LinksControllerIndexTest extends WorkflowControllerIndexTest {
 		$this->assertTextContains('/links/link_orders/edit/2', $this->view);
 	}
 
+/**
+ * ExceptionErrorテスト
+ *
+ * @return void
+ */
+	public function testIndexOnExceptionError() {
+		$this->_mockForReturnFalse('Links.LinkFrameSetting', 'getLinkFrameSetting');
+
+		//テスト実行
+		$this->_testGetAction($this->__data('6'), null, 'BadRequestException');
+	}
+
 }

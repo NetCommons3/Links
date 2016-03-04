@@ -69,8 +69,7 @@ class LinkBlockRolePermissionsController extends LinksAppController {
  */
 	public function edit() {
 		if (! $linkBlock = $this->LinkBlock->getLinkBlock()) {
-			$this->throwBadRequest();
-			return false;
+			return $this->throwBadRequest();
 		}
 
 		$permissions = $this->Workflow->getBlockRolePermissions(

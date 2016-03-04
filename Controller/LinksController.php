@@ -84,8 +84,7 @@ class LinksController extends LinksAppController {
 	public function index() {
 		$linkFrameSetting = $this->LinkFrameSetting->getLinkFrameSetting(true);
 		if (! $linkFrameSetting) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 		$this->set('linkFrameSetting', $linkFrameSetting['LinkFrameSetting']);
 
@@ -197,8 +196,7 @@ class LinksController extends LinksAppController {
 			unset($data['Link']['id'], $data['LinkOrder']['weight']);
 
 			if ($this->Link->saveLink($data)) {
-				$this->redirect(NetCommonsUrl::backToPageUrl());
-				return;
+				return $this->redirect(NetCommonsUrl::backToPageUrl());
 			}
 			$this->NetCommons->handleValidationError($this->Link->validationErrors);
 
@@ -233,8 +231,7 @@ class LinksController extends LinksAppController {
 
 		//編集権限チェック
 		if (! $this->Link->canEditWorkflowContent($link)) {
-			$this->throwBadRequest();
-			return false;
+			return $this->throwBadRequest();
 		}
 
 		if ($this->request->is('put')) {
@@ -272,8 +269,7 @@ class LinksController extends LinksAppController {
  */
 	public function delete() {
 		if (! $this->request->is('delete')) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 
 		//データ取得
@@ -287,13 +283,11 @@ class LinksController extends LinksAppController {
 
 		//削除権限チェック
 		if (! $this->Link->canDeleteWorkflowContent($link)) {
-			$this->throwBadRequest();
-			return false;
+			return $this->throwBadRequest();
 		}
 
 		if (! $this->Link->deleteLink($this->data)) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 
 		$this->redirect(NetCommonsUrl::backToPageUrl());
