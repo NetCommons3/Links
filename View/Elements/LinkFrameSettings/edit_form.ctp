@@ -9,8 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('LinkFrameSetting', 'Links.Model');
-$LinkFrameSetting = new LinkFrameSetting();
+$LinkFrameSetting = ClassRegistry::init('Links.LinkFrameSetting');
 ?>
 
 <?php echo $this->NetCommonsForm->hidden('LinkFrameSetting.id'); ?>
