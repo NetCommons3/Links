@@ -73,7 +73,7 @@ class LinkOrdersController extends LinksAppController {
 		));
 		$this->set('links', Hash::combine($links, '{n}.LinkOrder.weight', '{n}', '{n}.Link.category_id'));
 
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			if ($this->LinkOrder->saveLinkOrders($this->data)) {
 				return $this->redirect(NetCommonsUrl::backToPageUrl());
 			}

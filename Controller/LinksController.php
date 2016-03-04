@@ -185,7 +185,7 @@ class LinksController extends LinksAppController {
 	public function add() {
 		$this->view = 'edit';
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			//登録処理
 			$data = $this->data;
 			$data['Link']['status'] = $this->Workflow->parseStatus();
@@ -220,7 +220,7 @@ class LinksController extends LinksAppController {
 	public function edit() {
 		//データ取得
 		$linkKey = $this->params['pass'][1];
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			$linkKey = $this->data['Link']['key'];
 		}
 		$link = $this->Link->getWorkflowContents('first', array(
@@ -237,7 +237,7 @@ class LinksController extends LinksAppController {
 			return false;
 		}
 
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			//登録処理
 			$data = $this->data;
 			$data['Link']['status'] = $this->Workflow->parseStatus();
@@ -271,7 +271,7 @@ class LinksController extends LinksAppController {
  * @return void
  */
 	public function delete() {
-		if (! $this->request->isDelete()) {
+		if (! $this->request->is('delete')) {
 			$this->throwBadRequest();
 			return;
 		}
@@ -305,7 +305,7 @@ class LinksController extends LinksAppController {
  * @return void
  */
 	public function link() {
-		if (! $this->request->isPut()) {
+		if (! $this->request->is('put')) {
 			return $this->throwBadRequest();
 		}
 

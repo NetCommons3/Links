@@ -109,7 +109,7 @@ class LinkBlocksController extends LinksAppController {
 	public function add() {
 		$this->view = 'edit';
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			//登録処理
 			if ($this->LinkBlock->saveLinkBlock($this->data)) {
 				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
@@ -129,7 +129,7 @@ class LinkBlocksController extends LinksAppController {
  * @return void
  */
 	public function edit() {
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			//登録処理
 			if ($this->LinkBlock->saveLinkBlock($this->data)) {
 				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
@@ -153,7 +153,7 @@ class LinkBlocksController extends LinksAppController {
  * @return void
  */
 	public function delete() {
-		if ($this->request->isDelete()) {
+		if ($this->request->is('delete')) {
 			if ($this->LinkBlock->deleteLinkBlock($this->data)) {
 				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
