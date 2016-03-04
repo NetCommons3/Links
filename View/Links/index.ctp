@@ -33,6 +33,8 @@ $tokens = $this->Token->getToken('Link',
 
 echo $this->NetCommonsHtml->css('/links/css/style.css');
 echo $this->NetCommonsHtml->script('/links/js/links.js');
+
+$displayType = Hash::get($linkFrameSetting, 'display_type');
 ?>
 
 <div class="nc-content-list" ng-controller="LinksIndex"
@@ -40,11 +42,13 @@ echo $this->NetCommonsHtml->script('/links/js/links.js');
 
 	<article>
 		<div class="clearfix">
-			<h1 class="pull-left">
-				<small>
-					<?php echo h(Hash::get($linkBlock, 'name', '')); ?>
-				</small>
-			</h1>
+			<?php if ($displayType !== LinkFrameSetting::TYPE_DROPDOWN) : ?>
+				<h1 class="pull-left">
+					<small>
+						<?php echo h(Hash::get($linkBlock, 'name', '')); ?>
+					</small>
+				</h1>
+			<?php endif; ?>
 
 			<div class="pull-right h1">
 				<?php if (Current::permission('content_editable') && $links) : ?>
@@ -58,7 +62,6 @@ echo $this->NetCommonsHtml->script('/links/js/links.js');
 		</div>
 
 		<?php
-			$displayType = Hash::get($linkFrameSetting, 'display_type');
 			if ($displayType === LinkFrameSetting::TYPE_DROPDOWN) {
 				echo $this->element('Links/index_dropdown');
 

@@ -14,7 +14,7 @@
 	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 		<div class="clearfix">
 			<div class="pull-left">
-				<?php echo __d('links', 'Select link to show'); ?>
+				<?php echo h(Hash::get($linkBlock, 'name', __d('links', 'Select link to show'))); ?>
 			</div>
 			<div class="pull-right">
 				<span class="caret"> </span>
