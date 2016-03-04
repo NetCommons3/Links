@@ -69,8 +69,7 @@ class LinkBlockRolePermissionsController extends LinksAppController {
  */
 	public function edit() {
 		if (! $linkBlock = $this->LinkBlock->getLinkBlock()) {
-			$this->throwBadRequest();
-			return false;
+			return $this->throwBadRequest();
 		}
 
 		$permissions = $this->Workflow->getBlockRolePermissions(
@@ -78,12 +77,12 @@ class LinkBlockRolePermissionsController extends LinksAppController {
 		);
 		$this->set('roles', $permissions['Roles']);
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			if ($this->LinkSetting->saveLinkSetting($this->request->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
-			$this->NetCommons->handleValidationError($this->FaqSetting->validationErrors);
+			$this->NetCommons->handleValidationError($this->LinkSetting->validationErrors);
 			$this->request->data['BlockRolePermission'] = Hash::merge(
 				$permissions['BlockRolePermissions'],
 				$this->request->data['BlockRolePermission']

@@ -23,7 +23,7 @@ $editUrlFormat = $this->NetCommonsHtml->url(array('controller' => 'links', 'acti
 		<small><?php echo h($linkBlock['name']); ?></small>
 	</h1>
 
-	<?php echo $this->NetCommonsForm->create('LinkOrders'); ?>
+	<?php echo $this->NetCommonsForm->create('LinkOrders', array('type' => 'put')); ?>
 		<?php foreach (array_keys($this->data['LinkOrders']) as $linkOrderId) : ?>
 			<?php echo $this->NetCommonsForm->hidden('LinkOrders.' . $linkOrderId . '.LinkOrder.id'); ?>
 			<?php echo $this->NetCommonsForm->hidden('LinkOrders.' . $linkOrderId . '.LinkOrder.block_key'); ?>

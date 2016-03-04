@@ -8,6 +8,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
+
 /**
  * Links All Test Suite
  *
@@ -15,31 +17,17 @@
  * @package NetCommons\Links\Test\Case
  * @codeCoverageIgnore
  */
-class AllLinksTest extends CakeTestSuite {
+class AllLinksTest extends NetCommonsTestSuite {
 
 /**
  * All test suite
  *
- * @return CakeTestSuite
+ * @return NetCommonsTestSuite
  */
 	public static function suite() {
 		$plugin = preg_replace('/^All([\w]+)Test$/', '$1', __CLASS__);
-		$suite = new CakeTestSuite(sprintf('All %s Plugin tests', $plugin));
-
-		$directory = CakePlugin::path($plugin) . 'Test' . DS . 'Case';
-		$Folder = new Folder($directory);
-		$exceptions = array(
-			'LinksModelTestBase.php',
-			//後で削除
-			'LinkBlockTest.php'
-		);
-		$files = $Folder->tree(null, $exceptions, 'files');
-		foreach ($files as $file) {
-			if (substr($file, -4) === '.php') {
-				$suite->addTestFile($file);
-			}
-		}
-
+		$suite = new NetCommonsTestSuite(sprintf('All %s Plugin tests', $plugin));
+		$suite->addTestDirectoryRecursive(CakePlugin::path($plugin) . 'Test' . DS . 'Case');
 		return $suite;
 	}
 }

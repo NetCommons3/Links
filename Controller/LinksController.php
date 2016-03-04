@@ -66,14 +66,12 @@ class LinksController extends LinksAppController {
 		parent::beforeFilter();
 
 		if (! Current::read('Block.id')) {
-			$this->setAction('emptyRender');
-			return false;
+			return $this->setAction('emptyRender');
 		}
 
 		$linkBlock = $this->LinkBlock->getLinkBlock();
 		if (! $linkBlock) {
-			$this->setAction('throwBadRequest');
-			return false;
+			return $this->setAction('throwBadRequest');
 		}
 		$this->set('linkBlock', $linkBlock['LinkBlock']);
 	}
@@ -86,8 +84,7 @@ class LinksController extends LinksAppController {
 	public function index() {
 		$linkFrameSetting = $this->LinkFrameSetting->getLinkFrameSetting(true);
 		if (! $linkFrameSetting) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 		$this->set('linkFrameSetting', $linkFrameSetting['LinkFrameSetting']);
 
@@ -122,8 +119,7 @@ class LinksController extends LinksAppController {
 			)
 		));
 		if (! $link) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 		$this->set('link', $link);
 
@@ -134,8 +130,7 @@ class LinksController extends LinksAppController {
 		$this->set('category', Hash::get($category, '0', array()));
 
 		if (! $this->Link->updateCount($link['Link']['id'])) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 	}
 
@@ -143,23 +138,22 @@ class LinksController extends LinksAppController {
  * Get url
  *
  * @return void
+ * @throws SocketException
  */
 	public function get() {
 		$url = Hash::get($this->request->query, 'url');
 		if (! $url) {
-			return false;
+			return $this->throwBadRequest(sprintf(__d('net_commons', 'Please input %s.'), __d('links', 'URL')));
 		}
 		try {
 			$socket = new HttpSocket(array('request' => array('redirect' => 10)));
 			$response = $socket->get($url);
 			if (! $response->isOk()) {
-				$this->throwBadRequest(__d('links', 'Failed to obtain the title for this page.'));
-				return;
+				throw new SocketException(__d('links', 'Failed to obtain the title for this page.'));
 			}
 		} catch (SocketException $ex) {
 			CakeLog::error($ex);
-			$this->throwBadRequest(__d('links', 'Failed to obtain the title for this page.'));
-			return;
+			return $this->throwBadRequest(__d('links', 'Failed to obtain the title for this page.'));
 		}
 
 		$results = array(
@@ -190,7 +184,7 @@ class LinksController extends LinksAppController {
 	public function add() {
 		$this->view = 'edit';
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			//登録処理
 			$data = $this->data;
 			$data['Link']['status'] = $this->Workflow->parseStatus();
@@ -202,8 +196,7 @@ class LinksController extends LinksAppController {
 			unset($data['Link']['id'], $data['LinkOrder']['weight']);
 
 			if ($this->Link->saveLink($data)) {
-				$this->redirect(NetCommonsUrl::backToPageUrl());
-				return;
+				return $this->redirect(NetCommonsUrl::backToPageUrl());
 			}
 			$this->NetCommons->handleValidationError($this->Link->validationErrors);
 
@@ -225,7 +218,7 @@ class LinksController extends LinksAppController {
 	public function edit() {
 		//データ取得
 		$linkKey = $this->params['pass'][1];
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			$linkKey = $this->data['Link']['key'];
 		}
 		$link = $this->Link->getWorkflowContents('first', array(
@@ -238,17 +231,16 @@ class LinksController extends LinksAppController {
 
 		//編集権限チェック
 		if (! $this->Link->canEditWorkflowContent($link)) {
-			$this->throwBadRequest();
-			return false;
+			return $this->throwBadRequest();
 		}
 
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			//登録処理
 			$data = $this->data;
 			$data['Link']['status'] = $this->Workflow->parseStatus();
 			$category = Hash::extract(
 				$this->viewVars['categories'],
-				'{n}.Category[id=' . $data['Link']['category_id'] . ']'
+				'{n}.Category[id=' . Hash::get($data, 'Link.category_id', '') . ']'
 			);
 			$data['LinkOrder']['category_key'] = Hash::get($category, '0.key', '');
 			unset($data['Link']['id']);
@@ -276,9 +268,8 @@ class LinksController extends LinksAppController {
  * @return void
  */
 	public function delete() {
-		if (! $this->request->isDelete()) {
-			$this->throwBadRequest();
-			return;
+		if (! $this->request->is('delete')) {
+			return $this->throwBadRequest();
 		}
 
 		//データ取得
@@ -292,13 +283,11 @@ class LinksController extends LinksAppController {
 
 		//削除権限チェック
 		if (! $this->Link->canDeleteWorkflowContent($link)) {
-			$this->throwBadRequest();
-			return false;
+			return $this->throwBadRequest();
 		}
 
 		if (! $this->Link->deleteLink($this->data)) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 
 		$this->redirect(NetCommonsUrl::backToPageUrl());
@@ -310,9 +299,8 @@ class LinksController extends LinksAppController {
  * @return void
  */
 	public function link() {
-		if (! $this->request->isPost()) {
-			$this->throwBadRequest();
-			return;
+		if (! $this->request->is('put')) {
+			return $this->throwBadRequest();
 		}
 
 		$link = $this->Link->getWorkflowContents('first', array(
@@ -323,15 +311,13 @@ class LinksController extends LinksAppController {
 			)
 		));
 		if (! $link) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 
 		if (! $this->Link->updateCount($this->data['Link']['id'])) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 
-		$this->redirect(NetCommonsUrl::backToPageUrl());
+		$this->NetCommons->renderJson();
 	}
 }

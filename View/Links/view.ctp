@@ -45,6 +45,7 @@
 					</div>
 					<div class="form-control nc-data-label">
 						<?php echo isset($link['Link']['title']) ? h($link['Link']['title']) : null ?>
+						<span class="badge"><?php echo h($link['Link']['click_count']); ?></span>
 					</div>
 				</div>
 
@@ -64,7 +65,7 @@
 						<?php echo $this->NetCommonsForm->label('Link.description', __d('links', 'Description')); ?>
 					</div>
 					<div class="form-control nc-data-label">
-						<?php echo isset($link['Link']['description']) ? h($link['Link']['description']) : null ?>
+						<?php echo Hash::get($link, 'Link.description'); ?>
 					</div>
 				</div>
 			</div>

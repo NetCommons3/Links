@@ -21,8 +21,8 @@
 				<?php foreach ($links[$category['Category']['id']] as $link) : ?>
 					<li class="list-group-item nc-links-li">
 						<h3 class="nc-links-li-title">
-							<?php echo $this->element('Links/link', array('link' => $link)); ?>
-							<?php echo $this->element('Links/edit_link', array('link' => $link)); ?>
+							<?php echo $this->element('Links.Links/link', array('link' => $link)); ?>
+							<?php echo $this->element('Links.Links/edit_link', array('link' => $link)); ?>
 						</h3>
 					</li>
 				<?php endforeach; ?>

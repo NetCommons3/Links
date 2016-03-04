@@ -10,67 +10,68 @@
  * @param {string} Controller name
  * @param {function($scope, $http, $window)} Controller
  */
-NetCommonsApp.controller('LinksIndex', function($scope, $http, $window) {
+NetCommonsApp.controller('LinksIndex',
+    ['$scope', '$http', '$window', function($scope, $http, $window) {
 
-  /**
-   * data
-   *
-   * @type {object}
-   */
-  $scope.data = {};
+      /**
+       * data
+       *
+       * @type {object}
+       */
+      $scope.data = {};
 
-  /**
-   * initialize
-   *
-   * @return {void}
-   */
-  $scope.initialize = function(data) {
-    $scope.data = {
-      _Token: data['_Token'],
-      Frame: {id: data['Frame']['id']},
-      Block: {id: data['Block']['id']},
-      Link: {id: '', key: ''}
-    };
-  };
+      /**
+       * initialize
+       *
+       * @return {void}
+       */
+      $scope.initialize = function(data) {
+        $scope.data = {
+          _Token: data['_Token'],
+          Frame: {id: data['Frame']['id']},
+          Block: {id: data['Block']['id']},
+          Link: {id: '', key: ''}
+        };
+      };
 
-  /**
-   * Click link
-   *
-   * @param {integer} links.id
-   * @return {void}
-   */
-  $scope.clickLink = function($event, id, key) {
-    $scope.data.Link.id = id;
-    $scope.data.Link.key = key;
+      /**
+       * Click link
+       *
+       * @param {integer} links.id
+       * @return {void}
+       */
+      $scope.clickLink = function($event, id, key) {
+        $scope.data.Link.id = id;
+        $scope.data.Link.key = key;
 
-    $http.get($scope.baseUrl + '/net_commons/net_commons/csrfToken.json')
-      .success(function(token) {
-          $scope.data._Token.key = token.data._Token.key;
+        $http.get($scope.baseUrl + '/net_commons/net_commons/csrfToken.json')
+          .success(function(token) {
+              $scope.data._Token.key = token.data._Token.key;
 
-          //POSTリクエスト
-          $http.post(
-              $scope.baseUrl + '/links/links/link.json',
-              $.param({_method: 'POST', data: $scope.data}),
-              {cache: false,
-                headers:
-                    {'Content-Type': 'application/x-www-form-urlencoded'}
-              }
-          ).success(function() {
-            var element = $('#nc-badge-' + $scope.data.Frame.id + '-' + id);
-            if (element) {
-              var count = parseInt(element.html()) + 1;
-              element.html(count);
-            }
-          });
-        });
+              //POSTリクエスト
+              $http.put(
+                  $scope.baseUrl + '/links/links/link.json',
+                  $.param({_method: 'PUT', data: $scope.data}),
+                  {cache: false,
+                    headers:
+                        {'Content-Type': 'application/x-www-form-urlencoded'}
+                  }
+              ).success(function() {
+                var element = $('#nc-badge-' + $scope.data.Frame.id + '-' + id);
+                if (element) {
+                  var count = parseInt(element.html()) + 1;
+                  element.html(count);
+                }
+              });
+            });
 
-    if ($event.target.target) {
-      $window.open($event.target.href, $event.target.target);
-    } else {
-      $window.location.href = $event.target.href;
-    }
-  };
-});
+        if ($event.target.target) {
+          $window.open($event.target.href, $event.target.target);
+        } else {
+          $window.location.href = $event.target.href;
+        }
+      };
+    }]);
 
 
 /**
@@ -79,44 +80,45 @@ NetCommonsApp.controller('LinksIndex', function($scope, $http, $window) {
  * @param {string} Controller name
  * @param {function($scope, $http)} Controller
  */
-NetCommonsApp.controller('LinksEdit', function($scope, $http) {
+NetCommonsApp.controller('LinksEdit',
+    ['$scope', '$http', function($scope, $http) {
 
-  /**
-   * Get url
-   *
-   * @return {void}
-   */
-  $scope.getUrl = function(frameId) {
-    var element = $('input[name="data[Link][url]"]');
+      /**
+       * Get url
+       *
+       * @return {void}
+       */
+      $scope.getUrl = function(frameId) {
+        var element = $('input[name="data[Link][url]"]');
 
-    if (angular.isUndefined(element[0]) || ! element[0].value) {
-      return;
-    }
+        if (angular.isUndefined(element[0]) || ! element[0].value) {
+          return;
+        }
 
-    $http.get('/links/links/get.json',
-        {params: {frame_id: frameId, url: element[0].value}})
-      .success(function(data) {
-          element = $('input[name="data[Link][title]"]');
-          if (! angular.isUndefined(element[0]) &&
-                  ! angular.isUndefined(data['title'])) {
-            element[0].value = data['title'];
-          }
+        $http.get('/links/links/get.json',
+            {params: {frame_id: frameId, url: element[0].value}})
+          .success(function(data) {
+              element = $('input[name="data[Link][title]"]');
+              if (! angular.isUndefined(element[0]) &&
+                      ! angular.isUndefined(data['title'])) {
+                element[0].value = data['title'];
+              }
 
-          element = $('textarea[name="data[Link][description]"]');
-          if (! angular.isUndefined(element[0]) &&
-                  ! angular.isUndefined(data['description'])) {
-            element[0].value = data['description'];
-          }
+              element = $('textarea[name="data[Link][description]"]');
+              if (! angular.isUndefined(element[0]) &&
+                      ! angular.isUndefined(data['description'])) {
+                element[0].value = data['description'];
+              }
 
-          $scope.urlError = '';
-        })
-      .error(function(data) {
-          $scope.urlError =
-              angular.isUndefined(data['error']) ? data['name'] : data['error'];
-        });
-  };
+              $scope.urlError = '';
+            })
+          .error(function(data) {
+              $scope.urlError = angular.isUndefined(data['error']) ?
+                                data['name'] : data['error'];
+            });
+      };
 
-});
+    }]);
 
 
 /**
@@ -125,7 +127,7 @@ NetCommonsApp.controller('LinksEdit', function($scope, $http) {
  * @param {string} Controller name
  * @param {function($scope)} Controller
  */
-NetCommonsApp.controller('LinkFrameSettings', function($scope) {
+NetCommonsApp.controller('LinkFrameSettings', ['$scope', function($scope) {
 
   /**
    * initialize
@@ -158,7 +160,7 @@ NetCommonsApp.controller('LinkFrameSettings', function($scope) {
     $scope.currentListStyle = mark;
   };
 
-});
+}]);
 
 
 /**
@@ -167,7 +169,7 @@ NetCommonsApp.controller('LinkFrameSettings', function($scope) {
  * @param {string} Controller name
  * @param {function($scope)} Controller
  */
-NetCommonsApp.controller('LinkOrders', function($scope) {
+NetCommonsApp.controller('LinkOrders', ['$scope', function($scope) {
 
   /**
    * Links
@@ -224,4 +226,4 @@ NetCommonsApp.controller('LinkOrders', function($scope) {
     $scope.links['_' + categoryId][dest] = targetLink;
   };
 
-});
+}]);

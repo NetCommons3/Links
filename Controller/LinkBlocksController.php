@@ -109,11 +109,10 @@ class LinkBlocksController extends LinksAppController {
 	public function add() {
 		$this->view = 'edit';
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			//登録処理
 			if ($this->LinkBlock->saveLinkBlock($this->data)) {
-				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
-				return;
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 			$this->NetCommons->handleValidationError($this->LinkBlock->validationErrors);
 
@@ -130,11 +129,10 @@ class LinkBlocksController extends LinksAppController {
  * @return void
  */
 	public function edit() {
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			//登録処理
 			if ($this->LinkBlock->saveLinkBlock($this->data)) {
-				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
-				return;
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 			$this->NetCommons->handleValidationError($this->LinkBlock->validationErrors);
 
@@ -142,8 +140,7 @@ class LinkBlocksController extends LinksAppController {
 			//表示処理(初期データセット)
 			$linkBlock = $this->LinkBlock->getLinkBlock();
 			if (! $linkBlock) {
-				$this->throwBadRequest();
-				return false;
+				return $this->throwBadRequest();
 			}
 			$this->request->data = Hash::merge($this->request->data, $linkBlock);
 			$this->request->data['Frame'] = Current::read('Frame');
@@ -156,10 +153,9 @@ class LinkBlocksController extends LinksAppController {
  * @return void
  */
 	public function delete() {
-		if ($this->request->isDelete()) {
+		if ($this->request->is('delete')) {
 			if ($this->LinkBlock->deleteLinkBlock($this->data)) {
-				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
-				return;
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 		}
 

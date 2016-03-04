@@ -14,7 +14,7 @@
 	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 		<div class="clearfix">
 			<div class="pull-left">
-				<?php echo __d('links', 'Select link to show'); ?>
+				<?php echo h(Hash::get($linkBlock, 'name', __d('links', 'Select link to show'))); ?>
 			</div>
 			<div class="pull-right">
 				<span class="caret"> </span>
@@ -36,8 +36,8 @@
 				<?php foreach ($links[$category['Category']['id']] as $link) : ?>
 					<li>
 						<div class="nc-dropdown-block">
-							<?php echo $this->element('Links/link', array('link' => $link)); ?>
-							<?php echo $this->element('Links/edit_link', array('link' => $link)); ?>
+							<?php echo $this->element('Links.Links/link', array('link' => $link)); ?>
+							<?php echo $this->element('Links.Links/edit_link', array('link' => $link)); ?>
 						</div>
 					</li>
 				<?php endforeach; ?>

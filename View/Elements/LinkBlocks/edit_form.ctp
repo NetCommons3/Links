@@ -14,6 +14,9 @@
 <?php echo $this->NetCommonsForm->hidden('LinkSetting.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('LinkSetting.block_key'); ?>
 
+<?php echo $this->NetCommonsForm->hidden('LinkBlock.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('LinkBlock.key'); ?>
+<?php echo $this->NetCommonsForm->hidden('LinkBlock.language_id'); ?>
 <?php echo $this->NetCommonsForm->input('LinkBlock.name', array(
 		'type' => 'text',
 		'label' => __d('links', 'Link list Title'),

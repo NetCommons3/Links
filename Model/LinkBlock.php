@@ -70,8 +70,27 @@ class LinkBlock extends BlocksAppModel {
 		),
 		'Categories.Category',
 		'M17n.M17n',
-		'Workflow.WorkflowComment',
 	);
+
+/**
+ * Constructor
+ *
+ * @param bool|int|string|array $id Set this ID for this model on startup,
+ * can also be an array of options, see above.
+ * @param string $table Name of database table to use.
+ * @param string $ds DataSource connection name.
+ * @return void
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+
+		$this->loadModels([
+			'Link' => 'Links.Link',
+			'LinkSetting' => 'Links.LinkSetting',
+			'LinkOrder' => 'Links.LinkOrder',
+		]);
+	}
 
 /**
  * Called during validation operations, before validation. Please note that custom
@@ -84,6 +103,20 @@ class LinkBlock extends BlocksAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
+			'language_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
+				),
+			),
+			'room_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
+				),
+			),
 			'name' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
@@ -118,8 +151,6 @@ class LinkBlock extends BlocksAppModel {
 		//LinkSetting登録
 		if (isset($this->data['LinkSetting'])) {
 			$this->LinkSetting->set($this->data['LinkSetting']);
-		}
-		if (isset($this->LinkSetting->data['LinkSetting'])) {
 			if (! $this->LinkSetting->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
@@ -134,8 +165,6 @@ class LinkBlock extends BlocksAppModel {
  * @return array LinkBlockデータ配列
  */
 	public function createLinkBlock() {
-		$this->LinkSetting = ClassRegistry::init('Links.LinkSetting');
-
 		$linkBlock = $this->createAll(array(
 			'LinkBlock' => array(
 				'name' => __d('links', 'New Bookmark List %s', date('YmdHis')),
@@ -151,8 +180,6 @@ class LinkBlock extends BlocksAppModel {
  * @return array LinkBlockデータ配列
  */
 	public function getLinkBlock() {
-		$this->LinkSetting = ClassRegistry::init('Links.LinkSetting');
-
 		$linkBlock = $this->find('all', array(
 			'recursive' => -1,
 			'fields' => array(
@@ -195,10 +222,6 @@ class LinkBlock extends BlocksAppModel {
  * @throws InternalErrorException
  */
 	public function saveLinkBlock($data) {
-		$this->loadModels([
-			'LinkSetting' => 'Links.LinkSetting',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 
@@ -233,17 +256,11 @@ class LinkBlock extends BlocksAppModel {
  * @throws InternalErrorException
  */
 	public function deleteLinkBlock($data) {
-		$this->loadModels([
-			'Link' => 'Links.Link',
-			'LinkSetting' => 'Links.LinkSetting',
-			'LinkOrder' => 'Links.LinkOrder',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 
 		$conditions = array(
-			$this->alias . '.key' => $data['Block']['key']
+			$this->alias . '.key' => $data[$this->alias]['key']
 		);
 		$blocks = $this->find('list', array(
 			'recursive' => -1,
@@ -252,7 +269,7 @@ class LinkBlock extends BlocksAppModel {
 		$blocks = array_keys($blocks);
 
 		try {
-			if (! $this->LinkSetting->deleteAll(array($this->LinkSetting->alias . '.block_key' => $data['Block']['key']), false)) {
+			if (! $this->LinkSetting->deleteAll(array($this->LinkSetting->alias . '.block_key' => $data[$this->alias]['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
@@ -260,12 +277,12 @@ class LinkBlock extends BlocksAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->LinkOrder->deleteAll(array($this->LinkOrder->alias . '.block_key' => $data['Block']['key']), false)) {
+			if (! $this->LinkOrder->deleteAll(array($this->LinkOrder->alias . '.block_key' => $data[$this->alias]['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			//Blockデータ削除
-			$this->deleteBlock($data['Block']['key']);
+			$this->deleteBlock($data[$this->alias]['key']);
 
 			//トランザクションCommit
 			$this->commit();
