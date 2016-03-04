@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-$LinkFrameSetting = new LinkFrameSetting();
+$LinkFrameSetting = ClassRegistry::init('Links.LinkFrameSetting');
 
 $categorySeparators = Hash::combine($LinkFrameSetting->categorySeparators, '{n}.key', '{n}');
 $listStyles = Hash::combine($LinkFrameSetting->listStyles, '{n}.key', '{n}');

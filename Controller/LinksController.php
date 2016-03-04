@@ -139,6 +139,7 @@ class LinksController extends LinksAppController {
  * Get url
  *
  * @return void
+ * @throws SocketException
  */
 	public function get() {
 		$url = Hash::get($this->request->query, 'url');

@@ -144,7 +144,6 @@ class Link extends LinksAppModel {
 		if (isset($this->data['LinkOrder'])) {
 			$this->LinkOrder->set($this->data['LinkOrder']);
 			if (! $this->LinkOrder->validates()) {
-				debug($this->LinkOrder->validationErrors);
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->LinkOrder->validationErrors);
 				return false;
 			}

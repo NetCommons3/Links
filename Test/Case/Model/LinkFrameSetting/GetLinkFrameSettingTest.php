@@ -147,7 +147,7 @@ class LinkFrameSettingGetLinkFrameSettingTest extends NetCommonsGetTest {
 
 /**
  * 結果のチェック
-
+ *
  * @param array $result 結果
  * @param array $expected 期待値
  * @return void
