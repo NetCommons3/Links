@@ -55,6 +55,24 @@ class LinkFrameSettingFixture extends CakeTestFixture {
 			'category_separator_line' => 'line_a2.gif',
 			'list_style' => 'mark_a1.gif',
 		),
+		array(
+			'id' => '8',
+			'frame_key' => 'frame_4',
+			'display_type' => '2',
+			'open_new_tab' => true,
+			'display_click_count' => true,
+			'category_separator_line' => 'line_a2.gif',
+			'list_style' => 'mark_a1.gif',
+		),
+		array(
+			'id' => '9',
+			'frame_key' => 'frame_5',
+			'display_type' => '1',
+			'open_new_tab' => true,
+			'display_click_count' => true,
+			'category_separator_line' => 'line_a2.gif',
+			'list_style' => 'mark_a1.gif',
+		),
 	);
 
 }
