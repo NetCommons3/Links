@@ -56,6 +56,10 @@ class LinksControllerGetTest extends NetCommonsControllerTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		//テストプラグインのロード
+		NetCommonsCakeTestCase::loadTestPlugin($this, 'Links', 'TestLinks');
+		//テストコントローラ生成
+		$this->generateNc('TestLinks.TestControllerLinksControllerGet');
 		//ログイン
 		TestAuthGeneral::login($this);
 	}
@@ -79,8 +83,11 @@ class LinksControllerGetTest extends NetCommonsControllerTestCase {
  */
 	public function testGet() {
 		//テスト実行
-		$actionUrl = array('plugin' => $this->plugin, 'controller' => $this->_controller, 'action' => 'get', 'frame_id' => '6');
-		$paramUrl = rawurlencode('http://www.netcommons.org');
+		$actionUrl = array(
+			'plugin' => 'test_links', 'controller' => 'test_controller_links_controller_get',
+			'action' => 'get', 'frame_id' => '6'
+		);
+		$paramUrl = 'success';
 
 		$result = $this->_testGetAction(NetCommonsUrl::actionUrl($actionUrl) . '&url=' . $paramUrl,
 				array('method' => 'assertNotEmpty'), null, 'json');
@@ -99,7 +106,10 @@ class LinksControllerGetTest extends NetCommonsControllerTestCase {
  */
 	public function testGetWOUrl() {
 		//テスト実行
-		$actionUrl = array('plugin' => $this->plugin, 'controller' => $this->_controller, 'action' => 'get', 'frame_id' => '6');
+		$actionUrl = array(
+			'plugin' => 'test_links', 'controller' => 'test_controller_links_controller_get',
+			'action' => 'get', 'frame_id' => '6'
+		);
 		$paramUrl = '';
 
 		$result = $this->_testGetAction(NetCommonsUrl::actionUrl($actionUrl) . '&url=' . $paramUrl,
@@ -117,8 +127,11 @@ class LinksControllerGetTest extends NetCommonsControllerTestCase {
  */
 	public function testGetOnBadUrl() {
 		//テスト実行
-		$actionUrl = array('plugin' => $this->plugin, 'controller' => $this->_controller, 'action' => 'get', 'frame_id' => '6');
-		$paramUrl = 'http://aaaaa';
+		$actionUrl = array(
+			'plugin' => 'test_links', 'controller' => 'test_controller_links_controller_get',
+			'action' => 'get', 'frame_id' => '6'
+		);
+		$paramUrl = 'failure';
 
 		$result = $this->_testGetAction(NetCommonsUrl::actionUrl($actionUrl) . '&url=' . $paramUrl,
 				null, 'BadRequestException', 'json');
