@@ -153,12 +153,13 @@ class LinkBlocksController extends LinksAppController {
  * @return void
  */
 	public function delete() {
-		if ($this->request->is('delete')) {
-			if ($this->LinkBlock->deleteLinkBlock($this->data)) {
-				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
-			}
+		if (! $this->request->is('delete')) {
+			return $this->throwBadRequest();
+		}
+		if (! $this->LinkBlock->deleteLinkBlock($this->data)) {
+			return $this->throwBadRequest();
 		}
 
-		$this->throwBadRequest();
+		$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 	}
 }

@@ -206,4 +206,24 @@ class LinkBlocksControllerEditTest extends BlocksControllerEditTest {
 		return $results;
 	}
 
+/**
+ * delete()アクションのExceptionErrorテスト
+ *
+ * @return void
+ */
+	public function testDeleteOnExceptionError() {
+		//ログイン
+		TestAuthGeneral::login($this);
+
+		//テストデータ
+		$this->_mockForReturnFalse('Links.LinkBlock', 'deleteLinkBlock');
+
+		//テスト実行
+		$data = $this->dataProviderDelete()[0]['data'];
+		$this->_testPostAction('delete', $data, array('action' => 'delete', 'block_id' => '2', 'frame_id' => '6'), 'BadRequestException');
+
+		//ログアウト
+		TestAuthGeneral::logout($this);
+	}
+
 }
