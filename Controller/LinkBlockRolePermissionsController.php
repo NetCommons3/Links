@@ -42,10 +42,6 @@ class LinkBlockRolePermissionsController extends LinksAppController {
  * @var array
  */
 	public $components = array(
-		'Blocks.BlockTabs' => array(
-			'mainTabs' => array('block_index', 'frame_settings'),
-			'blockTabs' => array('block_settings', 'role_permissions'),
-		),
 		'NetCommons.Permission' => array(
 			'allow' => array(
 				'edit' => 'block_permission_editable',
@@ -59,7 +55,11 @@ class LinkBlockRolePermissionsController extends LinksAppController {
  * @var array
  */
 	public $helpers = array(
-		'Blocks.BlockRolePermissionForm'
+		'Blocks.BlockRolePermissionForm',
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index', 'frame_settings'),
+			'blockTabs' => array('block_settings', 'role_permissions'),
+		),
 	);
 
 /**
