@@ -41,10 +41,6 @@ class LinkBlocksController extends LinksAppController {
  * @var array
  */
 	public $components = array(
-		'Blocks.BlockTabs' => array(
-			'mainTabs' => array('block_index', 'frame_settings'),
-			'blockTabs' => array('block_settings', 'role_permissions'),
-		),
 		'Categories.CategoryEdit',
 		'NetCommons.Permission' => array(
 			'allow' => array(
@@ -62,6 +58,10 @@ class LinkBlocksController extends LinksAppController {
  */
 	public $helpers = array(
 		'Blocks.BlockForm',
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index', 'frame_settings'),
+			'blockTabs' => array('block_settings', 'role_permissions'),
+		),
 	);
 
 /**

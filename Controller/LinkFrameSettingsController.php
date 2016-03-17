@@ -41,14 +41,22 @@ class LinkFrameSettingsController extends LinksAppController {
  * @var array
  */
 	public $components = array(
-		'Blocks.BlockTabs' => array(
-			'mainTabs' => array('block_index', 'frame_settings'),
-			'blockTabs' => array('block_settings', 'role_permissions'),
-		),
 		'NetCommons.Permission' => array(
 			'allow' => array(
 				'edit' => 'page_editable',
 			),
+		),
+	);
+
+/**
+ * use helpers
+ *
+ * @var array
+ */
+	public $helpers = array(
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index', 'frame_settings'),
+			'blockTabs' => array('block_settings', 'role_permissions'),
 		),
 	);
 
