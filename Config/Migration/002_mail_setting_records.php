@@ -60,17 +60,7 @@ class LinkMailSettingRecords extends NetCommonsMigration {
 				'type_key' => 'contents',
 				'is_mail_send' => false,
 				'mail_fixed_phrase_subject' => '',
-				'mail_fixed_phrase_body' => '{X-PLUGIN_NAME}にコンテンツが登録されたのでお知らせします。
-ルーム名:{X-ROOM}
-ブロック名:{X-BLOCK_NAME}
-タイトル:{X-SUBJECT}
-登録者:{X-USER}
-登録日時:{X-TO_DATE}
-
-{X-BODY}
-
-この登録内容を確認するには下記のリンクをクリックして下さい。
-{X-URL}',
+				'mail_fixed_phrase_body' => '',
 			),
 		),
 	);
