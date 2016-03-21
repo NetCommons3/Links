@@ -60,7 +60,7 @@ class LinkBlocksController extends LinksAppController {
 		'Blocks.BlockForm',
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array('block_index', 'frame_settings'),
-			'blockTabs' => array('block_settings', 'role_permissions'),
+			'blockTabs' => array('block_settings', 'mail_settings', 'role_permissions'),
 		),
 	);
 
