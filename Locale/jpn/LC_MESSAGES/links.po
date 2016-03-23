@@ -114,3 +114,7 @@ msgstr "リンクの作成"
 #: Links/View/Links/index.ctp:37
 msgid "Link creatable roles"
 msgstr "リンクを追加できる権限"
+
+# メール関連
+msgid "MailSetting.mail_fixed_phrase_body.popover"
+msgstr "{X-SITE_NAME} : サイト名<br>{X-PLUGIN_NAME} : プラグイン名<br>{X-ROOM} : ルーム名<br>{X-BLOCK_NAME} : リンクリスト名<br>{X-LINK_URL} : リンク先<br>{X-TITLE} : タイトル<br>{X-CATEGORY_NAME} : カテゴリ<br>{X-DESCRIPTION} : 説明<br>{X-USER} : 登録者<br>{X-TO_DATE} : 登録日時<br>{X-URL} : 登録内容のURL"
