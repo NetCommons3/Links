@@ -31,6 +31,14 @@ class Link extends LinksAppModel {
 		'NetCommons.OriginalKey',
 		'Workflow.WorkflowComment',
 		'Workflow.Workflow',
+		'Mails.MailQueue' => array(
+			'embedTags' => array(
+				'X-TITLE' => 'Link.title',
+				'X-LINK_URL' => 'Link.url',
+				'X-DESCRIPTION' => 'Link.description',
+				'X-CATEGORY_NAME' => 'Category.name',
+			),
+		),
 	);
 
 /**
@@ -186,6 +194,20 @@ class Link extends LinksAppModel {
 			'Category' => 'Categories.Category',
 			'LinkOrder' => 'Links.LinkOrder',
 		]);
+
+		//カテゴリ名をメールに含める
+		if (Hash::get($data, 'Link.category_id')) {
+			$categoryId = Hash::get($data, 'Link.category_id');
+			$category = $this->Category->find('first', array(
+				'recursive' => -1,
+				'fields' => array('name'),
+				'conditions' => array(
+					'id' => $categoryId,
+					'language_id' => Current::read('Language.id'),
+				)
+			));
+			$data = Hash::merge($data, $category);
+		}
 
 		//トランザクションBegin
 		$this->begin();
