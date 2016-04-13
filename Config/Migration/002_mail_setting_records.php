@@ -8,14 +8,14 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('NetCommonsMigration', 'NetCommons.Config/Migration');
+App::uses('MailsMigration', 'Mails.Config/Migration');
 
 /**
  * メール設定データのMigration
  *
  * @package NetCommons\Mails\Config\Migration
  */
-class LinkMailSettingRecords extends NetCommonsMigration {
+class LinkMailSettingRecords extends MailsMigration {
 
 /**
  * プラグインキー
@@ -119,39 +119,6 @@ class LinkMailSettingRecords extends NetCommonsMigration {
  * @return bool Should process continue
  */
 	public function after($direction) {
-		$this->loadModels(array(
-			'MailSetting' => 'Mails.MailSetting',
-			'MailSettingFixedPhrase' => 'Mails.MailSettingFixedPhrase',
-		));
-		foreach ($this->records as $model => $records) {
-			if ($direction == 'up') {
-				if ($model == 'MailSettingFixedPhrase') {
-					// mail_setting_id セット
-					$data = $this->MailSetting->find('first', array(
-						'recursive' => -1,
-						'conditions' => array('plugin_key' => self::PLUGIN_KEY),
-						'callbacks' => false,
-					));
-					foreach ($records as &$record) {
-						$record['mail_setting_id'] = $data['MailSetting']['id'];
-					}
-				}
-				if (!$this->updateRecords($model, $records)) {
-					return false;
-				}
-			} elseif ($direction == 'down') {
-				$conditions = array(
-					'plugin_key' => self::PLUGIN_KEY,
-					'block_key' => null,
-				);
-				if (!$this->MailSettingFixedPhrase->deleteAll($conditions, false, false)) {
-					return false;
-				}
-				if (!$this->MailSetting->deleteAll($conditions, false, false)) {
-					return false;
-				}
-			}
-		}
-		return true;
+		return parent::updateAndDelete($direction, self::PLUGIN_KEY);
 	}
 }
