@@ -31,6 +31,7 @@ class LinkMailSettingsControllerEditTest extends NetCommonsControllerTestCase {
 		'plugin.links.link_frame_setting',
 		'plugin.links.link_order',
 		'plugin.links.link_setting',
+		'plugin.mails.mail_setting_fixed_phrase',
 		'plugin.workflow.workflow_comment',
 	);
 
