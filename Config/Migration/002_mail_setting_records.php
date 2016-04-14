@@ -8,14 +8,21 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('NetCommonsMigration', 'NetCommons.Config/Migration');
+App::uses('MailsMigration', 'Mails.Config/Migration');
 
 /**
  * メール設定データのMigration
  *
  * @package NetCommons\Mails\Config\Migration
  */
-class LinkMailSettingRecords extends NetCommonsMigration {
+class LinkMailSettingRecords extends MailsMigration {
+
+/**
+ * プラグインキー
+ *
+ * @var string
+ */
+	const PLUGIN_KEY = 'links';
 
 /**
  * Migration description
@@ -41,14 +48,21 @@ class LinkMailSettingRecords extends NetCommonsMigration {
  */
 	public $records = array(
 		'MailSetting' => array(
-			//コンテンツ通知
+			//コンテンツ通知 - 設定
+			array(
+				'plugin_key' => self::PLUGIN_KEY,
+				'block_key' => null,
+				'is_mail_send' => false,
+			),
+		),
+		'MailSettingFixedPhrase' => array(
+			//コンテンツ通知 - 定型文
 			// * 英語
 			array(
 				'language_id' => '1',
-				'plugin_key' => 'links',
+				'plugin_key' => self::PLUGIN_KEY,
 				'block_key' => null,
 				'type_key' => 'contents',
-				'is_mail_send' => false,
 				'mail_fixed_phrase_subject' => '', //デフォルト(__d('mails', 'MailSetting.mail_fixed_phrase_subject'))
 				'mail_fixed_phrase_body' => '{X-PLUGIN_NAME}にリンクが追加されたのでお知らせします。
 ルーム名: {X-ROOM}
@@ -67,10 +81,9 @@ class LinkMailSettingRecords extends NetCommonsMigration {
 			// * 日本語
 			array(
 				'language_id' => '2',
-				'plugin_key' => 'links',
+				'plugin_key' => self::PLUGIN_KEY,
 				'block_key' => null,
 				'type_key' => 'contents',
-				'is_mail_send' => false,
 				'mail_fixed_phrase_subject' => '',
 				'mail_fixed_phrase_body' => '{X-PLUGIN_NAME}にリンクが追加されたのでお知らせします。
 ルーム名: {X-ROOM}
@@ -106,11 +119,6 @@ class LinkMailSettingRecords extends NetCommonsMigration {
  * @return bool Should process continue
  */
 	public function after($direction) {
-		foreach ($this->records as $model => $records) {
-			if (!$this->updateRecords($model, $records)) {
-				return false;
-			}
-		}
-		return true;
+		return parent::updateAndDelete($direction, self::PLUGIN_KEY);
 	}
 }
