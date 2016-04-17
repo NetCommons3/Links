@@ -57,7 +57,7 @@ class LinkOrdersController extends LinksAppController {
 		$this->set('linkBlock', $linkBlock['LinkBlock']);
 
 		//カテゴリ
-		array_unshift($this->viewVars['categories'], $this->Category->create(array('id' => 0, 'name' => '')));
+		array_unshift($this->viewVars['categories'], $this->Category->create(['id' => 0, 'name' => '']));
 
 		//リンクデータ取得
 		$links = $this->Link->find('all', array(
