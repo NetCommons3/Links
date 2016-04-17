@@ -134,7 +134,11 @@ class Link extends LinksAppModel {
 				),
 				'url' => array(
 					'rule' => array('url'),
-					'message' => sprintf(__d('net_commons', 'Unauthorized pattern for %s. Please input the data in %s format.'), __d('links', 'URL'), __d('links', 'URL')),
+					'message' => sprintf(
+						__d('net_commons', 'Unauthorized pattern for %s. Please input the data in %s format.'),
+						__d('links', 'URL'),
+						__d('links', 'URL')
+					),
 					'allowEmpty' => false,
 					'required' => true,
 				),
@@ -152,7 +156,9 @@ class Link extends LinksAppModel {
 		if (isset($this->data['LinkOrder'])) {
 			$this->LinkOrder->set($this->data['LinkOrder']);
 			if (! $this->LinkOrder->validates()) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->LinkOrder->validationErrors);
+				$this->validationErrors = Hash::merge(
+					$this->validationErrors, $this->LinkOrder->validationErrors
+				);
 				return false;
 			}
 		}

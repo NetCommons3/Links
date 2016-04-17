@@ -120,7 +120,9 @@ class LinkBlock extends BlocksAppModel {
 			'name' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('links', 'Link list Title')),
+					'message' => sprintf(
+						__d('net_commons', 'Please input %s.'), __d('links', 'Link list Title')
+					),
 					'required' => true,
 				)
 			)
@@ -129,7 +131,9 @@ class LinkBlock extends BlocksAppModel {
 		if (isset($this->data['LinkSetting'])) {
 			$this->LinkSetting->set($this->data['LinkSetting']);
 			if (! $this->LinkSetting->validates()) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->LinkSetting->validationErrors);
+				$this->validationErrors = Hash::merge(
+					$this->validationErrors, $this->LinkSetting->validationErrors
+				);
 				return false;
 			}
 		}
@@ -269,15 +273,18 @@ class LinkBlock extends BlocksAppModel {
 		$blocks = array_keys($blocks);
 
 		try {
-			if (! $this->LinkSetting->deleteAll(array($this->LinkSetting->alias . '.block_key' => $data[$this->alias]['key']), false)) {
+			$conditions = array($this->LinkSetting->alias . '.block_key' => $data[$this->alias]['key']);
+			if (! $this->LinkSetting->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->Link->deleteAll(array($this->Link->alias . '.block_id' => $blocks), false)) {
+			$conditions = array($this->Link->alias . '.block_id' => $blocks);
+			if (! $this->Link->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->LinkOrder->deleteAll(array($this->LinkOrder->alias . '.block_key' => $data[$this->alias]['key']), false)) {
+			$conditions = array($this->LinkOrder->alias . '.block_key' => $data[$this->alias]['key']);
+			if (! $this->LinkOrder->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

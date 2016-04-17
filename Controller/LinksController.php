@@ -144,7 +144,9 @@ class LinksController extends LinksAppController {
 	public function get() {
 		$url = Hash::get($this->request->query, 'url');
 		if (! $url) {
-			return $this->throwBadRequest(sprintf(__d('net_commons', 'Please input %s.'), __d('links', 'URL')));
+			return $this->throwBadRequest(
+				sprintf(__d('net_commons', 'Please input %s.'), __d('links', 'URL'))
+			);
 		}
 		try {
 			$socket = new HttpSocket(array('request' => array('redirect' => 10)));
@@ -168,9 +170,12 @@ class LinksController extends LinksAppController {
 		if (preg_match($pattern, $body, $matches)) {
 			$results['title'] = mb_convert_encoding($matches[1], 'utf-8', 'auto');
 		}
-		$pattern = '/<meta[^"\'<>\]]*name=([\'"]?)description\\1[^"\'<>\]]*content=([\'"]?)([^"\'<>\]]*)\\2[^"\'<>\]]*>/i';
+		$pattern = '<meta[^"\'<>\]]*' .
+						'name=([\'"]?)' .
+						'description\\1[^"\'<>\]]*' .
+						'content=([\'"]?)([^"\'<>\]]*)\\2[^"\'<>\]]*>';
 		$matches = array();
-		if (preg_match($pattern, $body, $matches)) {
+		if (preg_match('/' . $pattern . '/i', $body, $matches)) {
 			$results['description'] = mb_convert_encoding($matches[3], 'utf-8', 'auto');
 		}
 

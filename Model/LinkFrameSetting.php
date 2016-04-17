@@ -106,7 +106,8 @@ class LinkFrameSetting extends LinksAppModel {
 			$this->categorySeparators[] = array(
 				'key' => $file,
 				'name' => '',
-				'style' => 'background-image: url(' . $img . '); ' . 'border-image: url(' . $img . '); ' . 'height: ' . $info[1] . 'px;',
+				'style' => 'background-image: url(' . $img . '); ' .
+							'border-image: url(' . $img . '); ' . 'height: ' . $info[1] . 'px;',
 			);
 		}
 		unset($dir);
@@ -252,8 +253,10 @@ class LinkFrameSetting extends LinksAppModel {
 
 		//カテゴリ間の区切り線
 		$separatorLine = $linkFrameSetting['LinkFrameSetting']['category_separator_line'];
-		$linkFrameSetting['LinkFrameSetting']['category_separator_line_css'] =
-				Hash::get(Hash::extract($this->categorySeparators, '{n}[key=' . $separatorLine . ']'), '0.style');
+
+		$extract = Hash::extract($this->categorySeparators, '{n}[key=' . $separatorLine . ']');
+		$style = Hash::get($extract, '0.style');
+		$linkFrameSetting['LinkFrameSetting']['category_separator_line_css'] = $style;
 
 		//リストマーク
 		$listStyle = $linkFrameSetting['LinkFrameSetting']['list_style'];
