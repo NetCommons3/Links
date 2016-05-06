@@ -30,6 +30,8 @@ class LinkMailSettingsController extends MailSettingsController {
 			'mainTabs' => array('block_index', 'frame_settings'),
 			'blockTabs' => array('block_settings', 'mail_settings', 'role_permissions'),
 		),
+		'Mails.MailsHtml',
+		'Mails.MailForm',
 	);
 
 }
