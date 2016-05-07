@@ -17,9 +17,14 @@
 	<div class="tab-content">
 		<?php echo $this->BlockTabs->block(BlockTabsHelper::MAIN_TAB_MAIL_SETTING); ?>
 
-		<?php echo $this->element('Mails.edit_form', array(
-			'mailBodyPopoverMessage' => __d('links', 'MailSetting.mail_fixed_phrase_body.popover'),
-			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
-		)); ?>
+		<?php /** @see MailFormHelper::editFrom() */ ?>
+		<?php echo $this->MailForm->editFrom(
+			array(
+				array(
+					'mailBodyPopoverMessage' => __d('links', 'MailSetting.mail_fixed_phrase_body.popover'),
+				),
+			),
+			NetCommonsUrl::backToIndexUrl('default_setting_action')
+		); ?>
 	</div>
 </div>
