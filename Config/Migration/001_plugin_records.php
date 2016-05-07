@@ -50,6 +50,8 @@ class PluginRecords extends NetCommonsMigration {
 				'type' => 1,
 				'default_action' => 'links/index',
 				'default_setting_action' => 'link_blocks/index',
+				'display_topics' => 1,
+				'display_search' => 1,
 			),
 			//英語
 			array(
@@ -60,6 +62,8 @@ class PluginRecords extends NetCommonsMigration {
 				'type' => 1,
 				'default_action' => 'links/index',
 				'default_setting_action' => 'link_blocks/index',
+				'display_topics' => 1,
+				'display_search' => 1,
 			),
 		),
 		'PluginsRole' => array(
