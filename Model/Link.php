@@ -39,6 +39,14 @@ class Link extends LinksAppModel {
 				'X-CATEGORY_NAME' => 'Category.name',
 			),
 		),
+		'Topics.Topics' => array(
+			'fields' => array(
+				'title' => 'Link.title',
+				'summary' => 'Link.description',
+				'path' => '/:plugin_key/:plugin_key/view/:block_id/:content_key',
+			),
+			'search_contents' => array('url')
+		),
 	);
 
 /**

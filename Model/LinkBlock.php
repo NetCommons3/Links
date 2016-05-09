@@ -184,22 +184,20 @@ class LinkBlock extends BlocksAppModel {
  * @return array LinkBlockデータ配列
  */
 	public function getLinkBlock() {
-		$linkBlock = $this->find('all', array(
-			'recursive' => -1,
-			'fields' => array(
+		$fields = Hash::merge(
+			array(
 				$this->alias . '.*',
 				$this->Block->alias . '.*',
 				$this->LinkSetting->alias . '.*',
 			),
+			Hash::get($this->belongsTo, 'TrackableCreator.fields', array()),
+			Hash::get($this->belongsTo, 'TrackableUpdater.fields', array())
+		);
+
+		$linkBlock = $this->find('all', array(
+			'recursive' => 0,
+			'fields' => $fields,
 			'joins' => array(
-				array(
-					'table' => $this->Block->table,
-					'alias' => $this->Block->alias,
-					'type' => 'INNER',
-					'conditions' => array(
-						$this->alias . '.id' . ' = ' . $this->Block->alias . ' .id',
-					),
-				),
 				array(
 					'table' => $this->LinkSetting->table,
 					'alias' => $this->LinkSetting->alias,
