@@ -133,6 +133,9 @@ class LinksController extends LinksAppController {
 		if (! $this->Link->updateCount($link['Link']['id'])) {
 			return $this->throwBadRequest();
 		}
+
+		//新着データを既読にする
+		$this->Link->saveTopicUserStatus($link);
 	}
 
 /**
