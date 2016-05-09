@@ -21,7 +21,7 @@ $linkFrameSetting = NetCommonsAppController::camelizeKeyRecursive(
 <?php echo $this->NetCommonsHtml->css('/links/css/style.css'); ?>
 <?php echo $this->NetCommonsHtml->script('/links/js/links.js'); ?>
 
-<div class="modal-body"
+<article class="block-setting-body"
 	ng-controller="LinkFrameSettings"
 	ng-init="initialize(<?php echo h(json_encode(array(
 		'linkFrameSetting' => $linkFrameSetting,
@@ -32,14 +32,10 @@ $linkFrameSetting = NetCommonsAppController::camelizeKeyRecursive(
 	<?php echo $this->BlockTabs->main(BlockTabsHelper::MAIN_TAB_FRAME_SETTING); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Blocks.edit_form', array(
+		<?php echo $this->BlockForm->displayEditForm(array(
 				'model' => 'LinkFrameSetting',
-				'action' => NetCommonsUrl::actionUrl(array(
-					'controller' => $this->params['controller'],
-					'action' => 'edit',
-					'frame_id' => Current::read('Frame.id')
-				)),
 				'callback' => 'Links.LinkFrameSettings/edit_form',
+				'cancelUrl' => NetCommonsUrl::backToIndexUrl(),
 			)); ?>
 	</div>
-</div>
+</article>

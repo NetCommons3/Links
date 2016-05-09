@@ -58,6 +58,17 @@ class LinkSaveTest extends NetCommonsModelTestCase {
 	protected $_methodName = 'save';
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+		$model = $this->_modelName;
+		$this->$model->Behaviors->unload('Topics');
+	}
+
+/**
  * テストDataの取得
  *
  * @return array
