@@ -6,6 +6,10 @@
  * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 
+.links-index-dropdown {
+	margin-top: 16px;
+}
+
 .nc-links-edit-anchor {
 	margin-left: 20px;
 }

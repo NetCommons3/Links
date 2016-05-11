@@ -10,7 +10,7 @@
  */
 ?>
 
-<div class="btn-group nc-input-dropdown">
+<div class="btn-group nc-input-dropdown links-index-dropdown">
 	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 		<div class="clearfix">
 			<div class="pull-left">

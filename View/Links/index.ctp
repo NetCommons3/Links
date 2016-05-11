@@ -40,25 +40,20 @@ $displayType = Hash::get($linkFrameSetting, 'display_type');
 <div class="nc-content-list" ng-controller="LinksIndex"
 	 ng-init="initialize(<?php echo h(json_encode(Hash::merge($this->request->data, $tokens))); ?>)">
 
-	<article>
-		<div class="clearfix">
-			<?php if ($displayType !== LinkFrameSetting::TYPE_DROPDOWN) : ?>
-				<h1 class="pull-left">
-					<small>
-						<?php echo h(Hash::get($linkBlock, 'name', '')); ?>
-					</small>
-				</h1>
+		<?php if ($displayType !== LinkFrameSetting::TYPE_DROPDOWN) : ?>
+			<h1>
+				<?php echo h(Hash::get($linkBlock, 'name', '')); ?>
+			</h1>
+		<?php endif; ?>
+
+		<div class="text-right">
+			<?php if (Current::permission('content_editable') && $links) : ?>
+				<?php echo $this->LinkButton->sort('',
+						$this->NetCommonsHtml->url(array('controller' => 'link_orders', 'action' => 'edit'))
+					); ?>
 			<?php endif; ?>
 
-			<div class="pull-right h1">
-				<?php if (Current::permission('content_editable') && $links) : ?>
-					<?php echo $this->LinkButton->sort('',
-							$this->NetCommonsHtml->url(array('controller' => 'link_orders', 'action' => 'edit'))
-						); ?>
-				<?php endif; ?>
-
-				<?php echo $this->Workflow->addLinkButton('', null, array('tooltip' => __d('links', 'Create link'))); ?>
-			</div>
+			<?php echo $this->Workflow->addLinkButton('', null, array('tooltip' => __d('links', 'Create link'))); ?>
 		</div>
 
 		<?php
@@ -72,5 +67,4 @@ $displayType = Hash::get($linkFrameSetting, 'display_type');
 				echo $this->element('Links/index_list_with_description');
 			}
 		?>
-	</article>
 </div>
