@@ -65,7 +65,6 @@ class LinkBlock extends BlocksAppModel {
 			'loadModels' => array(
 				'Category' => 'Categories.Category',
 				'CategoryOrder' => 'Categories.CategoryOrder',
-				'WorkflowComment' => 'Workflow.WorkflowComment',
 			)
 		),
 		'Categories.Category',
@@ -276,8 +275,9 @@ class LinkBlock extends BlocksAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
+			$this->Link->blockKey = $data[$this->alias]['key'];
 			$conditions = array($this->Link->alias . '.block_id' => $blocks);
-			if (! $this->Link->deleteAll($conditions, false)) {
+			if (! $this->Link->deleteAll($conditions, false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

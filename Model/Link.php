@@ -265,16 +265,14 @@ class Link extends LinksAppModel {
 		$this->begin();
 
 		try {
-			if (! $this->deleteAll(array($this->alias . '.key' => $data['Link']['key']), false)) {
+			$this->contentKey = $data['Link']['key'];
+			if (! $this->deleteAll(array($this->alias . '.key' => $data['Link']['key']), false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			if (! $this->LinkOrder->delete($data['LinkOrder']['id'])) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
-			//コメントの削除
-			$this->deleteCommentsByContentKey($data['Link']['key']);
 
 			//トランザクションCommit
 			$this->commit();
