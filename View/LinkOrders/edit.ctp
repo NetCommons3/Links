@@ -19,9 +19,7 @@ $editUrlFormat = $this->NetCommonsHtml->url(array('controller' => 'links', 'acti
 <div class="nc-content-list" ng-controller="LinkOrders"
 	 ng-init="initialize(<?php echo h(json_encode(['links' => $camelizeLinks, 'categories' => $camelizeCategories])); ?>)">
 
-	<h1>
-		<small><?php echo h($linkBlock['name']); ?></small>
-	</h1>
+	<?php echo $this->NetCommonsHtml->blockTitle($linkBlock['name']); ?>
 
 	<?php echo $this->NetCommonsForm->create('LinkOrders', array('type' => 'put')); ?>
 		<?php foreach (array_keys($this->data['LinkOrders']) as $linkOrderId) : ?>
@@ -46,35 +44,33 @@ $editUrlFormat = $this->NetCommonsHtml->url(array('controller' => 'links', 'acti
 					{{cate.category.name}}
 				</h2>
 				<ul class="list-group" ng-show="links['_' + cate.category.id]">
-					<li class="list-group-item" ng-repeat="linksPerCategory in links['_' + cate.category.id]">
-						<div class="row">
-							<div class="col-xs-2">
-								<button type="button" class="btn btn-default btn-xs"
-										ng-click="move(cate.category.id, 'up', $index)" ng-disabled="$first">
-									<span class="glyphicon glyphicon-arrow-up"></span>
-								</button>
+					<li class="list-group-item clearfix" ng-repeat="linksPerCategory in links['_' + cate.category.id]">
+						<div class="pull-left">
+							<button type="button" class="btn btn-default btn-xs"
+									ng-click="move(cate.category.id, 'up', $index)" ng-disabled="$first">
+								<span class="glyphicon glyphicon-arrow-up"></span>
+							</button>
 
-								<button type="button" class="btn btn-default btn-xs"
-										ng-click="move(cate.category.id, 'down', $index)" ng-disabled="$last">
-									<span class="glyphicon glyphicon-arrow-down"></span>
-								</button>
+							<button type="button" class="btn btn-default btn-xs"
+									ng-click="move(cate.category.id, 'down', $index)" ng-disabled="$last">
+								<span class="glyphicon glyphicon-arrow-down"></span>
+							</button>
 
-								<input type="hidden" name="data[LinkOrders][{{linksPerCategory.linkOrder.id}}][LinkOrder][weight]" ng-value="{{$index + 1}}">
-							</div>
+							<input type="hidden" name="data[LinkOrders][{{linksPerCategory.linkOrder.id}}][LinkOrder][weight]" ng-value="{{$index + 1}}">
+						</div>
 
-							<div class="col-xs-9">
-								<a ng-href="{{linksPerCategory.link.url}}" target="_blank">
-									{{linksPerCategory.link.title}}
-								</a>
-							</div>
+						<div class="col-xs-9">
+							<a ng-href="{{linksPerCategory.link.url}}" target="_blank">
+								{{linksPerCategory.link.title}}
+							</a>
+						</div>
 
-							<div class="col-xs-1 text-right">
-								<a class="btn btn-xs btn-primary nc-links-edit-anchor"
-									ng-href="<?php echo sprintf($editUrlFormat, '{{linksPerCategory.link.key}}'); ?>">
+						<div class="pull-right">
+							<a class="btn btn-xs btn-primary"
+								ng-href="<?php echo sprintf($editUrlFormat, '{{linksPerCategory.link.key}}'); ?>">
 
-									<span class="glyphicon glyphicon-edit"> </span>
-								</a>
-							</div>
+								<span class="glyphicon glyphicon-edit"> </span>
+							</a>
 						</div>
 					</li>
 				</ul>
