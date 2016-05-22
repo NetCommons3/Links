@@ -81,7 +81,7 @@ class LinksViewElementsLinksIndexListOnlyTitleTest extends NetCommonsControllerT
 		$pattern = '/' . preg_quote('View/Elements/Links/index_list_only_title', '/') . '/';
 		$this->assertRegExp($pattern, $this->view);
 
-		$this->assertTextContains('<ul class="list-group nc-links-list-style"', $this->view);
+		$this->assertTextContains('<ul class="list-group"', $this->view);
 		$this->assertTextContains('/links/img/line/line_a2.gif', $this->view);
 		$this->assertTextContains('/links/img/mark/mark_a1.gif', $this->view);
 
