@@ -14,17 +14,21 @@
 <?php echo $this->NetCommonsHtml->script('/links/js/links.js'); ?>
 
 <div class="nc-content-list">
+	<header>
+		<?php echo $this->BackTo->listLinkButton(); ?>
+	</header>
+
 	<article>
-		<div class="clearfix">
-			<h1 class="pull-left">
-				<small><?php echo h($linkBlock['name']); ?></small>
-			</h1>
-			<div class="pull-right h1">
-				<?php if ($this->Workflow->canEdit('Links.Link', $link)) : ?>
-					<?php echo $this->LinkButton->edit('', array('key' => $link['Link']['key']), array('tooltip' => true)); ?>
-				<?php endif; ?>
+		<header class="clearfix">
+			<div class="pull-left">
+				<?php echo $this->NetCommonsHtml->blockTitle($linkBlock['name']); ?>
 			</div>
-		</div>
+			<?php if ($this->Workflow->canEdit('Links.Link', $link)) : ?>
+				<div class="pull-right">
+					<?php echo $this->LinkButton->edit('', array('key' => $link['Link']['key']), array('tooltip' => true)); ?>
+				</div>
+			<?php endif; ?>
+		</header>
 
 		<div class="panel panel-default">
 			<div class="panel-body">

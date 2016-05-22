@@ -13,11 +13,9 @@
 <?php echo $this->NetCommonsHtml->script('/links/js/links.js'); ?>
 
 <div class="nc-content-list" ng-controller="LinksEdit">
-	<article>
-		<h1>
-			<small><?php echo h($linkBlock['name']); ?></small>
-		</h1>
+	<?php echo $this->NetCommonsHtml->blockTitle($linkBlock['name']); ?>
 
+	<article>
 		<div class="panel panel-default">
 			<?php echo $this->NetCommonsForm->create('Link'); ?>
 				<div class="panel-body">

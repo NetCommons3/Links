@@ -13,6 +13,6 @@
 <?php if ($this->Workflow->canEdit('Links.Link', $link)) : ?>
 	<?php echo $this->LinkButton->edit('', array('key' => $link['Link']['key']), array(
 			'tooltip' => true,
-			'iconSize' => 'btn-xs nc-links-edit-anchor'
+			'iconSize' => 'btn-xs'
 		)); ?>
 <?php endif;

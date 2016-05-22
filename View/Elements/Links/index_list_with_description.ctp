@@ -17,14 +17,14 @@
 				<?php echo h($category['Category']['name']); ?>
 			</h2>
 
-			<ul class="list-group nc-links-list-style" style="<?php echo $linkFrameSetting['list_style_css']; ?>">
+			<ul class="list-group" style="<?php echo $linkFrameSetting['list_style_css']; ?>">
 				<?php foreach ($links[$category['Category']['id']] as $link) : ?>
 					<li class="list-group-item nc-links-li">
-						<h3 class="nc-links-li-title">
+						<h3>
 							<?php echo $this->element('Links.Links/link', array('link' => $link)); ?>
 							<?php echo $this->element('Links.Links/edit_link', array('link' => $link)); ?>
 						</h3>
-						<div class="nc-links-li-description text-muted">
+						<div class="text-muted">
 							<?php echo h($link['Link']['description']); ?>
 						</div>
 					</li>

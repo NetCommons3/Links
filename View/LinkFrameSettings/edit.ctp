@@ -35,7 +35,7 @@ $linkFrameSetting = NetCommonsAppController::camelizeKeyRecursive(
 		<?php echo $this->BlockForm->displayEditForm(array(
 				'model' => 'LinkFrameSetting',
 				'callback' => 'Links.LinkFrameSettings/edit_form',
-				'cancelUrl' => NetCommonsUrl::backToIndexUrl(),
+				'cancelUrl' => NetCommonsUrl::backToPageUrl(true),
 			)); ?>
 	</div>
 </article>

@@ -41,12 +41,10 @@ $displayType = Hash::get($linkFrameSetting, 'display_type');
 	 ng-init="initialize(<?php echo h(json_encode(Hash::merge($this->request->data, $tokens))); ?>)">
 
 		<?php if ($displayType !== LinkFrameSetting::TYPE_DROPDOWN) : ?>
-			<h1>
-				<?php echo h(Hash::get($linkBlock, 'name', '')); ?>
-			</h1>
+			<?php echo $this->NetCommonsHtml->blockTitle($linkBlock['name']); ?>
 		<?php endif; ?>
 
-		<div class="text-right">
+		<header class="text-right">
 			<?php if (Current::permission('content_editable') && $links) : ?>
 				<?php echo $this->LinkButton->sort('',
 						$this->NetCommonsHtml->url(array('controller' => 'link_orders', 'action' => 'edit'))
@@ -54,7 +52,7 @@ $displayType = Hash::get($linkFrameSetting, 'display_type');
 			<?php endif; ?>
 
 			<?php echo $this->Workflow->addLinkButton('', null, array('tooltip' => __d('links', 'Create link'))); ?>
-		</div>
+		</header>
 
 		<?php
 			if ($displayType === LinkFrameSetting::TYPE_DROPDOWN) {

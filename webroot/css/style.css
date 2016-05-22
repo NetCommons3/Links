@@ -6,13 +6,9 @@
  * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 
-.links-index-dropdown {
-	margin-top: 16px;
-}
-
-.nc-links-edit-anchor {
-	margin-left: 20px;
-}
+/**
+ * 一覧表示
+ */
 li.list-group-item.nc-links-li {
 	border: none;
 	padding: 0px;
@@ -23,11 +19,10 @@ li.list-group-item.nc-links-li {
 	margin-left: 30px;
 	margin-bottom: 15px;
 }
-li.nc-links-li > h3.nc-links-li-title {
-	margin-top: 0px;
-	margin-bottom: 2px;
-}
 
+/**
+ * 表示方法変更
+ */
 hr.nc-links-edit-line {
 	margin-top: 8px;
 	margin-bottom: 8px;
@@ -42,4 +37,3 @@ ul.nc-links-edit-mark {
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
-
