@@ -11,7 +11,6 @@
 
 App::uses('LinksAppController', 'Links.Controller');
 App::uses('HttpSocket', 'Network/Http');
-App::uses('MailSend', 'Mails.Utility');
 
 /**
  * Links Controller
@@ -205,7 +204,6 @@ class LinksController extends LinksAppController {
 			unset($data['Link']['id'], $data['LinkOrder']['weight']);
 
 			if ($this->Link->saveLink($data)) {
-				MailSend::send();
 				return $this->redirect(NetCommonsUrl::backToPageUrl());
 			}
 			$this->NetCommons->handleValidationError($this->Link->validationErrors);
@@ -256,7 +254,6 @@ class LinksController extends LinksAppController {
 			unset($data['Link']['id']);
 
 			if ($this->Link->saveLink($data)) {
-				MailSend::send();
 				return $this->redirect(NetCommonsUrl::backToPageUrl());
 			}
 			$this->NetCommons->handleValidationError($this->Link->validationErrors);
