@@ -113,13 +113,13 @@ class LinkFrameSettingGetLinkFrameSettingTest extends NetCommonsGetTest {
 			'open_new_tab' => true,
 			'display_click_count' => true,
 			'frame_key' => Current::$current['Frame']['key'],
-			'category_separator_line' => null,
+			'category_separator_line' => 'default',
 			'list_style' => null,
 			'created_user' => null,
 			'created' => null,
 			'modified_user' => null,
 			'modified' => null,
-			'category_separator_line_css' => null,
+			'category_separator_line_css' => '',
 			'list_style_css' => 'list-style-type: none;'
 		));
 	}
@@ -158,7 +158,7 @@ class LinkFrameSettingGetLinkFrameSettingTest extends NetCommonsGetTest {
 		$pathKey = 'category_separator_line';
 		$this->assertEquals(Hash::get($expected, $pathKey), Hash::get($result, $pathKey));
 		if (Hash::get($expected, $pathKey)) {
-			$pattern = '/' . preg_quote(Hash::get($expected, $pathKey), '/') . '/';
+			$pattern = '//';
 			$this->assertRegExp($pattern, Hash::get($result, $pathKey . '_css'));
 		} else {
 			$this->assertEquals(null, Hash::get($result, $pathKey . '_css'));

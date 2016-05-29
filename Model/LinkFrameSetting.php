@@ -245,7 +245,9 @@ class LinkFrameSetting extends LinksAppModel {
 
 		if (! $linkFrameSetting) {
 			if ($created) {
-				$linkFrameSetting = $this->create();
+				$linkFrameSetting = $this->create(array(
+					'category_separator_line' => self::CATEGORY_SEPARATOR_DEFAULT
+				));
 			} else {
 				return $linkFrameSetting;
 			}

@@ -100,8 +100,8 @@ msgid "Select link to show"
 msgstr "リンクを選択してください"
 
 #: Links/View/LinkOrders/edit.ctp:35
-msgid "No link."
-msgstr "リンクがありません。"
+msgid "No link found."
+msgstr "一件もリンクがありません。"
 
 #: Links/View/Links/index.ctp:30
 msgid "Sort link"
