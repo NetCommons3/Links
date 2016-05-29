@@ -10,6 +10,14 @@
  */
 ?>
 
+<?php
+	if ($linkFrameSetting['list_style']) {
+		$listClass = ' nc-links-li';
+	} else {
+		$listClass = ' nc-links-li-none';
+	}
+?>
+
 <?php foreach ($categories as $category) : ?>
 	<?php if (isset($links[$category['Category']['id']])) : ?>
 		<?php if (Hash::get($linkFrameSetting, 'category_separator_line')) : ?>
@@ -22,13 +30,6 @@
 			</h2>
 
 			<ul class="list-group" style="<?php echo $linkFrameSetting['list_style_css']; ?>">
-				<?php
-					if ($linkFrameSetting['list_style']) {
-						$listClass = ' nc-links-li';
-					} else {
-						$listClass = ' nc-links-li-none';
-					}
-				?>
 				<?php foreach ($links[$category['Category']['id']] as $link) : ?>
 					<li class="list-group-item<?php echo $listClass; ?>">
 						<h3>
