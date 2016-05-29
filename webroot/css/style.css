@@ -9,14 +9,21 @@
 /**
  * 一覧表示
  */
-li.list-group-item.nc-links-li {
+li.list-group-item.nc-links-li,
+li.list-group-item.nc-links-li-none {
 	border: none;
 	padding: 0px;
 	display: list-item;
 }
+
 .nc-links-li {
 	margin-top: 8px;
 	margin-left: 30px;
+	margin-bottom: 15px;
+}
+.nc-links-li-none {
+	margin-top: 8px;
+	/*margin-left: 30px;*/
 	margin-bottom: 15px;
 }
 

@@ -35,7 +35,7 @@ $editUrlFormat = $this->NetCommonsHtml->url(array('controller' => 'links', 'acti
 		<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
 
 		<div ng-hide="links">
-			<p><?php echo __d('links', 'No link.'); ?></p>
+			<p><?php echo __d('links', 'No link found.'); ?></p>
 		</div>
 
 		<div ng-show="links">

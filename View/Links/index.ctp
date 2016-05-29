@@ -59,10 +59,18 @@ $displayType = Hash::get($linkFrameSetting, 'display_type');
 				echo $this->element('Links/index_dropdown');
 
 			} elseif ($displayType === LinkFrameSetting::TYPE_LIST_ONLY_TITLE) {
-				echo $this->element('Links/index_list_only_title');
+				if ($links) {
+					echo $this->element('Links/index_list_only_title');
+				} else {
+					echo __d('links', 'No link found.');
+				}
 
 			} elseif ($displayType === LinkFrameSetting::TYPE_LIST_WITH_DESCRIPTION) {
-				echo $this->element('Links/index_list_with_description');
+				if ($links) {
+					echo $this->element('Links/index_list_with_description');
+				} else {
+					echo __d('links', 'No link found.');
+				}
 			}
 		?>
 </div>

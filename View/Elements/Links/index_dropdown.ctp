@@ -23,27 +23,34 @@
 	</button>
 	<ul class="dropdown-menu" role="menu">
 		<li class="divider"> </li>
-		<?php foreach ($categories as $category) : ?>
-			<?php if (isset($links[$category['Category']['id']])) : ?>
-				<?php if (isset($category['Category']['name'])) : ?>
-					<li>
-						<span class="nc-dropdown-block">
-							<strong><?php echo h($category['Category']['name']); ?></strong>
-						</span>
-					</li>
+		<?php if ($links) : ?>
+			<?php foreach ($categories as $category) : ?>
+				<?php if (isset($links[$category['Category']['id']])) : ?>
+					<?php if (isset($category['Category']['name'])) : ?>
+						<li>
+							<span class="nc-dropdown-block">
+								<strong><?php echo h($category['Category']['name']); ?></strong>
+							</span>
+						</li>
+					<?php endif; ?>
+
+					<?php foreach ($links[$category['Category']['id']] as $link) : ?>
+						<li>
+							<div class="nc-dropdown-block">
+								<?php echo $this->element('Links.Links/link', array('link' => $link)); ?>
+								<?php echo $this->element('Links.Links/edit_link', array('link' => $link)); ?>
+							</div>
+						</li>
+					<?php endforeach; ?>
+
+					<li class="divider"> </li>
 				<?php endif; ?>
-
-				<?php foreach ($links[$category['Category']['id']] as $link) : ?>
-					<li>
-						<div class="nc-dropdown-block">
-							<?php echo $this->element('Links.Links/link', array('link' => $link)); ?>
-							<?php echo $this->element('Links.Links/edit_link', array('link' => $link)); ?>
-						</div>
-					</li>
-				<?php endforeach; ?>
-
-				<li class="divider"> </li>
-			<?php endif; ?>
-		<?php endforeach; ?>
+			<?php endforeach; ?>
+		<?php else : ?>
+			<li>
+				<span class="nc-dropdown-block">
+					<?php echo __d('links', 'No link found.'); ?></li>
+				</span>
+		<?php endif; ?>
 	</ul>
 </div>
