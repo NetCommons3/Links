@@ -28,7 +28,7 @@
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 								'Block.name', __d('links', 'Link list Title'),
-								array('sort' => true)
+								array('sort' => true, 'editUrl' => true)
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 								'TrackableCreator.handlename', __d('net_commons', 'Created user'),
