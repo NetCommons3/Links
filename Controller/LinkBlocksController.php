@@ -87,10 +87,7 @@ class LinkBlocksController extends LinksAppController {
  */
 	public function index() {
 		$this->Paginator->settings = array(
-			'LinkBlock' => array(
-				'order' => array('Block.id' => 'desc'),
-				'conditions' => $this->LinkBlock->getBlockConditions(),
-			)
+			'LinkBlock' => $this->LinkBlock->getBlockIndexSettings()
 		);
 
 		$linkBlocks = $this->Paginator->paginate('LinkBlock');
