@@ -68,7 +68,8 @@ class LinkBlock extends BlocksAppModel {
 			)
 		),
 		'Categories.Category',
-		'M17n.M17n',
+		//'M17n.M17n',
+		'NetCommons.OriginalKey',
 	);
 
 /**
