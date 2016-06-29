@@ -142,28 +142,6 @@ class LinkBlock extends BlocksAppModel {
 	}
 
 /**
- * Called before each save operation, after validation. Return a non-true result
- * to halt the save.
- *
- * @param array $options Options passed from Model::save().
- * @return bool True if the operation should continue, false if it should abort
- * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforesave
- * @throws InternalErrorException
- * @see Model::save()
- */
-	public function beforeSave($options = array()) {
-		//LinkSetting登録
-		if (isset($this->data['LinkSetting'])) {
-			$this->LinkSetting->set($this->data['LinkSetting']);
-			if (! $this->LinkSetting->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-		}
-
-		return true;
-	}
-
-/**
  * LinkBlockデータ生成
  *
  * @return array LinkBlockデータ配列
@@ -234,9 +212,16 @@ class LinkBlock extends BlocksAppModel {
 		}
 
 		try {
-			//登録処理
-			if (! $this->save(null, false)) {
+			if (! $this->saveBlock()) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//LinkSetting登録
+			if (isset($this->data['LinkSetting'])) {
+				$this->LinkSetting->set($this->data['LinkSetting']);
+				if (! $this->LinkSetting->save(null, false)) {
+					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				}
 			}
 
 			//トランザクションCommit
