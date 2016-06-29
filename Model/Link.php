@@ -84,7 +84,17 @@ class Link extends LinksAppModel {
 			'conditions' => 'CategoryOrder.category_key=Category.key',
 			'fields' => '',
 			'order' => array('CategoryOrder.weight' => 'asc')
-		)
+		),
+		'Block' => array(
+			'className' => 'Blocks.Block',
+			'foreignKey' => 'block_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'counterCache' => array(
+				'content_count' => array('Link.is_latest' => 1),
+			),
+		),
 	);
 
 /**
