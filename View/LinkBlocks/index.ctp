@@ -31,6 +31,10 @@
 								array('sort' => true, 'editUrl' => true)
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
+								'Block.content_count', __d('net_commons', 'Number'),
+								array('sort' => true, 'type' => 'numeric')
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
 								'Block.public_type', __d('blocks', 'Publishing setting'),
 								array('sort' => true)
 							); ?>
@@ -53,6 +57,10 @@
 							<?php echo $this->BlockIndex->tableData(
 									'Block.name', $linkBlock['Block']['name'],
 									array('editUrl' => array('block_id' => $linkBlock['Block']['id']))
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Block.content_count', $linkBlock['Block']['content_count'],
+									array('type' => 'numeric')
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
 									'Block.public_type', $linkBlock
