@@ -68,7 +68,15 @@ class LinkFrameSettingsController extends LinksAppController {
  */
 	public function edit() {
 		if ($this->request->is('put') || $this->request->is('post')) {
-			if ($this->LinkFrameSetting->saveLinkFrameSetting($this->data)) {
+			if (Hash::get($this->request->data, 'LinkFrameSetting.has_description')) {
+				$this->request->data = Hash::insert(
+					$this->request->data,
+					'LinkFrameSetting.display_type',
+					LinkFrameSetting::TYPE_LIST_WITH_DESCRIPTION
+				);
+			}
+
+			if ($this->LinkFrameSetting->saveLinkFrameSetting($this->request->data)) {
 				return $this->redirect(NetCommonsUrl::backToPageUrl(true));
 			} else {
 				return $this->throwBadRequest();
@@ -76,6 +84,18 @@ class LinkFrameSettingsController extends LinksAppController {
 
 		} else {
 			$this->request->data = $this->LinkFrameSetting->getLinkFrameSetting(true);
+			$displayType = Hash::get($this->request->data, 'LinkFrameSetting.display_type');
+			if ($displayType === LinkFrameSetting::TYPE_LIST_WITH_DESCRIPTION) {
+				$this->request->data = Hash::insert(
+					$this->request->data, 'LinkFrameSetting.has_description', true
+				);
+				$this->request->data = Hash::insert(
+					$this->request->data,
+					'LinkFrameSetting.display_type',
+					LinkFrameSetting::TYPE_LIST_ONLY_TITLE
+				);
+			}
+
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}

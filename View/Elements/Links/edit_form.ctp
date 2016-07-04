@@ -21,37 +21,29 @@
 <?php echo $this->NetCommonsForm->hidden('LinkOrder.block_key'); ?>
 <?php echo $this->NetCommonsForm->hidden('LinkOrder.link_key'); ?>
 
-<div class="form-group">
-	<div>
-		<?php echo $this->NetCommonsForm->label('Link.url', __d('links', 'URL') . $this->element('NetCommons.required')); ?>
-	</div>
-	<div class="input-group">
-		<?php echo $this->NetCommonsForm->input('Link.url', array(
-				'type' => 'text',
-				'error' => false,
-				'label' => false,
-				'div' => false,
-				'placeholder' => 'http://',
-			)); ?>
+<div class="form-group" ng-class="{'has-error': urlError}"
+		ng-init="urlError='<?php echo $this->Form->error('Link.url', null, ['wrap' => false]); ?>'">
 
-		<span class="input-group-btn">
-			<button class="btn btn-default" type="button" ng-click="getUrl(<?php echo Current::read('Frame.id'); ?>)">
-				<?php echo __d('links', 'GO!'); ?>
-			</button>
-		</span>
-	</div>
-	<div>
-		<div class="has-error">
-			<?php echo $this->NetCommonsForm->error('Link.url', null, array('class' => 'help-block')); ?>
-		</div>
+	<?php echo $this->NetCommonsForm->input('Link.url', array(
+			'type' => 'text',
+			'label' => __d('links', 'URL'),
+			'div' => false,
+			'placeholder' => 'http://',
+			'required' => true,
+			'error' => false
+		)); ?>
 
-		<div class="has-error" ng-show="urlError" ng-cloak>
-			<div class="help-block">
-				{{urlError}}
-			</div>
-		</div>
+	<div class="help-block" ng-show="urlError" ng-cloak>
+		{{urlError}}
 	</div>
 </div>
+
+<div class="form-group text-center">
+	<button class="btn btn-default btn-sm link-getbtn" type="button" ng-click="getUrl(<?php echo Current::read('Frame.id'); ?>)">
+		<?php echo __d('links', 'GO!'); ?>
+	</button>
+</div>
+
 
 <?php echo $this->NetCommonsForm->input('Link.title', array(
 		'type' => 'text',

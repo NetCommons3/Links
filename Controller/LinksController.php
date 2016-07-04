@@ -181,7 +181,11 @@ class LinksController extends LinksAppController {
 			$results['description'] = mb_convert_encoding($matches[3], 'utf-8', 'auto');
 		}
 
-		$this->NetCommons->renderJson($results);
+		if ($results['title']) {
+			$this->NetCommons->renderJson($results);
+		} else {
+			return $this->throwBadRequest(__d('links', 'Failed to obtain the title for this page.'));
+		}
 	}
 
 /**

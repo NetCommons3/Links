@@ -21,7 +21,7 @@ msgstr "新規リンクリスト%s"
 
 #: Links/Controller/LinksController.php:150;155
 msgid "Failed to obtain the title for this page."
-msgstr "入力したURLからタイトルを取得できませんでした"
+msgstr "入力したURLからタイトルと説明を取得できませんでした"
 
 #: Links/Model/Link.php:125;131 Links/View/Elements/Links/edit_form.ctp:55
 #: Links/View/Links/view.ctp:26
@@ -60,8 +60,8 @@ msgid "Show list"
 msgstr "一覧表示"
 
 #: Links/View/Elements/LinkFrameSettings/edit_form.ctp:39
-msgid "Show list (Description)"
-msgstr "一覧表示(説明付き)"
+msgid "Show description"
+msgstr "説明付き"
 
 #: Links/View/Elements/LinkFrameSettings/edit_form.ctp:47
 msgid "Open as a new tab"
@@ -101,7 +101,7 @@ msgstr "リンクを選択してください"
 
 #: Links/View/LinkOrders/edit.ctp:35
 msgid "No link found."
-msgstr "一件もリンクがありません。"
+msgstr "リンクがありません。"
 
 #: Links/View/Links/index.ctp:30
 msgid "Sort link"
