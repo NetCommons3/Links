@@ -11,6 +11,7 @@
 ?>
 
 <?php echo $this->NetCommonsHtml->script('/links/js/links.js'); ?>
+<?php echo $this->NetCommonsHtml->css('/links/css/style.css'); ?>
 
 <div class="nc-content-list" ng-controller="LinksEdit">
 	<?php echo $this->NetCommonsHtml->blockTitle($linkBlock['name']); ?>

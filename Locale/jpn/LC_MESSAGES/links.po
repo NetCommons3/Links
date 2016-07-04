@@ -21,7 +21,7 @@ msgstr "新規リンクリスト%s"
 
 #: Links/Controller/LinksController.php:150;155
 msgid "Failed to obtain the title for this page."
-msgstr "入力したURLからタイトルを取得できませんでした"
+msgstr "入力したURLからタイトルと説明を取得できませんでした"
 
 #: Links/Model/Link.php:125;131 Links/View/Elements/Links/edit_form.ctp:55
 #: Links/View/Links/view.ctp:26
