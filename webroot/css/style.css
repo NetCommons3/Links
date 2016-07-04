@@ -28,6 +28,16 @@ li.list-group-item.nc-links-li-none {
 }
 
 /**
+ * 一覧表示
+ */
+.link-view-info {
+	margin-bottom: 8px;
+}
+.link-view-info .pull-left {
+	margin-right: 32px;
+}
+
+/**
  * 表示方法変更
  */
 hr.nc-links-edit-line {

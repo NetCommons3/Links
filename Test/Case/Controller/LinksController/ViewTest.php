@@ -288,26 +288,31 @@ class LinksControllerViewTest extends WorkflowControllerViewTest {
 				//コンテンツのデータ(id=2, key=content_key_1)に対する期待値
 				$this->assertTextContains('Title 2', $this->view);
 				$this->assertTextContains('Description 2', $this->view);
+				$badgeId = 'nc-badge-6-2';
 			} else {
 				//コンテンツのデータ(id=1, key=content_key_1)に対する期待値
 				$this->assertTextContains('Title 1', $this->view);
 				$this->assertTextContains('Description 1', $this->view);
+				$badgeId = 'nc-badge-6-1';
 			}
 
 		} elseif ($contentKey === 'content_key_2') {
 			//コンテンツのデータ(id=3, key=content_key_2)に対する期待値
 			$this->assertTextContains('Title 3', $this->view);
 			$this->assertTextContains('Description 3', $this->view);
+			$badgeId = 'nc-badge-6-3';
 
 		} elseif ($contentKey === 'content_key_3') {
 			if ($isLatest) {
 				//コンテンツのデータ(id=5, key=content_key_3)に対する期待値
 				$this->assertTextContains('Title 5', $this->view);
 				$this->assertTextContains('Description 5', $this->view);
+				$badgeId = 'nc-badge-6-5';
 			} else {
 				//コンテンツのデータ(id=4, key=content_key_3)に対する期待値
 				$this->assertTextContains('Title 4', $this->view);
 				$this->assertTextContains('Description 4', $this->view);
+				$badgeId = 'nc-badge-6-4';
 			}
 
 		} elseif ($contentKey === 'content_key_4') {
@@ -315,19 +320,25 @@ class LinksControllerViewTest extends WorkflowControllerViewTest {
 				//コンテンツのデータ(id=7, key=content_key_4)に対する期待値
 				$this->assertTextContains('Title 7', $this->view);
 				$this->assertTextContains('Description 7', $this->view);
+				$badgeId = 'nc-badge-6-7';
 			} else {
 				//コンテンツのデータ(id=6, key=content_key_4)に対する期待値
 				$this->assertTextContains('Title 6', $this->view);
 				$this->assertTextContains('Description 6', $this->view);
+				$badgeId = 'nc-badge-6-6';
 			}
 
 		} elseif ($contentKey === 'content_key_5') {
 			//コンテンツのデータ(id=8, key=content_key_5)に対する期待値
 			$this->assertTextContains('Title 8', $this->view);
 			$this->assertTextContains('Description 8', $this->view);
+			$badgeId = 'nc-badge-6-8';
 		}
 
-		$this->assertTextContains('<span class="badge">1</span>', $this->view);
+		$pattern = '/' . preg_quote('<span class="badge"', '/') . ' id="' . $badgeId . '">1' . preg_quote('</span>', '/') . '/';
+		$result = str_replace("\n", '', $this->view);
+		$result = str_replace("\t", '', $result);
+		$this->assertRegExp($pattern, $result);
 	}
 
 /**
@@ -335,13 +346,13 @@ class LinksControllerViewTest extends WorkflowControllerViewTest {
  *
  * @return void
  */
-	public function testViewOnLinkUpdateCountError() {
-		//テストデータ
-		$this->_mockForReturnFalse('Links.Link', 'updateCount');
-		$urlOptions = Hash::insert($this->__data(), 'key', 'content_key_1');
-
-		//テスト実行
-		parent::testView($urlOptions, null, 'BadRequestException');
-	}
+	//public function testViewOnLinkUpdateCountError() {
+	//	//テストデータ
+	//	$this->_mockForReturnFalse('Links.Link', 'updateCount');
+	//	$urlOptions = Hash::insert($this->__data(), 'key', 'content_key_1');
+	//
+	//	//テスト実行
+	//	parent::testView($urlOptions, null, 'BadRequestException');
+	//}
 
 }

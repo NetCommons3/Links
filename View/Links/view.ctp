@@ -9,70 +9,78 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
+
+$this->request->data = array(
+	'Frame' => array(
+		'id' => Current::read('Frame.id')
+	),
+	'Block' => array(
+		'id' => Current::read('Block.id')
+	),
+	'Link' => array(
+		'id' => null,
+		'key' => null,
+	),
+);
+$tokenFields = Hash::flatten($this->request->data);
+$hiddenFields = array('Frame.id', 'Block.id');
+
+$this->Token->unlockField('Link.id');
+$tokens = $this->Token->getToken('Link',
+	$this->NetCommonsHtml->url('/links/links/link.json'),
+	$tokenFields,
+	$hiddenFields
+);
+
+echo $this->NetCommonsHtml->css('/links/css/style.css');
+echo $this->NetCommonsHtml->script('/links/js/links.js');
 ?>
 
-<?php echo $this->NetCommonsHtml->script('/links/js/links.js'); ?>
+<article class="nc-content-list" ng-controller="LinksIndex"
+		ng-init="initialize(<?php echo h(json_encode(Hash::merge($this->request->data, $tokens))); ?>)">
 
-<div class="nc-content-list">
-	<header>
-		<?php echo $this->BackTo->listLinkButton(); ?>
-	</header>
-
-	<article>
+	<?php if ($this->Workflow->canEdit('Links.Link', $link)) : ?>
 		<header class="clearfix">
 			<div class="pull-left">
-				<?php echo $this->NetCommonsHtml->blockTitle($linkBlock['name']); ?>
+				<?php echo $this->Workflow->label($link['Link']['status']); ?>
 			</div>
-			<?php if ($this->Workflow->canEdit('Links.Link', $link)) : ?>
-				<div class="pull-right">
-					<?php echo $this->LinkButton->edit('', array('key' => $link['Link']['key']), array('tooltip' => true)); ?>
-				</div>
-			<?php endif; ?>
+			<div class="pull-right">
+				<?php echo $this->LinkButton->edit('', array('key' => $link['Link']['key'])); ?>
+			</div>
 		</header>
+	<?php endif; ?>
 
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<div class="form-group">
-					<div>
-						<?php echo $this->NetCommonsForm->label('Link.url', __d('links', 'URL') . $this->element('NetCommons.required')); ?>
-					</div>
-					<div class="form-control nc-data-label">
-						<a href="<?php echo h($link['Link']['url']); ?>">
-							<?php echo h($link['Link']['url']); ?>
-						</a>
-					</div>
-				</div>
+	<h1>
+		<?php echo $this->element('Links.Links/link', array('link' => $link)); ?>
+	</h1>
 
-				<div class="form-group">
-					<div>
-						<?php echo $this->NetCommonsForm->label('Link.title', __d('links', 'Title') . $this->element('NetCommons.required')); ?>
-					</div>
-					<div class="form-control nc-data-label">
-						<?php echo isset($link['Link']['title']) ? h($link['Link']['title']) : null ?>
-						<span class="badge"><?php echo h($link['Link']['click_count']); ?></span>
-					</div>
-				</div>
-
-				<?php if (Hash::get($category, 'name')) : ?>
-					<div class='form-group'>
-						<div>
-							<?php echo $this->NetCommonsForm->label('Link.category_id', __d('categories', 'Category')); ?>
-						</div>
-						<div class="form-control nc-data-label">
-							<?php echo h(Hash::get($category, 'name')); ?>
-						</div>
-					</div>
-				<?php endif; ?>
-
-				<div class="form-group">
-					<div>
-						<?php echo $this->NetCommonsForm->label('Link.description', __d('links', 'Description')); ?>
-					</div>
-					<div class="form-control nc-data-label">
-						<?php echo Hash::get($link, 'Link.description'); ?>
-					</div>
-				</div>
+	<div class="clearfix text-muted link-view-info">
+		<?php if (Hash::get($category, 'name')) : ?>
+			<div class="pull-left link-view-category">
+				<?php echo __d('categories', 'Category'); ?>:
+				<?php echo h(Hash::get($category, 'name')); ?>
 			</div>
+		<?php endif; ?>
+
+		<div class="pull-left link-view-created">
+			<?php echo __d('net_commons', 'Created:'); ?>
+			<?php echo $this->NetCommonsHtml->handleLink($link, ['avatar' => true], [], 'TrackableCreator'); ?>
+			<span class="link-view-created-datetime">
+				(<?php echo $this->NetCommonsHtml->dateFormat(Hash::get($link, 'Link.created')); ?>)
+			</span>
 		</div>
+
+		<div class="pull-left link-view-modified">
+			<?php echo __d('net_commons', 'Modified:'); ?>
+			<?php echo $this->NetCommonsHtml->handleLink($link, ['avatar' => true], [], 'TrackableUpdater'); ?>
+			<span class="link-view-created-datetime">
+				(<?php echo $this->NetCommonsHtml->dateFormat(Hash::get($link, 'Link.modified')); ?>)
+			</span>
+		</div>
+	</div>
+
+	<article>
+		<?php echo Hash::get($link, 'Link.description'); ?>
 	</article>
-</div>
+</article>

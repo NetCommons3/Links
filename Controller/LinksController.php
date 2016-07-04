@@ -41,7 +41,7 @@ class LinksController extends LinksAppController {
 	public $components = array(
 		'NetCommons.Permission' => array(
 			'allow' => array(
-				'link,add,edit,delete' => 'content_creatable',
+				'get,add,edit,delete' => 'content_creatable',
 			),
 		),
 		'Categories.Categories',
@@ -64,6 +64,7 @@ class LinksController extends LinksAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
+		$this->Auth->allow('link');
 
 		if (! Current::read('Block.id')) {
 			return $this->setAction('emptyRender');
@@ -111,8 +112,11 @@ class LinksController extends LinksAppController {
  * @return void
  */
 	public function view() {
+		$linkFrameSetting = $this->LinkFrameSetting->getLinkFrameSetting(true);
+		$this->set('linkFrameSetting', $linkFrameSetting['LinkFrameSetting']);
+
 		$link = $this->Link->getWorkflowContents('first', array(
-			'recursive' => -1,
+			'recursive' => 0,
 			'conditions' => array(
 				$this->Link->alias . '.block_id' => Current::read('Block.id'),
 				$this->Link->alias . '.key' => Hash::get($this->params['pass'], '1')
@@ -129,9 +133,9 @@ class LinksController extends LinksAppController {
 		);
 		$this->set('category', Hash::get($category, '0', array()));
 
-		if (! $this->Link->updateCount($link['Link']['id'])) {
-			return $this->throwBadRequest();
-		}
+		//if (! $this->Link->updateCount($link['Link']['id'])) {
+		//	return $this->throwBadRequest();
+		//}
 
 		//新着データを既読にする
 		$this->Link->saveTopicUserStatus($link);
