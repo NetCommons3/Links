@@ -101,7 +101,7 @@ msgstr "リンクを選択してください"
 
 #: Links/View/LinkOrders/edit.ctp:35
 msgid "No link found."
-msgstr "一件もリンクがありません。"
+msgstr "リンクがありません。"
 
 #: Links/View/Links/index.ctp:30
 msgid "Sort link"

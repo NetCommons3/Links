@@ -62,14 +62,14 @@ $displayType = Hash::get($linkFrameSetting, 'display_type');
 				if ($links) {
 					echo $this->element('Links/index_list_only_title');
 				} else {
-					echo __d('links', 'No link found.');
+					echo '<article>' . __d('links', 'No link found.') . '</article>';
 				}
 
 			} elseif ($displayType === LinkFrameSetting::TYPE_LIST_WITH_DESCRIPTION) {
 				if ($links) {
 					echo $this->element('Links/index_list_with_description');
 				} else {
-					echo __d('links', 'No link found.');
+					echo '<article>' . __d('links', 'No link found.') . '</article>';
 				}
 			}
 		?>
