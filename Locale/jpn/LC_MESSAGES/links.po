@@ -60,8 +60,8 @@ msgid "Show list"
 msgstr "一覧表示"
 
 #: Links/View/Elements/LinkFrameSettings/edit_form.ctp:39
-msgid "Show list (Description)"
-msgstr "一覧表示(説明付き)"
+msgid "Show description"
+msgstr "説明付き"
 
 #: Links/View/Elements/LinkFrameSettings/edit_form.ctp:47
 msgid "Open as a new tab"

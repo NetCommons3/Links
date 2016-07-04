@@ -65,7 +65,8 @@ class LinksViewElementsLinkFrameSettingsEditFormTest extends NetCommonsControlle
 		$this->assertInput('input', 'data[LinkFrameSetting][frame_key]', 'frame_3', $this->view);
 		$this->assertInput('input', 'data[Frame][id]', '6', $this->view);
 		$this->assertInput('input', 'data[Frame][key]', 'frame_3', $this->view);
-		$this->assertInput('select', 'data[LinkFrameSetting][display_type]', '3', $this->view);
+		$this->assertInput('radio', 'data[LinkFrameSetting][display_type]', '2', $this->view);
+		$this->assertInput('checkbox', 'data[LinkFrameSetting][has_description]', '1', $this->view);
 		$this->assertInput('input', 'data[LinkFrameSetting][open_new_tab]', '0', $this->view);
 		$this->assertInput('input', 'data[LinkFrameSetting][open_new_tab]', '1', $this->view);
 		$this->assertInput('input', 'data[LinkFrameSetting][display_click_count]', '0', $this->view);

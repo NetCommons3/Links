@@ -44,3 +44,7 @@ ul.nc-links-edit-mark {
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
+
+.link-frame-setting-display-type .radio:last-child {
+	margin-bottom: 4px;
+}
