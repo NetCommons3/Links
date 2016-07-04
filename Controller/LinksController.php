@@ -113,9 +113,6 @@ class LinksController extends LinksAppController {
  */
 	public function view() {
 		$linkFrameSetting = $this->LinkFrameSetting->getLinkFrameSetting(true);
-		if (! $linkFrameSetting) {
-			return $this->throwBadRequest();
-		}
 		$this->set('linkFrameSetting', $linkFrameSetting['LinkFrameSetting']);
 
 		$link = $this->Link->getWorkflowContents('first', array(
