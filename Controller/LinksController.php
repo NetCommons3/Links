@@ -119,7 +119,7 @@ class LinksController extends LinksAppController {
 			'recursive' => 0,
 			'conditions' => array(
 				$this->Link->alias . '.block_id' => Current::read('Block.id'),
-				$this->Link->alias . '.key' => Hash::get($this->params['pass'], '1')
+				$this->Link->alias . '.key' => $this->params['key']
 			)
 		));
 		if (! $link) {
@@ -233,7 +233,7 @@ class LinksController extends LinksAppController {
  */
 	public function edit() {
 		//データ取得
-		$linkKey = $this->params['pass'][1];
+		$linkKey = $this->params['key'];
 		if ($this->request->is('put')) {
 			$linkKey = $this->data['Link']['key'];
 		}
