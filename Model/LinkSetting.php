@@ -64,21 +64,13 @@ class LinkSetting extends LinksAppModel {
  * @return array
  */
 	public function getLinkSetting() {
-		// TODOO ブロックビヘイビアの$this->getBlockConditionById()使うように見直しするかも。
-		//		$linkSetting = $this->find('first', array(
-		//			'recursive' => -1,
-		//			'conditions' => array(
-		//				$this->alias . '.key' => Current::read('Block.key'),
-		//				$this->alias . '.language_id' => Current::read('Language.id'),
-		//			),
-		//		));
-		$this->Behaviors->load('Blocks.Block');
-		/** @see BlockBehavior::getBlockConditionById() */
 		$linkSetting = $this->find('first', array(
 			'recursive' => -1,
-			'conditions' => $this->getBlockConditionById(),
+			'conditions' => array(
+				$this->alias . '.key' => Current::read('Block.key'),
+				$this->alias . '.language_id' => Current::read('Language.id'),
+			),
 		));
-		$this->Behaviors->unload('Blocks.Block');
 
 		return $linkSetting;
 	}
