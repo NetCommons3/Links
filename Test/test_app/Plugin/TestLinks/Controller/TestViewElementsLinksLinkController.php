@@ -38,7 +38,7 @@ class TestViewElementsLinksLinkController extends AppController {
 	public function link() {
 		$this->autoRender = true;
 		$this->view = 'link';
-		if ($this->params['pass'][1] === 'content_key_2') {
+		if ($this->params['key'] === 'content_key_2') {
 			$link['Link'] = (new LinkFixture())->records[2];
 		} else {
 			$link['Link'] = (new LinkFixture())->records[0];
