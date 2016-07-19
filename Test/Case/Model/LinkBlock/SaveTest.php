@@ -11,7 +11,7 @@
 
 App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
 App::uses('LinkBlockFixture', 'Links.Test/Fixture');
-App::uses('LinkSettingFixture', 'Links.Test/Fixture');
+App::uses('BlockFixture', 'Blocks.Test/Fixture');
 
 /**
  * beforeSave()とafterSave()のテスト
@@ -32,7 +32,7 @@ class LinkBlockSaveTest extends NetCommonsSaveTest {
 		'plugin.links.link',
 		'plugin.links.link_frame_setting',
 		'plugin.links.link_order',
-		'plugin.links.link_setting',
+		'plugin.links.block_setting_for_link',
 		'plugin.workflow.workflow_comment',
 	);
 
@@ -58,6 +58,25 @@ class LinkBlockSaveTest extends NetCommonsSaveTest {
 	protected $_methodName = 'save';
 
 /**
+ * block key
+ *
+ * @var string
+ */
+	public $blockKey = 'e1e4c8c9ccd9fc39c391da4bcd093fb2';
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		Current::write('Plugin.key', $this->plugin);
+		Current::write('Block.key', $this->blockKey);
+	}
+
+/**
  * Save用DataProvider
  *
  * ### 戻り値
@@ -68,7 +87,10 @@ class LinkBlockSaveTest extends NetCommonsSaveTest {
 	public function dataProviderSave() {
 		//データ生成
 		$data['LinkBlock'] = (new LinkBlockFixture())->records[0];
-		$data['LinkSetting'] = (new LinkSettingFixture())->records[0];
+		$data['LinkSetting'] = (new BlockFixture())->records[0];
+		$data['LinkSetting']['content_count'] = '0';
+		$data['LinkSetting']['use_workflow'] = '0';
+		$data['LinkSetting']['key'] = $this->blockKey;
 		$data['Frame'] = array('id' => '6');
 		$data['Block'] = array(
 			'id' => $data['LinkBlock']['id'],
@@ -84,7 +106,7 @@ class LinkBlockSaveTest extends NetCommonsSaveTest {
 		$results[1] = Hash::insert($results[1], '0.LinkBlock.key', null);
 		$results[1] = Hash::remove($results[1], '0.LinkBlock.created_user');
 		$results[1] = Hash::insert($results[1], '0.LinkSetting.id', null);
-		$results[1] = Hash::insert($results[1], '0.LinkSetting.block_key', '');
+		//$results[1] = Hash::insert($results[1], '0.LinkSetting.key', '');
 		$results[1] = Hash::remove($results[1], '0.LinkSetting.created_user');
 		$results[1] = Hash::insert($results[1], '0.Block.id', null);
 		$results[1] = Hash::insert($results[1], '0.Block.key', null);
@@ -138,7 +160,7 @@ class LinkBlockSaveTest extends NetCommonsSaveTest {
 			$actual[$alias] = Hash::remove($actual[$alias], 'created');
 			$actual[$alias] = Hash::remove($actual[$alias], 'created_user');
 
-			$data[$alias]['block_key'] = OriginalKeyBehavior::generateKey('Block', $this->$model->useDbConfig);
+			$data[$alias]['key'] = OriginalKeyBehavior::generateKey('Block', $this->$model->useDbConfig);
 			$before[$alias] = array();
 		}
 		$expected[$alias] = Hash::merge(
