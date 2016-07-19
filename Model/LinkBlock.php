@@ -154,7 +154,6 @@ class LinkBlock extends BlocksAppModel {
 			),
 		));
 
-		//return Hash::merge($linkBlock, $this->LinkSetting->create());
 		return Hash::merge($linkBlock, $this->LinkSetting->createLinkSetting());
 	}
 
@@ -168,7 +167,6 @@ class LinkBlock extends BlocksAppModel {
 			array(
 				$this->alias . '.*',
 				$this->Block->alias . '.*',
-				//$this->LinkSetting->alias . '.*',
 			),
 			Hash::get($this->belongsTo, 'TrackableCreator.fields', array()),
 			Hash::get($this->belongsTo, 'TrackableUpdater.fields', array())
@@ -177,17 +175,6 @@ class LinkBlock extends BlocksAppModel {
 		$linkBlock = $this->find('all', array(
 			'recursive' => 0,
 			'fields' => $fields,
-			//			'joins' => array(
-			//				array(
-			//					'table' => $this->LinkSetting->table,
-			//					'alias' => $this->LinkSetting->alias,
-			//					'type' => 'INNER',
-			//					'conditions' => array(
-			//						//$this->alias . '.key' . ' = ' . $this->LinkSetting->alias . ' .block_key',
-			//						$this->alias . '.key' . ' = ' . $this->LinkSetting->alias . ' .key',
-			//					),
-			//				),
-			//			),
 			'conditions' => $this->getBlockConditionById(),
 		));
 
@@ -195,7 +182,6 @@ class LinkBlock extends BlocksAppModel {
 			return false;
 		}
 
-		//return $linkBlock[0];
 		return Hash::merge($linkBlock[0], $this->LinkSetting->getLinkSetting());
 	}
 
@@ -261,6 +247,8 @@ class LinkBlock extends BlocksAppModel {
 		$blocks = array_keys($blocks);
 
 		try {
+			// LinkSettingはuseTable='blocks'のため、削除不要
+			// またBlockSettingは、BlockBehaviorのsettingのloadModelsに、'Blocks.BlockSetting'を指定したため削除される
 			//			$conditions = array($this->LinkSetting->alias . '.block_key' => $data[$this->alias]['key']);
 			//			if (! $this->LinkSetting->deleteAll($conditions, false)) {
 			//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
