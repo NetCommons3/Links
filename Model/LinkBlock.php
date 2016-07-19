@@ -13,7 +13,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('BlocksAppModel', 'Blocks.Model');
+App::uses('BlockAppModel', 'Blocks.Model');
 
 /**
  * LinkBlock Model
@@ -21,7 +21,7 @@ App::uses('BlocksAppModel', 'Blocks.Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Links\Model
  */
-class LinkBlock extends BlocksAppModel {
+class LinkBlock extends BlockAppModel {
 
 /**
  * Custom database table name
@@ -142,6 +142,27 @@ class LinkBlock extends BlocksAppModel {
 	}
 
 /**
+ * Called after each successful save operation.
+ *
+ * @param bool $created True if this save created a new record
+ * @param array $options Options passed from Model::save().
+ * @return void
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#aftersave
+ * @see Model::save()
+ * @throws InternalErrorException
+ */
+	public function afterSave($created, $options = array()) {
+		//LinkSetting登録
+		if (isset($this->data['LinkSetting'])) {
+			$this->LinkSetting->set($this->data['LinkSetting']);
+			if (! $this->LinkSetting->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error 1'));
+			}
+		}
+		parent::afterSave($created, $options);
+	}
+
+/**
  * LinkBlockデータ生成
  *
  * @return array LinkBlockデータ配列
@@ -212,16 +233,15 @@ class LinkBlock extends BlocksAppModel {
 		}
 
 		try {
-			if (! $this->saveBlock()) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			//LinkSetting登録
-			if (isset($this->data['LinkSetting'])) {
-				$this->LinkSetting->set($this->data['LinkSetting']);
-				if (! $this->LinkSetting->save(null, false)) {
+			//登録処理
+			if (Hash::get($data, $this->alias . '.id')) {
+				if (! $this->save(null, false)) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
+			} else {
+				//BlockBehabiorで登録するため、useTableをfalseにする
+				$this->useTable = false;
+				$this->save(null, false);
 			}
 
 			//トランザクションCommit

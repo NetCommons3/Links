@@ -1,6 +1,6 @@
 <?php
 /**
- * LinkBlock::saveLinkBlock()のテスト
+ * beforeSave()とafterSave()のテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -14,12 +14,12 @@ App::uses('LinkBlockFixture', 'Links.Test/Fixture');
 App::uses('LinkSettingFixture', 'Links.Test/Fixture');
 
 /**
- * LinkBlock::saveLinkBlock()のテスト
+ * beforeSave()とafterSave()のテスト
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Links\Test\Case\Model\LinkBlock
  */
-class LinkBlockSaveLinkBlockTest extends NetCommonsSaveTest {
+class LinkBlockSaveTest extends NetCommonsSaveTest {
 
 /**
  * Fixtures
@@ -55,14 +55,7 @@ class LinkBlockSaveLinkBlockTest extends NetCommonsSaveTest {
  *
  * @var string
  */
-	protected $_methodName = 'saveLinkBlock';
-
-/**
- * Key Alias
- *
- * @var array
- */
-	protected $_keyAlias = 'Block';
+	protected $_methodName = 'save';
 
 /**
  * Save用DataProvider
@@ -73,14 +66,13 @@ class LinkBlockSaveLinkBlockTest extends NetCommonsSaveTest {
  * @return array テストデータ
  */
 	public function dataProviderSave() {
+		//データ生成
 		$data['LinkBlock'] = (new LinkBlockFixture())->records[0];
-		$data['LinkBlock']['content_count'] = '0';
 		$data['LinkSetting'] = (new LinkSettingFixture())->records[0];
 		$data['Frame'] = array('id' => '6');
 		$data['Block'] = array(
 			'id' => $data['LinkBlock']['id'],
 			'key' => $data['LinkBlock']['key'],
-			'language_id' => $data['LinkBlock']['language_id'],
 		);
 
 		$results = array();
@@ -101,6 +93,68 @@ class LinkBlockSaveLinkBlockTest extends NetCommonsSaveTest {
 	}
 
 /**
+ * Saveのテスト
+ *
+ * @param array $data 登録データ
+ * @dataProvider dataProviderSave
+ * @return void
+ */
+	public function testSave($data) {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+		$alias = $this->$model->LinkSetting->alias;
+
+		//チェック用データ取得
+		if (isset($data[$alias]['id'])) {
+			$before = $this->$model->LinkSetting->find('first', array(
+				'recursive' => -1,
+				'conditions' => array('id' => $data[$alias]['id']),
+			));
+		}
+
+		//テスト実行
+		if (! isset($data[$alias]['id'])) {
+			$this->$model->useTable = false;
+		}
+		$result = $this->$model->$method($data);
+		$this->assertNotEmpty($result);
+
+		//idのチェック
+		if (isset($data[$alias]['id'])) {
+			$id = $data[$alias]['id'];
+		} else {
+			$id = $this->$model->LinkSetting->getLastInsertID();
+		}
+
+		//登録データ取得
+		$actual = $this->$model->LinkSetting->find('first', array(
+			'recursive' => -1,
+			'conditions' => array('id' => $id),
+		));
+		$actual[$alias] = Hash::remove($actual[$alias], 'modified');
+		$actual[$alias] = Hash::remove($actual[$alias], 'modified_user');
+
+		if (! isset($data[$alias]['id'])) {
+			$actual[$alias] = Hash::remove($actual[$alias], 'created');
+			$actual[$alias] = Hash::remove($actual[$alias], 'created_user');
+
+			$data[$alias]['block_key'] = OriginalKeyBehavior::generateKey('Block', $this->$model->useDbConfig);
+			$before[$alias] = array();
+		}
+		$expected[$alias] = Hash::merge(
+			$before[$alias],
+			$data[$alias],
+			array(
+				'id' => $id,
+			)
+		);
+		$expected[$alias] = Hash::remove($expected[$alias], 'modified');
+		$expected[$alias] = Hash::remove($expected[$alias], 'modified_user');
+
+		$this->assertEquals($expected, $actual);
+	}
+
+/**
  * SaveのExceptionError用DataProvider
  *
  * ### 戻り値
@@ -114,7 +168,7 @@ class LinkBlockSaveLinkBlockTest extends NetCommonsSaveTest {
 		$data = $this->dataProviderSave()[0][0];
 
 		return array(
-			array($data, 'Links.LinkBlock', 'save'),
+			array($data, 'Links.LinkSetting', 'save'),
 		);
 	}
 
@@ -132,7 +186,7 @@ class LinkBlockSaveLinkBlockTest extends NetCommonsSaveTest {
 		$data = $this->dataProviderSave()[0][0];
 
 		return array(
-			array($data, 'Links.LinkBlock'),
+			array($data, 'Links.LinkSetting'),
 		);
 	}
 
