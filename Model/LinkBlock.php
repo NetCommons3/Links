@@ -220,6 +220,7 @@ class LinkBlock extends BlockAppModel {
  *
  * @param array $data received post data
  * @return bool True on success, false on validation errors
+ * @throws InternalErrorException
  */
 	public function saveLinkBlock($data) {
 		//トランザクションBegin
@@ -233,8 +234,15 @@ class LinkBlock extends BlockAppModel {
 
 		try {
 			//登録処理
-			$this->useTable = false;
-			$this->save(null, false);
+			if (Hash::get($data, $this->alias . '.id')) {
+				if (! $this->save(null, false)) {
+					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				}
+			} else {
+				//BlockBehabiorで登録するため、useTableをfalseにする
+				$this->useTable = false;
+				$this->save(null, false);
+			}
 
 			//トランザクションCommit
 			$this->commit();
