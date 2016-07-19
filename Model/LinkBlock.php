@@ -149,6 +149,7 @@ class LinkBlock extends BlockAppModel {
  * @return void
  * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#aftersave
  * @see Model::save()
+ * @throws InternalErrorException
  */
 	public function afterSave($created, $options = array()) {
 		//LinkSetting登録
@@ -219,7 +220,6 @@ class LinkBlock extends BlockAppModel {
  *
  * @param array $data received post data
  * @return bool True on success, false on validation errors
- * @throws InternalErrorException
  */
 	public function saveLinkBlock($data) {
 		//トランザクションBegin
