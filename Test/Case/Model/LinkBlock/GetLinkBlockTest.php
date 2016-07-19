@@ -30,7 +30,8 @@ class LinkBlockGetLinkBlockTest extends WorkflowGetTest {
 		'plugin.links.link',
 		'plugin.links.link_frame_setting',
 		'plugin.links.link_order',
-		'plugin.links.link_setting',
+		//'plugin.links.block_setting_for_link',
+		'plugin.links.block_setting_for_link',
 		'plugin.workflow.workflow_comment',
 	);
 
@@ -68,12 +69,16 @@ class LinkBlockGetLinkBlockTest extends WorkflowGetTest {
 		$roomId = '1';
 		$blockId = '2';
 		$blockKey = 'block_1';
+		Current::write('Room.id', $roomId);
+		Current::write('Block.id', $blockId);
+		Current::write('Block.key', $blockKey);
 
 		//テスト実施
 		$result = $this->$model->$methodName();
 
 		//チェック
-		$expected = array('LinkBlock', 'Block', 'LinkSetting');
+		//$expected = array('LinkBlock', 'Block', 'LinkSetting');
+		$expected = array('LinkBlock', 'Block', 'LinkSetting', 'BlockSetting');
 		$this->assertEquals($expected, array_keys($result));
 
 		$this->assertEquals($blockId, Hash::get($result, 'LinkBlock.id'));
@@ -87,9 +92,12 @@ class LinkBlockGetLinkBlockTest extends WorkflowGetTest {
 		$this->assertEquals($this->plugin, Hash::get($result, 'Block.plugin_key'));
 		$this->assertEquals($blockKey, Hash::get($result, 'Block.key'));
 
-		$this->assertEquals('1', Hash::get($result, 'LinkSetting.id'));
-		$this->assertEquals($blockKey, Hash::get($result, 'LinkSetting.block_key'));
-		$this->assertEquals(true, Hash::get($result, 'LinkSetting.use_workflow'));
+		//$this->assertEquals('1', Hash::get($result, 'LinkSetting.id'));
+		//$this->assertEquals($blockKey, Hash::get($result, 'LinkSetting.block_key'));
+		//$this->assertEquals(true, Hash::get($result, 'LinkSetting.use_workflow'));
+		$this->assertEquals('2', Hash::get($result, 'LinkSetting.id'));
+		$this->assertEquals($blockKey, Hash::get($result, 'LinkSetting.key'));
+		$this->assertEquals(0, Hash::get($result, 'LinkSetting.use_workflow'));
 	}
 
 /**

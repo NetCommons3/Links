@@ -27,7 +27,7 @@ class LinkBlockValidateTest extends NetCommonsValidateTest {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.links.link_setting',
+		'plugin.links.block_setting_for_link',
 	);
 
 /**
