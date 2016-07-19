@@ -11,7 +11,7 @@
 ?>
 
 <?php echo $this->NetCommonsForm->hidden('LinkSetting.id'); ?>
-<?php echo $this->NetCommonsForm->hidden('LinkSetting.block_key'); ?>
+<?php //echo $this->NetCommonsForm->hidden('LinkSetting.block_key'); ?>
 <?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
 
