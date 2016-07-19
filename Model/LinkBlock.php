@@ -129,15 +129,15 @@ class LinkBlock extends BlocksAppModel {
 			)
 		));
 
-		//		if (isset($this->data['LinkSetting'])) {
-		//			$this->LinkSetting->set($this->data['LinkSetting']);
-		//			if (! $this->LinkSetting->validates()) {
-		//				$this->validationErrors = Hash::merge(
-		//					$this->validationErrors, $this->LinkSetting->validationErrors
-		//				);
-		//				return false;
-		//			}
-		//		}
+		if (isset($this->data['LinkSetting'])) {
+			$this->LinkSetting->set($this->data['LinkSetting']);
+			if (! $this->LinkSetting->validates()) {
+				$this->validationErrors = Hash::merge(
+					$this->validationErrors, $this->LinkSetting->validationErrors
+				);
+				return false;
+			}
+		}
 
 		return parent::beforeValidate($options);
 	}

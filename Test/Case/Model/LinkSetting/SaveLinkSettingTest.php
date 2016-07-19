@@ -10,7 +10,7 @@
  */
 
 App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
-App::uses('LinkSettingFixture', 'Links.Test/Fixture');
+App::uses('BlockFixture', 'Blocks.Test/Fixture');
 
 /**
  * LinkSetting::saveLinkSetting()のテスト
@@ -57,16 +57,38 @@ class LinkSettingSaveLinkSettingTest extends NetCommonsSaveTest {
 	protected $_methodName = 'saveLinkSetting';
 
 /**
+ * block key
+ *
+ * @var string
+ */
+	public $blockKey = '055aa626035385fab3d69697be9db872';
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		Current::write('Plugin.key', $this->plugin);
+		Current::write('Block.key', $this->blockKey);
+	}
+
+/**
  * Save用DataProvider
  *
  * ### 戻り値
  *  - data 登録データ
  *
  * @return array テストデータ
+ * @see NetCommonsSaveTest::testSave();
  */
 	public function dataProviderSave() {
-		$data['LinkSetting'] = (new LinkSettingFixture())->records[0];
-		$data['LinkSetting']['use_workflow'] = false;
+		$data['LinkSetting'] = (new BlockFixture())->records[0];
+		$data['LinkSetting']['use_workflow'] = '0';
+		$data['LinkSetting']['content_count'] = '0';
+		$data['LinkSetting']['key'] = $this->blockKey;
 
 		$results = array();
 		// * 編集の登録処理
@@ -75,7 +97,7 @@ class LinkSettingSaveLinkSettingTest extends NetCommonsSaveTest {
 		$results[1] = array($data);
 		$results[1] = Hash::insert($results[1], '0.LinkSetting.id', null);
 		$results[1] = Hash::remove($results[1], '0.LinkSetting.created_user');
-		$results[1] = Hash::insert($results[1], '0.LinkSetting.use_workflow', true);
+		$results[1] = Hash::insert($results[1], '0.LinkSetting.use_workflow', '1');
 
 		return $results;
 	}

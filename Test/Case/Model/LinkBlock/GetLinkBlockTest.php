@@ -30,7 +30,6 @@ class LinkBlockGetLinkBlockTest extends WorkflowGetTest {
 		'plugin.links.link',
 		'plugin.links.link_frame_setting',
 		'plugin.links.link_order',
-		//'plugin.links.block_setting_for_link',
 		'plugin.links.block_setting_for_link',
 		'plugin.workflow.workflow_comment',
 	);
@@ -77,8 +76,7 @@ class LinkBlockGetLinkBlockTest extends WorkflowGetTest {
 		$result = $this->$model->$methodName();
 
 		//チェック
-		//$expected = array('LinkBlock', 'Block', 'LinkSetting');
-		$expected = array('LinkBlock', 'Block', 'LinkSetting', 'BlockSetting');
+		$expected = array('LinkBlock', 'Block', 'LinkSetting');
 		$this->assertEquals($expected, array_keys($result));
 
 		$this->assertEquals($blockId, Hash::get($result, 'LinkBlock.id'));

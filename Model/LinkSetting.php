@@ -46,37 +46,6 @@ class LinkSetting extends LinksAppModel {
 		),
 	);
 
-	///**
-	// * Called during validation operations, before validation. Please note that custom
-	// * validation rules can be defined in $validate.
-	// *
-	// * @param array $options Options passed from Model::save().
-	// * @return bool True if validate operation should continue, false to abort
-	// * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
-	// * @see Model::save()
-	// */
-	//	public function beforeValidate($options = array()) {
-	//		$this->validate = Hash::merge($this->validate, array(
-	//			'block_key' => array(
-	//				'notBlank' => array(
-	//					'rule' => array('notBlank'),
-	//					'message' => __d('net_commons', 'Invalid request.'),
-	//					'allowEmpty' => false,
-	//					'required' => true,
-	//					'on' => 'update', // Limit validation to 'create' or 'update' operations
-	//				),
-	//			),
-	//			'use_workflow' => array(
-	//				'boolean' => array(
-	//					'rule' => array('boolean'),
-	//					'message' => __d('net_commons', 'Invalid request.'),
-	//				),
-	//			),
-	//		));
-	//
-	//		return parent::beforeValidate($options);
-	//	}
-
 /**
  * LinkSettingデータ新規作成
  *
@@ -96,13 +65,20 @@ class LinkSetting extends LinksAppModel {
  */
 	public function getLinkSetting() {
 		// TODOO ブロックビヘイビアの$this->getBlockConditionById()使うように見直しするかも。
+		//		$linkSetting = $this->find('first', array(
+		//			'recursive' => -1,
+		//			'conditions' => array(
+		//				$this->alias . '.key' => Current::read('Block.key'),
+		//				$this->alias . '.language_id' => Current::read('Language.id'),
+		//			),
+		//		));
+		$this->Behaviors->load('Blocks.Block');
+		/** @see BlockBehavior::getBlockConditionById() */
 		$linkSetting = $this->find('first', array(
 			'recursive' => -1,
-			'conditions' => array(
-				$this->alias . '.key' => Current::read('Block.key'),
-				$this->alias . '.language_id' => Current::read('Language.id'),
-			),
+			'conditions' => $this->getBlockConditionById(),
 		));
+		$this->Behaviors->unload('Blocks.Block');
 
 		return $linkSetting;
 	}
@@ -115,10 +91,6 @@ class LinkSetting extends LinksAppModel {
  * @throws InternalErrorException
  */
 	public function saveLinkSetting($data) {
-		//		$this->loadModels([
-		//			'LinkSetting' => 'Links.LinkSetting',
-		//		]);
-
 		//トランザクションBegin
 		$this->begin();
 

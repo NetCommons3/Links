@@ -64,6 +64,7 @@ class LinkBlockDeleteLinkBlockTest extends WorkflowDeleteTest {
  *  - associationModels: 削除確認の関連モデル array(model => conditions)
  *
  * @return array テストデータ
+ * @see NetCommonsDeleteTest::testDelete()
  */
 	public function dataProviderDelete() {
 		$data = array(
@@ -73,7 +74,7 @@ class LinkBlockDeleteLinkBlockTest extends WorkflowDeleteTest {
 			)
 		);
 		$association = array(
-			'LinkSetting' => array('block_key' => $data['LinkBlock']['key']),
+			'LinkSetting' => array('key' => $data['LinkBlock']['key']),
 			'Link' => array('block_id' => $data['LinkBlock']['id']),
 			'LinkOrder' => array('block_key' => $data['LinkBlock']['key']),
 		);
@@ -98,7 +99,6 @@ class LinkBlockDeleteLinkBlockTest extends WorkflowDeleteTest {
 		$data = $this->dataProviderDelete()[0][0];
 
 		return array(
-			array($data, 'Links.LinkSetting', 'deleteAll'),
 			array($data, 'Links.Link', 'deleteAll'),
 			array($data, 'Links.LinkOrder', 'deleteAll'),
 		);
