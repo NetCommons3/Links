@@ -31,7 +31,7 @@ class RoutesTest extends NetCommonsRoutesTestCase {
  *
  * @var string
  */
-	public $plugin = 'faqs';
+	public $plugin = 'links';
 
 /**
  * DataProvider
