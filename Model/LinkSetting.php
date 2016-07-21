@@ -11,7 +11,7 @@
 
 //App::uses('LinksAppModel', 'Links.Model');
 App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
-App::uses('BlockAppModel', 'Blocks.Model');
+App::uses('BlockBaseModel', 'Blocks.Model');
 
 /**
  * LinkSetting Model
@@ -20,7 +20,7 @@ App::uses('BlockAppModel', 'Blocks.Model');
  * @package NetCommons\Links\Model
  */
 //class LinkSetting extends LinksAppModel {
-class LinkSetting extends BlockAppModel {
+class LinkSetting extends BlockBaseModel {
 
 /**
  * Custom database table name
