@@ -13,7 +13,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('BlockAppModel', 'Blocks.Model');
+App::uses('BlockBaseModel', 'Blocks.Model');
 
 /**
  * LinkBlock Model
@@ -21,7 +21,7 @@ App::uses('BlockAppModel', 'Blocks.Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Links\Model
  */
-class LinkBlock extends BlockAppModel {
+class LinkBlock extends BlockBaseModel {
 
 /**
  * Custom database table name
