@@ -9,8 +9,9 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('LinksAppModel', 'Links.Model');
+//App::uses('LinksAppModel', 'Links.Model');
 App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
+App::uses('BlockAppModel', 'Blocks.Model');
 
 /**
  * LinkSetting Model
@@ -18,14 +19,15 @@ App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Links\Model
  */
-class LinkSetting extends LinksAppModel {
+//class LinkSetting extends LinksAppModel {
+class LinkSetting extends BlockAppModel {
 
 /**
  * Custom database table name
  *
  * @var string
  */
-	public $useTable = 'blocks';
+	public $useTable = false;
 
 /**
  * Validation rules
@@ -52,10 +54,11 @@ class LinkSetting extends LinksAppModel {
  * @return array
  */
 	public function createLinkSetting() {
-		$linkSetting = $this->createAll();
+		//		$linkSetting = $this->createAll();
 		/** @see BlockSettingBehavior::getBlockSetting() */
 		/** @see BlockSettingBehavior::_createBlockSetting() */
-		return Hash::merge($linkSetting, $this->getBlockSetting());
+		//		return Hash::merge($linkSetting, $this->getBlockSetting());
+		return $this->getBlockSetting();
 	}
 
 /**
@@ -64,15 +67,18 @@ class LinkSetting extends LinksAppModel {
  * @return array
  */
 	public function getLinkSetting() {
-		$linkSetting = $this->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
-				$this->alias . '.key' => Current::read('Block.key'),
-				$this->alias . '.language_id' => Current::read('Language.id'),
-			),
-		));
+		//		$linkSetting = $this->find('first', array(
+		//			'recursive' => -1,
+		//			'conditions' => array(
+		//				$this->alias . '.key' => Current::read('Block.key'),
+		//				$this->alias . '.language_id' => Current::read('Language.id'),
+		//			),
+		//		));
+		//
+		//		return $linkSetting;
 
-		return $linkSetting;
+		/** @see BlockSettingBehavior::getBlockSetting() */
+		return $this->getBlockSetting();
 	}
 
 /**
@@ -93,9 +99,10 @@ class LinkSetting extends LinksAppModel {
 		}
 
 		try {
-			if (! $this->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			$this->save(null, false);
+			//			if (! $this->save(null, false)) {
+			//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			//			}
 
 			//トランザクションCommit
 			$this->commit();

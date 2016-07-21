@@ -74,7 +74,7 @@ class LinkBlockDeleteLinkBlockTest extends WorkflowDeleteTest {
 			)
 		);
 		$association = array(
-			'LinkSetting' => array('key' => $data['LinkBlock']['key']),
+			//'LinkSetting' => array('key' => $data['LinkBlock']['key']),
 			'Link' => array('block_id' => $data['LinkBlock']['id']),
 			'LinkOrder' => array('block_key' => $data['LinkBlock']['key']),
 		);
