@@ -90,11 +90,6 @@ class LinkBlockGetLinkBlockTest extends WorkflowGetTest {
 		$this->assertEquals($this->plugin, Hash::get($result, 'Block.plugin_key'));
 		$this->assertEquals($blockKey, Hash::get($result, 'Block.key'));
 
-		//$this->assertEquals('1', Hash::get($result, 'LinkSetting.id'));
-		//$this->assertEquals($blockKey, Hash::get($result, 'LinkSetting.block_key'));
-		//$this->assertEquals(true, Hash::get($result, 'LinkSetting.use_workflow'));
-		$this->assertEquals('2', Hash::get($result, 'LinkSetting.id'));
-		$this->assertEquals($blockKey, Hash::get($result, 'LinkSetting.key'));
 		$this->assertEquals(0, Hash::get($result, 'LinkSetting.use_workflow'));
 	}
 
