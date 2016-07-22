@@ -30,7 +30,7 @@ class LinkBlockGetLinkBlockTest extends WorkflowGetTest {
 		'plugin.links.link',
 		'plugin.links.link_frame_setting',
 		'plugin.links.link_order',
-		'plugin.links.link_setting',
+		'plugin.links.block_setting_for_link',
 		'plugin.workflow.workflow_comment',
 	);
 
@@ -68,6 +68,9 @@ class LinkBlockGetLinkBlockTest extends WorkflowGetTest {
 		$roomId = '1';
 		$blockId = '2';
 		$blockKey = 'block_1';
+		Current::write('Room.id', $roomId);
+		Current::write('Block.id', $blockId);
+		Current::write('Block.key', $blockKey);
 
 		//テスト実施
 		$result = $this->$model->$methodName();
@@ -87,9 +90,7 @@ class LinkBlockGetLinkBlockTest extends WorkflowGetTest {
 		$this->assertEquals($this->plugin, Hash::get($result, 'Block.plugin_key'));
 		$this->assertEquals($blockKey, Hash::get($result, 'Block.key'));
 
-		$this->assertEquals('1', Hash::get($result, 'LinkSetting.id'));
-		$this->assertEquals($blockKey, Hash::get($result, 'LinkSetting.block_key'));
-		$this->assertEquals(true, Hash::get($result, 'LinkSetting.use_workflow'));
+		$this->assertEquals(0, Hash::get($result, 'LinkSetting.use_workflow'));
 	}
 
 /**

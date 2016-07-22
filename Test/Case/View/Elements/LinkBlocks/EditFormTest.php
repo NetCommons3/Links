@@ -62,7 +62,7 @@ class LinksViewElementsLinkBlocksEditFormTest extends NetCommonsControllerTestCa
 		$this->assertRegExp($pattern, $this->view);
 
 		$this->assertInput('input', 'data[LinkSetting][id]', '1', $this->view);
-		$this->assertInput('input', 'data[LinkSetting][block_key]', 'block_1', $this->view);
+		$this->assertInput('input', 'data[LinkSetting][use_workflow]', 'block_1', $this->view);
 		$this->assertInput('input', 'data[LinkBlock][name]', 'Block name 1', $this->view);
 		$this->assertInput('input', 'data[LinkBlock][id]', '2', $this->view);
 		$this->assertInput('input', 'data[LinkBlock][key]', 'block_1', $this->view);

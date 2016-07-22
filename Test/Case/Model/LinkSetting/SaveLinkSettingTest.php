@@ -10,7 +10,6 @@
  */
 
 App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
-App::uses('LinkSettingFixture', 'Links.Test/Fixture');
 
 /**
  * LinkSetting::saveLinkSetting()のテスト
@@ -31,7 +30,7 @@ class LinkSettingSaveLinkSettingTest extends NetCommonsSaveTest {
 		'plugin.links.link',
 		'plugin.links.link_frame_setting',
 		'plugin.links.link_order',
-		'plugin.links.link_setting',
+		'plugin.links.block_setting_for_link',
 		'plugin.workflow.workflow_comment',
 	);
 
@@ -57,27 +56,66 @@ class LinkSettingSaveLinkSettingTest extends NetCommonsSaveTest {
 	protected $_methodName = 'saveLinkSetting';
 
 /**
+ * block key
+ *
+ * @var string
+ */
+	public $blockKey = 'block_1';
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		Current::write('Plugin.key', $this->plugin);
+		Current::write('Block.key', $this->blockKey);
+	}
+
+/**
  * Save用DataProvider
  *
  * ### 戻り値
  *  - data 登録データ
  *
  * @return array テストデータ
+ * @see NetCommonsSaveTest::testSave();
  */
 	public function dataProviderSave() {
-		$data['LinkSetting'] = (new LinkSettingFixture())->records[0];
-		$data['LinkSetting']['use_workflow'] = false;
+		$data['LinkSetting']['use_workflow'] = '0';
 
 		$results = array();
 		// * 編集の登録処理
 		$results[0] = array($data);
 		// * 新規の登録処理
 		$results[1] = array($data);
-		$results[1] = Hash::insert($results[1], '0.LinkSetting.id', null);
-		$results[1] = Hash::remove($results[1], '0.LinkSetting.created_user');
-		$results[1] = Hash::insert($results[1], '0.LinkSetting.use_workflow', true);
+		$results[1] = Hash::insert($results[1], '0.LinkSetting.use_workflow', '1');
 
 		return $results;
+	}
+
+/**
+ * Saveのテスト
+ *
+ * @param array $data 登録データ
+ * @dataProvider dataProviderSave
+ * @return void
+ */
+	public function testSave($data) {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+
+		//テスト実行
+		$result = $this->$model->$method($data);
+		$this->assertNotEmpty($result);
+
+		//登録データ取得
+		$actual = $this->$model->getLinkSetting();
+		$expected = $data;
+
+		$this->assertEquals($expected, $actual);
 	}
 
 /**
@@ -92,9 +130,8 @@ class LinkSettingSaveLinkSettingTest extends NetCommonsSaveTest {
  */
 	public function dataProviderSaveOnExceptionError() {
 		$data = $this->dataProviderSave()[0];
-
 		return array(
-			array($data, 'Links.LinkSetting', 'save'),
+			array($data[0]['LinkSetting'], 'Blocks.BlockSetting', 'saveMany'),
 		);
 	}
 

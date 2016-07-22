@@ -63,6 +63,7 @@ class LinkBlock extends BlockBaseModel {
 		'Blocks.Block' => array(
 			'name' => 'LinkBlock.name',
 			'loadModels' => array(
+				'BlockSetting' => 'Blocks.BlockSetting',
 				'Category' => 'Categories.Category',
 				'CategoryOrder' => 'Categories.CategoryOrder',
 			)
@@ -155,9 +156,7 @@ class LinkBlock extends BlockBaseModel {
 		//LinkSetting登録
 		if (isset($this->data['LinkSetting'])) {
 			$this->LinkSetting->set($this->data['LinkSetting']);
-			if (! $this->LinkSetting->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error 1'));
-			}
+			$this->LinkSetting->save(null, false);
 		}
 		parent::afterSave($created, $options);
 	}
@@ -174,7 +173,7 @@ class LinkBlock extends BlockBaseModel {
 			),
 		));
 
-		return Hash::merge($linkBlock, $this->LinkSetting->create());
+		return Hash::merge($linkBlock, $this->LinkSetting->createBlockSetting());
 	}
 
 /**
@@ -187,7 +186,6 @@ class LinkBlock extends BlockBaseModel {
 			array(
 				$this->alias . '.*',
 				$this->Block->alias . '.*',
-				$this->LinkSetting->alias . '.*',
 			),
 			Hash::get($this->belongsTo, 'TrackableCreator.fields', array()),
 			Hash::get($this->belongsTo, 'TrackableUpdater.fields', array())
@@ -196,23 +194,13 @@ class LinkBlock extends BlockBaseModel {
 		$linkBlock = $this->find('all', array(
 			'recursive' => 0,
 			'fields' => $fields,
-			'joins' => array(
-				array(
-					'table' => $this->LinkSetting->table,
-					'alias' => $this->LinkSetting->alias,
-					'type' => 'INNER',
-					'conditions' => array(
-						$this->alias . '.key' . ' = ' . $this->LinkSetting->alias . ' .block_key',
-					),
-				),
-			),
 			'conditions' => $this->getBlockConditionById(),
 		));
 
 		if (! $linkBlock) {
 			return false;
 		}
-		return $linkBlock[0];
+		return Hash::merge($linkBlock[0], $this->LinkSetting->getLinkSetting());
 	}
 
 /**
@@ -276,11 +264,6 @@ class LinkBlock extends BlockBaseModel {
 		$blocks = array_keys($blocks);
 
 		try {
-			$conditions = array($this->LinkSetting->alias . '.block_key' => $data[$this->alias]['key']);
-			if (! $this->LinkSetting->deleteAll($conditions, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
 			$this->Link->blockKey = $data[$this->alias]['key'];
 			$conditions = array($this->Link->alias . '.block_id' => $blocks);
 			if (! $this->Link->deleteAll($conditions, false, true)) {

@@ -9,7 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('LinksAppModel', 'Links.Model');
+App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
+App::uses('BlockBaseModel', 'Blocks.Model');
 
 /**
  * LinkSetting Model
@@ -17,7 +18,14 @@ App::uses('LinksAppModel', 'Links.Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Links\Model
  */
-class LinkSetting extends LinksAppModel {
+class LinkSetting extends BlockBaseModel {
+
+/**
+ * Custom database table name
+ *
+ * @var string
+ */
+	public $useTable = false;
 
 /**
  * Validation rules
@@ -33,37 +41,19 @@ class LinkSetting extends LinksAppModel {
  */
 	public $actsAs = array(
 		'Blocks.BlockRolePermission',
+		'Blocks.BlockSetting' => array(
+			BlockSettingBehavior::FIELD_USE_WORKFLOW,
+		),
 	);
 
 /**
- * Called during validation operations, before validation. Please note that custom
- * validation rules can be defined in $validate.
+ * LinkSettingデータ取得
  *
- * @param array $options Options passed from Model::save().
- * @return bool True if validate operation should continue, false to abort
- * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
- * @see Model::save()
+ * @return array
+ * @see BlockSettingBehavior::getBlockSetting() 取得
  */
-	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
-			'block_key' => array(
-				'notBlank' => array(
-					'rule' => array('notBlank'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'allowEmpty' => false,
-					'required' => true,
-					'on' => 'update', // Limit validation to 'create' or 'update' operations
-				),
-			),
-			'use_workflow' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-		));
-
-		return parent::beforeValidate($options);
+	public function getLinkSetting() {
+		return $this->getBlockSetting();
 	}
 
 /**
@@ -74,10 +64,6 @@ class LinkSetting extends LinksAppModel {
  * @throws InternalErrorException
  */
 	public function saveLinkSetting($data) {
-		$this->loadModels([
-			'LinkSetting' => 'Links.LinkSetting',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 
@@ -88,9 +74,10 @@ class LinkSetting extends LinksAppModel {
 		}
 
 		try {
-			if (! $this->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			// useTable = falseでsaveすると必ずfalseになるので、throwさせない
+			// BlockBaseModel継承によりuseTable = falseでも beforeSave(), afterSave()が実行されるため、
+			// behaviorsのbeforeSave(), afterSave()も実行される
+			$this->save(null, false);
 
 			//トランザクションCommit
 			$this->commit();

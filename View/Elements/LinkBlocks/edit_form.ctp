@@ -12,7 +12,7 @@
 
 <?php echo $this->element('Blocks.form_hidden'); ?>
 <?php echo $this->NetCommonsForm->hidden('LinkSetting.id'); ?>
-<?php echo $this->NetCommonsForm->hidden('LinkSetting.block_key'); ?>
+<?php echo $this->NetCommonsForm->hidden('LinkSetting.use_workflow'); ?>
 
 <?php echo $this->NetCommonsForm->hidden('LinkBlock.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('LinkBlock.key'); ?>

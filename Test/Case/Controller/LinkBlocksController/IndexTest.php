@@ -30,7 +30,7 @@ class LinkBlocksControllerIndexTest extends BlocksControllerTest {
 		'plugin.links.link',
 		'plugin.links.link_frame_setting',
 		'plugin.links.link_order',
-		'plugin.links.link_setting',
+		'plugin.links.block_setting_for_link',
 		'plugin.workflow.workflow_comment',
 	);
 
