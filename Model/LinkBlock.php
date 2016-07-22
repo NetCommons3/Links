@@ -156,9 +156,6 @@ class LinkBlock extends BlockBaseModel {
 		//LinkSetting登録
 		if (isset($this->data['LinkSetting'])) {
 			$this->LinkSetting->set($this->data['LinkSetting']);
-			//			if (! $this->LinkSetting->save(null, false)) {
-			//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error 1'));
-			//			}
 			$this->LinkSetting->save(null, false);
 		}
 		parent::afterSave($created, $options);
@@ -268,13 +265,6 @@ class LinkBlock extends BlockBaseModel {
 		$blocks = array_keys($blocks);
 
 		try {
-			// LinkSettingはuseTable='blocks'のため、削除不要
-			// またBlockSettingは、BlockBehaviorのsettingのloadModelsに、'Blocks.BlockSetting'を指定したため削除される
-			//			$conditions = array($this->LinkSetting->alias . '.block_key' => $data[$this->alias]['key']);
-			//			if (! $this->LinkSetting->deleteAll($conditions, false)) {
-			//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			//			}
-
 			$this->Link->blockKey = $data[$this->alias]['key'];
 			$conditions = array($this->Link->alias . '.block_id' => $blocks);
 			if (! $this->Link->deleteAll($conditions, false, true)) {
