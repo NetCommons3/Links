@@ -200,7 +200,6 @@ class LinkBlock extends BlockBaseModel {
 		if (! $linkBlock) {
 			return false;
 		}
-
 		return Hash::merge($linkBlock[0], $this->LinkSetting->getLinkSetting());
 	}
 
