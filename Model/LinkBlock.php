@@ -176,7 +176,7 @@ class LinkBlock extends BlockBaseModel {
 			),
 		));
 
-		return Hash::merge($linkBlock, $this->LinkSetting->createLinkSetting());
+		return Hash::merge($linkBlock, $this->LinkSetting->getLinkSetting());
 	}
 
 /**
