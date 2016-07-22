@@ -75,6 +75,9 @@ class LinkSetting extends BlockBaseModel {
 		}
 
 		try {
+			// useTable = falseでsaveすると必ずfalseになるので、throwさせない
+			// BlockBaseModel継承によりuseTable = falseでも beforeSave(), afterSave()が実行されるため、
+			// behaviorsのbeforeSave(), afterSave()も実行される
 			$this->save(null, false);
 
 			//トランザクションCommit
