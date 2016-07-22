@@ -11,7 +11,6 @@
 
 App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
 App::uses('LinkBlockFixture', 'Links.Test/Fixture');
-App::uses('BlockFixture', 'Blocks.Test/Fixture');
 
 /**
  * LinkBlock::saveLinkBlock()のテスト
@@ -86,7 +85,7 @@ class LinkBlockSaveLinkBlockTest extends NetCommonsSaveTest {
 	public function dataProviderSave() {
 		$data['LinkBlock'] = (new LinkBlockFixture())->records[0];
 		$data['LinkBlock']['content_count'] = '0';
-		$data['LinkSetting'] = (new BlockFixture())->records[0];
+		$data['LinkSetting']['use_workflow'] = '0';
 		$data['Frame'] = array('id' => '6');
 		$data['Block'] = array(
 			'id' => $data['LinkBlock']['id'],
@@ -102,9 +101,6 @@ class LinkBlockSaveLinkBlockTest extends NetCommonsSaveTest {
 		$results[1] = Hash::insert($results[1], '0.LinkBlock.id', null);
 		$results[1] = Hash::insert($results[1], '0.LinkBlock.key', null);
 		$results[1] = Hash::remove($results[1], '0.LinkBlock.created_user');
-		$results[1] = Hash::insert($results[1], '0.LinkSetting.id', null);
-		$results[1] = Hash::insert($results[1], '0.LinkSetting.key', '');
-		$results[1] = Hash::remove($results[1], '0.LinkSetting.created_user');
 		$results[1] = Hash::insert($results[1], '0.Block.id', null);
 		$results[1] = Hash::insert($results[1], '0.Block.key', null);
 
