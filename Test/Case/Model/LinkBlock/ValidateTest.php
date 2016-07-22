@@ -11,7 +11,6 @@
 
 App::uses('NetCommonsValidateTest', 'NetCommons.TestSuite');
 App::uses('LinkBlockFixture', 'Links.Test/Fixture');
-App::uses('BlockFixture', 'Blocks.Test/Fixture');
 
 /**
  * LinkBlock::validate()のテスト
@@ -91,8 +90,7 @@ class LinkBlockValidateTest extends NetCommonsValidateTest {
 
 		//データ生成
 		$data['LinkBlock'] = (new LinkBlockFixture())->records[0];
-		$data['LinkSetting'] = (new BlockFixture())->records[0];
-		$data['LinkSetting'] = Hash::insert($data['LinkSetting'], 'use_workflow', 'aaaa');
+		$data['LinkSetting']['use_workflow'] = 'aaaa';
 
 		//テスト実施
 		$this->$model->set($data);
