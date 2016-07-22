@@ -118,15 +118,6 @@ class LinkBlockSaveTest extends NetCommonsSaveTest {
 	public function testSave($data) {
 		$model = $this->_modelName;
 		$method = $this->_methodName;
-		//$alias = $this->$model->LinkSetting->alias;
-
-		//チェック用データ取得
-		//		if (isset($data[$alias]['id'])) {
-		//			$before = $this->$model->LinkSetting->find('first', array(
-		//				'recursive' => -1,
-		//				'conditions' => array('id' => $data[$alias]['id']),
-		//			));
-		//		}
 
 		//テスト実行
 		if (! isset($data[$this->$model->alias]['id'])) {
@@ -135,39 +126,9 @@ class LinkBlockSaveTest extends NetCommonsSaveTest {
 		$result = $this->$model->$method($data);
 		$this->assertNotEmpty($result);
 
-		//idのチェック
-		//		if (isset($data[$alias]['id'])) {
-		//			$id = $data[$alias]['id'];
-		//		} else {
-		//			$id = $this->$model->LinkSetting->getLastInsertID();
-		//		}
-
 		//登録データ取得
 		$actual = $this->$model->LinkSetting->getLinkSetting();
 
-		//		$actual = $this->$model->LinkSetting->find('first', array(
-		//			'recursive' => -1,
-		//			'conditions' => array('id' => $id),
-		//		));
-		//		$actual[$alias] = Hash::remove($actual[$alias], 'modified');
-		//		$actual[$alias] = Hash::remove($actual[$alias], 'modified_user');
-		//
-		//		if (! isset($data[$alias]['id'])) {
-		//			$actual[$alias] = Hash::remove($actual[$alias], 'created');
-		//			$actual[$alias] = Hash::remove($actual[$alias], 'created_user');
-		//
-		//			$data[$alias]['key'] = OriginalKeyBehavior::generateKey('Block', $this->$model->useDbConfig);
-		//			$before[$alias] = array();
-		//		}
-		//		$expected[$alias] = Hash::merge(
-		//			$before[$alias],
-		//			$data[$alias],
-		//			array(
-		//				'id' => $id,
-		//			)
-		//		);
-		//		$expected[$alias] = Hash::remove($expected[$alias], 'modified');
-		//		$expected[$alias] = Hash::remove($expected[$alias], 'modified_user');
 		$expected['LinkSetting'] = $data['LinkSetting'];
 		$this->assertEquals($expected, $actual);
 	}
@@ -186,7 +147,6 @@ class LinkBlockSaveTest extends NetCommonsSaveTest {
 		$data = $this->dataProviderSave()[0][0];
 
 		return array(
-			//array($data, 'Links.LinkSetting', 'save'),
 			array($data, 'Blocks.BlockSetting', 'saveMany'),
 		);
 	}
