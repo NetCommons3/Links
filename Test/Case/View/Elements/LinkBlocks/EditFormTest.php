@@ -61,7 +61,6 @@ class LinksViewElementsLinkBlocksEditFormTest extends NetCommonsControllerTestCa
 		$pattern = '/' . preg_quote('View/Elements/LinkBlocks/edit_form', '/') . '/';
 		$this->assertRegExp($pattern, $this->view);
 
-		$this->assertInput('input', 'data[LinkSetting][id]', '1', $this->view);
 		$this->assertInput('input', 'data[LinkSetting][use_workflow]', 'block_1', $this->view);
 		$this->assertInput('input', 'data[LinkBlock][name]', 'Block name 1', $this->view);
 		$this->assertInput('input', 'data[LinkBlock][id]', '2', $this->view);
