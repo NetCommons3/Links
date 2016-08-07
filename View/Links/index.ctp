@@ -26,7 +26,7 @@ $hiddenFields = array('Frame.id', 'Block.id');
 
 $this->Token->unlockField('Link.id');
 $tokens = $this->Token->getToken('Link',
-	$this->NetCommonsHtml->url('/links/links/link.json'),
+	'/links/links/link.json',
 	$tokenFields,
 	$hiddenFields
 );
@@ -47,7 +47,7 @@ $displayType = Hash::get($linkFrameSetting, 'display_type');
 		<header class="text-right">
 			<?php if (Current::permission('content_editable') && $links) : ?>
 				<?php echo $this->LinkButton->sort('',
-						$this->NetCommonsHtml->url(array('controller' => 'link_orders', 'action' => 'edit'))
+						NetCommonsUrl::blockUrl(array('controller' => 'link_orders', 'action' => 'edit'))
 					); ?>
 			<?php endif; ?>
 

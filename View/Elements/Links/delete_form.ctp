@@ -10,7 +10,7 @@
  */
 ?>
 
-<?php echo $this->NetCommonsForm->create('Link', array('type' => 'delete', 'url' => array('action' => 'delete'))); ?>
+<?php echo $this->NetCommonsForm->create('Link', array('type' => 'delete', 'url' => NetCommonsUrl::blockUrl(array('action' => 'delete')))); ?>
 	<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
 	<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
 	<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>

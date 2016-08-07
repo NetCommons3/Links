@@ -30,6 +30,9 @@ class TestViewElementsLinksDeleteFormController extends AppController {
 		$this->request->data['LinkOrder'] = array('id' => '1');
 		$this->request->data['Block'] = array('id' => '2', 'key' => 'block_1');
 		$this->request->data['Frame'] = array('id' => '6');
+
+		$this->request->params['plugin'] = 'links';
+		$this->request->params['controller'] = 'links';
 	}
 
 }
