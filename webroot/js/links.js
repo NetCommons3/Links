@@ -11,7 +11,7 @@
  * @param {function($scope, $http, $window)} Controller
  */
 NetCommonsApp.controller('LinksIndex',
-    ['$scope', '$http', '$window', function($scope, $http, $window) {
+    ['$scope', '$http', '$window', 'NC3_URL', function($scope, $http, $window, NC3_URL) {
 
       /**
        * data
@@ -44,13 +44,13 @@ NetCommonsApp.controller('LinksIndex',
         $scope.data.Link.id = id;
         $scope.data.Link.key = key;
 
-        $http.get($scope.baseUrl + '/net_commons/net_commons/csrfToken.json')
+        $http.get(NC3_URL + '/net_commons/net_commons/csrfToken.json')
           .success(function(token) {
               $scope.data._Token.key = token.data._Token.key;
 
               //POSTリクエスト
               $http.put(
-                  $scope.baseUrl + '/links/links/link.json',
+                  NC3_URL + '/links/links/link.json',
                   $.param({_method: 'PUT', data: $scope.data}),
                   {cache: false,
                     headers:
@@ -81,7 +81,7 @@ NetCommonsApp.controller('LinksIndex',
  * @param {function($scope, $http)} Controller
  */
 NetCommonsApp.controller('LinksEdit',
-    ['$scope', '$http', function($scope, $http) {
+    ['$scope', '$http', 'NC3_URL', function($scope, $http, NC3_URL) {
 
       /**
        * Get url
@@ -95,7 +95,7 @@ NetCommonsApp.controller('LinksEdit',
           return;
         }
 
-        $http.get('/links/links/get.json',
+        $http.get(NC3_URL + '/links/links/get.json',
             {params: {frame_id: frameId, url: element[0].value}})
           .success(function(data) {
               element = $('input[name="data[Link][title]"]');

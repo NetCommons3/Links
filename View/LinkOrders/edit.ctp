@@ -38,8 +38,8 @@ $editUrlFormat = $this->NetCommonsHtml->url(array('controller' => 'links', 'acti
 			<p><?php echo __d('links', 'No link found.'); ?></p>
 		</div>
 
-		<div ng-show="links">
-			<article ng-repeat="cate in categories">
+		<div ng-show="links" ng-cloak>
+			<article ng-repeat="cate in categories" ng-cloak>
 				<h2>
 					{{cate.category.name}}
 				</h2>

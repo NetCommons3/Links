@@ -124,7 +124,11 @@ class LinkBlockSaveTest extends NetCommonsSaveTest {
 			$this->$model->useTable = false;
 		}
 		$result = $this->$model->$method($data);
-		$this->assertNotEmpty($result);
+		if (! isset($data[$this->$model->alias]['id'])) {
+			$this->assertNull($result);
+		} else {
+			$this->assertNotEmpty($result);
+		}
 
 		//登録データ取得
 		$actual = $this->$model->LinkSetting->getLinkSetting();
