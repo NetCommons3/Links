@@ -22,9 +22,9 @@
 <?php foreach ($categories as $category) : ?>
 	<?php if (isset($links[$category['Category']['id']])) : ?>
 		<?php if (Hash::get($linkFrameSetting, 'category_separator_line') && !$first) : ?>
-			<?php $first = true; ?>
-			<hr style="<?php echo $linkFrameSetting['category_separator_line_css']; ?>">
+					<hr style="<?php echo $linkFrameSetting['category_separator_line_css']; ?>">
 		<?php endif; ?>
+		<?php $first = false; ?>
 
 		<article class="links-line-none">
 			<h2>
