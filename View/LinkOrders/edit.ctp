@@ -66,10 +66,13 @@ $editUrlFormat = $this->NetCommonsHtml->url(array('controller' => 'links', 'acti
 						</div>
 
 						<div class="pull-right">
-							<a class="btn btn-xs btn-primary"
+							<a class="btn btn-xs btn-primary nc-btn-style"
 								ng-href="<?php echo sprintf($editUrlFormat, '{{linksPerCategory.link.key}}'); ?>">
 
-								<span class="glyphicon glyphicon-edit"> </span>
+								<span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
+								<span class="hidden-xs">
+									<?php echo __d('net_commons', 'Edit'); ?>
+								</span>
 							</a>
 						</div>
 					</li>

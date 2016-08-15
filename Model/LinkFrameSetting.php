@@ -102,7 +102,8 @@ class LinkFrameSetting extends LinksAppModel {
 		);
 		foreach ($files as $file) {
 			$info = getimagesize($dir->pwd() . DS . $file);
-			$img = '/' . Inflector::underscore($this->plugin) . DS . 'img' . DS . 'line' . DS . $file;
+			$img = Router::url('/') . Inflector::underscore($this->plugin) . DS .
+					'img' . DS . 'line' . DS . $file;
 			$this->categorySeparators[] = array(
 				'key' => $file,
 				'name' => '',
@@ -146,7 +147,8 @@ class LinkFrameSetting extends LinksAppModel {
 
 		foreach ($files as $file) {
 			$info = getimagesize($dir->pwd() . DS . $file);
-			$img = '/' . Inflector::underscore($this->plugin) . DS . 'img' . DS . 'mark' . DS . $file;
+			$img = Router::url('/') . Inflector::underscore($this->plugin) . DS .
+					'img' . DS . 'mark' . DS . $file;
 			$this->listStyles[] = array(
 				'key' => $file,
 				'name' => '',

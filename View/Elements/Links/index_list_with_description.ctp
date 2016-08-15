@@ -16,15 +16,17 @@
 	} else {
 		$listClass = ' nc-links-li-none';
 	}
+	$first = true;
 ?>
 
 <?php foreach ($categories as $category) : ?>
 	<?php if (isset($links[$category['Category']['id']])) : ?>
-		<?php if (Hash::get($linkFrameSetting, 'category_separator_line')) : ?>
+		<?php if (Hash::get($linkFrameSetting, 'category_separator_line') && !$first) : ?>
 			<hr style="<?php echo $linkFrameSetting['category_separator_line_css']; ?>">
 		<?php endif; ?>
+		<?php $first = false; ?>
 
-		<article>
+		<article class="links-line-none">
 			<h2>
 				<?php echo h($category['Category']['name']); ?>
 			</h2>
@@ -44,8 +46,4 @@
 			</ul>
 		</article>
 	<?php endif; ?>
-<?php endforeach; ?>
-
-<?php if (Hash::get($linkFrameSetting, 'category_separator_line')) : ?>
-	<hr style="<?php echo $linkFrameSetting['category_separator_line_css']; ?>">
-<?php endif;
+<?php endforeach;
