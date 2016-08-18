@@ -30,6 +30,9 @@ li.list-group-item.nc-links-li-none {
 .links-line-none {
 	border: none !important;
 }
+.links-line-none ul.list-group {
+	margin-bottom: 0px;
+}
 
 /**
  * 一覧表示
