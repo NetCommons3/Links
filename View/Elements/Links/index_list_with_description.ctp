@@ -27,9 +27,11 @@
 		<?php $first = false; ?>
 
 		<article class="links-line-none">
-			<h2>
-				<?php echo h($category['Category']['name']); ?>
-			</h2>
+			<?php if ($category['Category']['name']) : ?>
+				<h2>
+					<?php echo h($category['Category']['name']); ?>
+				</h2>
+			<?php endif; ?>
 
 			<ul class="list-group" style="<?php echo $linkFrameSetting['list_style_css']; ?>">
 				<?php foreach ($links[$category['Category']['id']] as $link) : ?>
