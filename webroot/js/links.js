@@ -45,7 +45,7 @@ NetCommonsApp.controller('LinksIndex',
         $scope.data.Link.key = key;
 
         $http.get(NC3_URL + '/net_commons/net_commons/csrfToken.json')
-          .success(function(token) {
+            .success(function(token) {
               $scope.data._Token.key = token.data._Token.key;
 
               //POSTリクエスト
@@ -97,7 +97,7 @@ NetCommonsApp.controller('LinksEdit',
 
         $http.get(NC3_URL + '/links/links/get.json',
             {params: {frame_id: frameId, url: element[0].value}})
-          .success(function(data) {
+            .success(function(data) {
               element = $('input[name="data[Link][title]"]');
               if (! angular.isUndefined(element[0]) &&
                       ! angular.isUndefined(data['title'])) {
@@ -112,7 +112,7 @@ NetCommonsApp.controller('LinksEdit',
 
               $scope.urlError = '';
             })
-          .error(function(data) {
+            .error(function(data) {
               $scope.urlError = angular.isUndefined(data['error']) ?
                                 data['name'] : data['error'];
             });
