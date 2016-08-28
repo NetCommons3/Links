@@ -81,6 +81,6 @@ echo $this->NetCommonsHtml->script('/links/js/links.js');
 	</div>
 
 	<article>
-		<?php echo Hash::get($link, 'Link.description'); ?>
+		<?php echo h(nl2br(Hash::get($link, 'Link.description'))); ?>
 	</article>
 </article>

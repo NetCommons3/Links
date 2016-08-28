@@ -27,4 +27,7 @@ if ($linkFrameSetting['open_new_tab']) {
 	</span>
 <?php endif; ?>
 
-<?php echo $this->Workflow->label($link['Link']['status']);
+<?php
+if ($this->request->params['action'] !== 'view') {
+	echo $this->Workflow->label($link['Link']['status']);
+}
