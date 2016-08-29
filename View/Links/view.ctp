@@ -43,7 +43,7 @@ echo $this->NetCommonsHtml->script('/links/js/links.js');
 	<?php if ($this->Workflow->canEdit('Links.Link', $link)) : ?>
 		<header class="clearfix">
 			<div class="pull-left">
-				<?php echo $this->Workflow->label($link['Link']['status']); ?>
+				<?php echo $this->LinkButton->toList(); ?>
 			</div>
 			<div class="pull-right">
 				<?php echo $this->LinkButton->edit('', array('key' => $link['Link']['key'])); ?>
@@ -52,7 +52,8 @@ echo $this->NetCommonsHtml->script('/links/js/links.js');
 	<?php endif; ?>
 
 	<h1>
-		<?php echo $this->element('Links.Links/link', array('link' => $link)); ?>
+		<?php echo $this->Workflow->label($link['Link']['status']) .
+				trim($this->element('Links.Links/link', array('link' => $link))); ?>
 	</h1>
 
 	<div class="clearfix text-muted link-view-info">
