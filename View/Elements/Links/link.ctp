@@ -18,7 +18,12 @@ if ($linkFrameSetting['open_new_tab']) {
 }
 ?>
 
-<a <?php echo 'href="' . h($link['Link']['url']) . '"' . $attribute; ?>><?php echo h($link['Link']['title']); ?></a>
+<?php
+	echo '<a href="' . h($link['Link']['url']) . '"' . $attribute . '>';
+	echo h($link['Link']['title']);
+	echo '</a>'
+?>
+
 <?php if ($linkFrameSetting['display_click_count']) : ?>
 	<span class="badge" id="<?php echo 'nc-badge-' . Current::read('Frame.id') . '-' . $link['Link']['id']; ?>">
 		<?php echo h($link['Link']['click_count']); ?>

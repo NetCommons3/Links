@@ -53,7 +53,7 @@ echo $this->NetCommonsHtml->script('/links/js/links.js');
 
 	<h1>
 		<?php echo $this->Workflow->label($link['Link']['status']) .
-				trim($this->element('Links.Links/link', array('link' => $link))); ?>
+				$this->element('Links.Links/link', array('link' => $link)); ?>
 	</h1>
 
 	<div class="clearfix text-muted link-view-info">
