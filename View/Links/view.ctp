@@ -40,16 +40,16 @@ echo $this->NetCommonsHtml->script('/links/js/links.js');
 <article class="nc-content-list" ng-controller="LinksIndex"
 		ng-init="initialize(<?php echo h(json_encode(Hash::merge($this->request->data, $tokens))); ?>)">
 
-	<?php if ($this->Workflow->canEdit('Links.Link', $link)) : ?>
-		<header class="clearfix">
-			<div class="pull-left">
-				<?php echo $this->LinkButton->toList(); ?>
-			</div>
+	<header class="clearfix">
+		<div class="pull-left">
+			<?php echo $this->LinkButton->toList(); ?>
+		</div>
+		<?php if ($this->Workflow->canEdit('Links.Link', $link)) : ?>
 			<div class="pull-right">
 				<?php echo $this->LinkButton->edit('', array('key' => $link['Link']['key'])); ?>
 			</div>
-		</header>
-	<?php endif; ?>
+		<?php endif; ?>
+	</header>
 
 	<h1>
 		<?php echo $this->Workflow->label($link['Link']['status']) .
