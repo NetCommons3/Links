@@ -42,7 +42,7 @@ class TestViewElementsLinkFrameSettingsEditFormController extends AppController 
 			'Frame' => array(
 				'id' => '6',
 				'language_id' => '2',
-				'room_id' => '1',
+				'room_id' => '2',
 				'box_id' => '3',
 				'plugin_key' => 'links',
 				'block_id' => '2',

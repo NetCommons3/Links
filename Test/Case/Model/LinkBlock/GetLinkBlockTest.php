@@ -65,7 +65,7 @@ class LinkBlockGetLinkBlockTest extends WorkflowGetTest {
 		$methodName = $this->_methodName;
 
 		//テストデータ
-		$roomId = '1';
+		$roomId = '2';
 		$blockId = '2';
 		$blockKey = 'block_1';
 		Current::write('Room.id', $roomId);

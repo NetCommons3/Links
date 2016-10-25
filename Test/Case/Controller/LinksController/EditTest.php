@@ -77,7 +77,7 @@ class LinksControllerEditTest extends WorkflowControllerEditTest {
 				'id' => $blockId,
 				'key' => $blockKey,
 				'language_id' => '2',
-				'room_id' => '1',
+				'room_id' => '2',
 				'plugin_key' => $this->plugin,
 			),
 			'Link' => Hash::get(Hash::extract((new LinkFixture())->records, '{n}[id=' . $contentId . ']'), '0'),
