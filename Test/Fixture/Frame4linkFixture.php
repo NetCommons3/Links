@@ -42,7 +42,7 @@ class Frame4linkFixture extends FrameFixture {
 		array(
 			'id' => '6',
 			'language_id' => '2',
-			'room_id' => '1',
+			'room_id' => '2',
 			'box_id' => '3',
 			'plugin_key' => 'test_plugin',
 			'block_id' => '2',
@@ -54,7 +54,7 @@ class Frame4linkFixture extends FrameFixture {
 		array(
 			'id' => '7',
 			'language_id' => '2',
-			'room_id' => '1',
+			'room_id' => '2',
 			'box_id' => '3',
 			'plugin_key' => 'test_plugin',
 			'block_id' => '2',
@@ -66,7 +66,7 @@ class Frame4linkFixture extends FrameFixture {
 		array(
 			'id' => '8',
 			'language_id' => '2',
-			'room_id' => '1',
+			'room_id' => '2',
 			'box_id' => '3',
 			'plugin_key' => 'test_plugin',
 			'block_id' => '2',

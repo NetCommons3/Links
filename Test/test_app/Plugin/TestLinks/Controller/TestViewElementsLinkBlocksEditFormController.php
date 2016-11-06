@@ -31,7 +31,7 @@ class TestViewElementsLinkBlocksEditFormController extends AppController {
 			'LinkBlock' => array(
 				'id' => '2',
 				'language_id' => '2',
-				'room_id' => '1',
+				'room_id' => '2',
 				'plugin_key' => 'links',
 				'key' => 'block_1',
 				'name' => 'Block name 1',
@@ -42,7 +42,7 @@ class TestViewElementsLinkBlocksEditFormController extends AppController {
 			'Block' => array(
 				'id' => '2',
 				'language_id' => '2',
-				'room_id' => '1',
+				'room_id' => '2',
 				'plugin_key' => 'links',
 				'key' => 'block_1',
 				'name' => 'Block name 1',
@@ -58,7 +58,7 @@ class TestViewElementsLinkBlocksEditFormController extends AppController {
 			'Frame' => array(
 				'id' => '6',
 				'language_id' => '2',
-				'room_id' => '1',
+				'room_id' => '2',
 				'box_id' => '3',
 				'plugin_key' => 'links',
 				'block_id' => '2',
