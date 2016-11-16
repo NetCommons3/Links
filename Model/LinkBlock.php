@@ -69,7 +69,6 @@ class LinkBlock extends BlockBaseModel {
 			)
 		),
 		'Categories.Category',
-		//'M17n.M17n',
 		'NetCommons.OriginalKey',
 	);
 
