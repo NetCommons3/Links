@@ -43,7 +43,7 @@ class Frame4linkFixture extends FrameFixture {
 			'id' => '6',
 			'language_id' => '2',
 			'room_id' => '2',
-			'box_id' => '3',
+			'box_id' => '27',
 			'plugin_key' => 'test_plugin',
 			'block_id' => '2',
 			'key' => 'frame_3',
@@ -55,7 +55,7 @@ class Frame4linkFixture extends FrameFixture {
 			'id' => '7',
 			'language_id' => '2',
 			'room_id' => '2',
-			'box_id' => '3',
+			'box_id' => '27',
 			'plugin_key' => 'test_plugin',
 			'block_id' => '2',
 			'key' => 'frame_4',
@@ -67,7 +67,7 @@ class Frame4linkFixture extends FrameFixture {
 			'id' => '8',
 			'language_id' => '2',
 			'room_id' => '2',
-			'box_id' => '3',
+			'box_id' => '27',
 			'plugin_key' => 'test_plugin',
 			'block_id' => '2',
 			'key' => 'frame_5',
@@ -76,5 +76,4 @@ class Frame4linkFixture extends FrameFixture {
 			'is_deleted' => '0',
 		),
 	);
-
 }
