@@ -27,7 +27,7 @@
 								'Frame.block_id'
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-								'Block.name', __d('links', 'Link list Title'),
+								'BlocksLanguage.name', __d('links', 'Link list Title'),
 								array('sort' => true, 'editUrl' => true)
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
@@ -55,7 +55,7 @@
 									'Frame.block_id', $linkBlock['Block']['id']
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
-									'Block.name', $linkBlock['Block']['name'],
+									'BlocksLanguage.name', $linkBlock['BlocksLanguage']['name'],
 									array('editUrl' => array('block_id' => $linkBlock['Block']['id']))
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
