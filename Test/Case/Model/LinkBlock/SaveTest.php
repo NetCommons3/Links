@@ -11,6 +11,7 @@
 
 App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
 App::uses('LinkBlockFixture', 'Links.Test/Fixture');
+App::uses('BlocksLanguageFixture', 'Blocks.Test/Fixture');
 
 /**
  * beforeSave()とafterSave()のテスト
@@ -86,11 +87,16 @@ class LinkBlockSaveTest extends NetCommonsSaveTest {
 	public function dataProviderSave() {
 		//データ生成
 		$data['LinkBlock'] = (new LinkBlockFixture())->records[0];
+		$data['LinkBlock']['language_id'] = (new BlocksLanguageFixture())->records[0]['language_id'];
+		$data['LinkBlock']['name'] = (new BlocksLanguageFixture())->records[0]['name'];
 		$data['LinkSetting']['use_workflow'] = '0';
 		$data['Frame'] = array('id' => '6');
 		$data['Block'] = array(
 			'id' => $data['LinkBlock']['id'],
 			'key' => $data['LinkBlock']['key'],
+		);
+		$data['BlocksLanguage'] = array(
+			'language_id' => $data['LinkBlock']['language_id'],
 		);
 
 		$results = array();

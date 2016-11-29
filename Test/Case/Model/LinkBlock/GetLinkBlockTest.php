@@ -76,11 +76,11 @@ class LinkBlockGetLinkBlockTest extends WorkflowGetTest {
 		$result = $this->$model->$methodName();
 
 		//チェック
-		$expected = array('LinkBlock', 'Block', 'LinkSetting');
+		$expected = array('LinkBlock', 'Block', 'BlocksLanguage', 'LinkBlocksLanguage', 'LinkSetting');
 		$this->assertEquals($expected, array_keys($result));
 
 		$this->assertEquals($blockId, Hash::get($result, 'LinkBlock.id'));
-		//$this->assertEquals('2', Hash::get($result, 'LinkBlock.language_id'));
+		$this->assertEquals('2', Hash::get($result, 'LinkBlock.language_id'));
 		$this->assertEquals($roomId, Hash::get($result, 'LinkBlock.room_id'));
 		$this->assertEquals($blockKey, Hash::get($result, 'LinkBlock.key'));
 

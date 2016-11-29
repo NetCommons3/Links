@@ -68,7 +68,7 @@ class LinkBlockCreateLinkBlockTest extends NetCommonsModelTestCase {
 		$result = $this->$model->$methodName();
 
 		//チェック
-		$expected = array('LinkBlock', 'Block', 'LinkSetting');
+		$expected = array('LinkBlock', 'BlocksLanguage', 'Block', 'LinkSetting');
 		$this->assertEquals($expected, array_keys($result));
 
 		$pattern = '/' . __d('links', 'New Bookmark List %s', '[0-9]{14}') . '/';
