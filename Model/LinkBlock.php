@@ -119,22 +119,36 @@ class LinkBlock extends BlockBaseModel {
  * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforefind
  */
 	public function beforeFind($query) {
-		//if (Hash::get($query, 'recursive') > -1) {
+		if (! isset($this->belongsTo['BlocksLanguage'])) {
 			$this->bindModel(array(
 				'belongsTo' => array(
-					'LinkBlocksLanguage' => array(
+					'BlocksLanguage' => array(
 						'className' => 'Blocks.BlocksLanguage',
 						'foreignKey' => false,
 						'conditions' => array(
-							'LinkBlocksLanguage.id = BlocksLanguage.id',
-							//'LinkBlocksLanguage.language_id' => Current::read('Language.id', '0')
+							'BlocksLanguage.block_id = LinkBlock.id',
+							'BlocksLanguage.language_id' => Current::read('Language.id', '0')
 						),
-						'fields' => array('LinkBlocksLanguage.language_id', 'LinkBlocksLanguage.name'),
 						'order' => ''
 					),
 				)
 			), true);
-		//}
+		}
+
+		$this->bindModel(array(
+			'belongsTo' => array(
+				'LinkBlocksLanguage' => array(
+					'className' => 'Blocks.BlocksLanguage',
+					'foreignKey' => false,
+					'conditions' => array(
+						'LinkBlocksLanguage.id = BlocksLanguage.id',
+						//'LinkBlocksLanguage.language_id' => Current::read('Language.id', '0')
+					),
+					'fields' => array('LinkBlocksLanguage.language_id', 'LinkBlocksLanguage.name'),
+					'order' => ''
+				),
+			)
+		), true);
 		return true;
 	}
 
