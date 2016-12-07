@@ -27,9 +27,9 @@
 		<?php $first = false; ?>
 
 		<article class="links-line-none">
-			<?php if ($category['Category']['name']) : ?>
+			<?php if ($category['CategoriesLanguage']['name']) : ?>
 				<h2>
-					<?php echo h($category['Category']['name']); ?>
+					<?php echo h($category['CategoriesLanguage']['name']); ?>
 				</h2>
 			<?php endif; ?>
 

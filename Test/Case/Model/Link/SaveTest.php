@@ -29,6 +29,7 @@ class LinkSaveTest extends NetCommonsModelTestCase {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.links.link',
 		'plugin.links.link_frame_setting',
 		'plugin.links.link_order',
@@ -110,6 +111,8 @@ class LinkSaveTest extends NetCommonsModelTestCase {
 			'is_active' => true,
 			'is_latest' => true,
 			'id' => '9',
+			'is_origin' => true,
+			'is_translation' => false,
 		));
 		$expected['LinkOrder'] = Hash::merge($expected['LinkOrder'], array(
 			'link_key' => $key,

@@ -31,6 +31,7 @@ class LinksController extends LinksAppController {
 		'Links.LinkOrder',
 		'Links.LinkFrameSetting',
 		'Categories.Category',
+		'Categories.CategoriesLanguage',
 	);
 
 /**
@@ -90,7 +91,13 @@ class LinksController extends LinksAppController {
 		$this->set('linkFrameSetting', $linkFrameSetting['LinkFrameSetting']);
 
 		//カテゴリ
-		array_unshift($this->viewVars['categories'], $this->Category->create(array('id' => 0)));
+		array_unshift(
+			$this->viewVars['categories'],
+			Hash::merge(
+				$this->Category->create(['id' => 0]),
+				$this->CategoriesLanguage->create(['name' => ''])
+			)
+		);
 
 		//取得
 		$links = $this->Link->getWorkflowContents('all', array(

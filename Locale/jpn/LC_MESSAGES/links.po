@@ -15,83 +15,103 @@ msgstr ""
 "Language: ja\n"
 "X-Generator: Poedit 1.8.1\n"
 
-#: Links/Controller/LinkBlocksController.php:125
-msgid "New Bookmark List %s"
-msgstr "新規リンクリスト%s"
+#: Links/Controller/LinkOrdersController.php:66
+msgid "No Category"
+msgstr "カテゴリーなし"
 
-#: Links/Controller/LinksController.php:150;155
-msgid "Failed to obtain the title for this page."
-msgstr "入力したURLからタイトルと説明を取得できませんでした"
-
-#: Links/Model/Link.php:125;131 Links/View/Elements/Links/edit_form.ctp:55
-#: Links/View/Links/view.ctp:26
+#: Links/Controller/LinksController.php:154
+#: Links/Model/Link.php:149;157;158
+#: Links/Test/Case/Controller/LinksController/AddTest.php:229
+#: Links/Test/Case/Controller/LinksController/EditTest.php:339
+#: Links/Test/Case/Controller/LinksController/GetTest.php:120
+#: Links/Test/Case/Model/Link/ValidateTest.php:85;87
+#: Links/View/Elements/Links/edit_form.ctp:29
 msgid "URL"
 msgstr ""
 
-#: Links/Model/Link.php:139 Links/View/Elements/Links/edit_form.ctp:93
-#: Links/View/Links/view.ctp:37
+#: Links/Controller/LinksController.php:161;165;191
+#: Links/Test/Case/Controller/LinksController/GetTest.php:141
+msgid "Failed to obtain the title for this page."
+msgstr "入力したURLからタイトルと説明を取得できませんでした"
+
+#: Links/Model/Link.php:167
+#: Links/Test/Case/Controller/LinksController/AddTest.php:236
+#: Links/Test/Case/Controller/LinksController/EditTest.php:346
+#: Links/Test/Case/Model/Link/ValidateTest.php:89
+#: Links/View/Elements/Links/edit_form.ctp:50
 msgid "Title"
 msgstr "タイトル"
 
-#: Links/Model/LinkBlock.php:142
-#: Links/View/Elements/LinkBlocks/edit_form.ctp:24
-#: Links/View/LinkBlocks/index.ctp:37
+#: Links/Model/LinkBlock.php:184
+#: Links/Test/Case/Controller/LinkBlocksController/EditTest.php:128;157
+#: Links/Test/Case/Model/LinkBlock/ValidateTest.php:79
+#: Links/View/Elements/LinkBlocks/edit_form.ctp:22
+#: Links/View/LinkBlocks/index.ctp:30
 msgid "Link list Title"
 msgstr "リンクリスト名"
 
-#: Links/Model/LinkFrameSetting.php:95
+#: Links/Model/LinkBlock.php:233
+#: Links/Test/Case/Model/LinkBlock/CreateLinkBlockTest.php:74
+msgid "New Bookmark List %s"
+msgstr "新規リンクリスト%s"
+
+#: Links/Model/LinkFrameSetting.php:94
 msgid "(no line)"
 msgstr "(線なし)"
 
-#: Links/View/Elements/LinkBlocks/delete_form.ctp:14;25
+#: Links/View/Elements/LinkBlockRolePermissions/edit_form.ctp:19
+msgid "Link creatable roles"
+msgstr "リンクを追加できる権限"
+
+#: Links/View/Elements/LinkBlocks/delete_form.ctp:14;22
 msgid "Link List"
 msgstr "リンクリスト"
 
-#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:32
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:27
 msgid "Display method"
 msgstr "表示方法選択"
 
-#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:37
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:31
 msgid "Show by dropdown"
 msgstr "ドロップダウン"
 
-#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:38
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:32
 msgid "Show list"
 msgstr "一覧表示"
 
-#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:39
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:41
 msgid "Show description"
-msgstr "説明付き"
+msgstr ""
 
-#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:47
-msgid "Open as a new tab"
-msgstr "新しいタブで開く"
-
-#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:56
-msgid "Count view"
-msgstr "クリック回数の表示"
-
-#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:65
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:51
 msgid "Line"
 msgstr "カテゴリ間の区切り線"
 
-#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:106
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:94
 msgid "Marker"
 msgstr "リストマーカー"
 
-#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:122;142
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:111;131
 msgid "Sample"
 msgstr "サンプル"
 
-#: Links/View/Elements/Links/delete_form.ctp:38
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:142
+msgid "Open as a new tab"
+msgstr "新しいタブで開く"
+
+#: Links/View/Elements/LinkFrameSettings/edit_form.ctp:147
+msgid "Count view"
+msgstr "クリック回数の表示"
+
+#: Links/View/Elements/Links/delete_form.ctp:22
 msgid "Link"
 msgstr "リンク"
 
-#: Links/View/Elements/Links/edit_form.ctp:70
+#: Links/View/Elements/Links/edit_form.ctp:43
 msgid "GO!"
 msgstr "取得"
 
-#: Links/View/Elements/Links/edit_form.ctp:129 Links/View/Links/view.ctp:57
+#: Links/View/Elements/Links/edit_form.ctp:58
 msgid "Description"
 msgstr "説明"
 
@@ -99,22 +119,17 @@ msgstr "説明"
 msgid "Select link to show"
 msgstr "リンクを選択してください"
 
-#: Links/View/LinkOrders/edit.ctp:35
+#: Links/View/Elements/Links/index_dropdown.ctp:52
+#: Links/View/LinkOrders/edit.ctp:38
+#: Links/View/Links/index.ctp:65;72
 msgid "No link found."
 msgstr "リンクがありません。"
 
-#: Links/View/Links/index.ctp:30
-msgid "Sort link"
-msgstr ""
-
-#: Links/View/Links/index.ctp:37
-msgid "Create link"
-msgstr "リンクの作成"
-
-#: Links/View/Links/index.ctp:37
-msgid "Link creatable roles"
-msgstr "リンクを追加できる権限"
-
 # メール関連
+#: Links/View/LinkMailSettings/edit.ctp:24
 msgid "MailSetting.mail_fixed_phrase_body.popover"
 msgstr "{X-SITE_NAME} : サイト名<br>{X-PLUGIN_NAME} : プラグイン名<br>{X-ROOM} : ルーム名<br>{X-BLOCK_NAME} : リンクリスト名<br>{X-LINK_URL} : リンク先<br>{X-TITLE} : タイトル<br>{X-CATEGORY_NAME} : カテゴリ<br>{X-DESCRIPTION} : 説明<br>{X-USER} : 登録者<br>{X-TO_DATE} : 登録日時<br>{X-URL} : 登録内容のURL"
+
+#: Links/View/Links/index.ctp:54
+msgid "Create link"
+msgstr "リンクの作成"

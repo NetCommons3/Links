@@ -27,6 +27,7 @@ class LinksControllerIndexTest extends WorkflowControllerIndexTest {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.links.frame4link',
 		'plugin.links.frames_language4link',
 		'plugin.links.link',

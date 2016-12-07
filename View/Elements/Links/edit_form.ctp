@@ -28,7 +28,6 @@
 			'type' => 'text',
 			'label' => __d('links', 'URL'),
 			'div' => false,
-			'placeholder' => 'http://',
 			'required' => true,
 			'error' => false
 		)); ?>

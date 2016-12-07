@@ -18,34 +18,6 @@
 class LinkFixture extends CakeTestFixture {
 
 /**
- * Fields
- *
- * @var array
- */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID'),
-		'block_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'comment' => 'ブロックID'),
-		'category_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'カテゴリーID'),
-		'language_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 6, 'comment' => '言語ID'),
-		'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'リンクキー', 'charset' => 'utf8'),
-		'status' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 4, 'comment' => '公開状況  1:公開中、2:公開申請中、3:下書き中、4:差し戻し'),
-		'is_active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => 'アクティブなコンテンツかどうか 0:アクティブでない 1:アクティブ'),
-		'is_latest' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => '最新コンテンツかどうか 0:最新でない 1:最新'),
-		'url' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'リンク先URL', 'charset' => 'utf8'),
-		'title' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'タイトル', 'charset' => 'utf8'),
-		'description' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '説明', 'charset' => 'utf8'),
-		'click_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'comment' => 'クリック数'),
-		'created_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => '作成者'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => '作成日時'),
-		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => '更新者'),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => '更新日時'),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-	);
-
-/**
  * Records
  *
  * @var array
@@ -177,5 +149,16 @@ class LinkFixture extends CakeTestFixture {
 			'created_user' => '2'
 		),
 	);
+
+/**
+ * Initialize the fixture.
+ *
+ * @return void
+ */
+	public function init() {
+		require_once App::pluginPath('Links') . 'Config' . DS . 'Schema' . DS . 'schema.php';
+		$this->fields = (new LinksSchema())->tables[Inflector::tableize($this->name)];
+		parent::init();
+	}
 
 }

@@ -70,6 +70,8 @@ class LinkBlock extends BlockBaseModel {
 		),
 		'Categories.Category',
 		'NetCommons.OriginalKey',
+		//多言語
+		'M17n.M17n',
 	);
 
 /**
@@ -87,6 +89,9 @@ class LinkBlock extends BlockBaseModel {
 	public $virtualFields = array(
 		'language_id' => 'LinkBlocksLanguage.language_id',
 		'name' => 'LinkBlocksLanguage.name',
+		'block_id' => 'LinkBlock.id',
+		'is_origin' => 'LinkBlocksLanguage.is_origin',
+		'is_translation' => 'LinkBlocksLanguage.is_translation',
 	);
 
 /**
@@ -120,19 +125,8 @@ class LinkBlock extends BlockBaseModel {
  */
 	public function beforeFind($query) {
 		if (! isset($this->belongsTo['BlocksLanguage'])) {
-			$this->bindModel(array(
-				'belongsTo' => array(
-					'BlocksLanguage' => array(
-						'className' => 'Blocks.BlocksLanguage',
-						'foreignKey' => false,
-						'conditions' => array(
-							'BlocksLanguage.block_id = LinkBlock.id',
-							'BlocksLanguage.language_id' => Current::read('Language.id', '0')
-						),
-						'order' => ''
-					),
-				)
-			), true);
+			$belongsTo = $this->Block->bindModelBlockLang('LinkBlock.id');
+			$this->bindModel($belongsTo, true);
 		}
 
 		$this->bindModel(array(

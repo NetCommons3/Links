@@ -29,6 +29,7 @@ class LinkBlockSaveLinkBlockTest extends NetCommonsSaveTest {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.links.link',
 		'plugin.links.link_frame_setting',
 		'plugin.links.link_order',
@@ -216,6 +217,9 @@ class LinkBlockSaveLinkBlockTest extends NetCommonsSaveTest {
 		$expected[$this->$model->alias]['id'] = $id;
 		$expected[$this->$model->alias] = Hash::remove($expected[$this->$model->alias], 'modified');
 		$expected[$this->$model->alias] = Hash::remove($expected[$this->$model->alias], 'modified_user');
+		$expected[$this->$model->alias]['block_id'] = $id;
+		$expected[$this->$model->alias]['is_origin'] = true;
+		$expected[$this->$model->alias]['is_translation'] = false;
 
 		return $expected[$this->$model->alias];
 	}

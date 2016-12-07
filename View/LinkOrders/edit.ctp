@@ -41,8 +41,15 @@ $editUrlFormat = $this->NetCommonsHtml->url(array('controller' => 'links', 'acti
 		<div ng-show="links" ng-cloak>
 			<article ng-repeat="cate in categories" ng-cloak>
 				<h2>
-					{{cate.category.name}}
+					{{cate.categoriesLanguage.name}}
 				</h2>
+
+				<ul class="list-group" ng-show="! links['_' + cate.category.id]">
+					<li class="list-group-item">
+						<?php echo __d('links', 'No link found.'); ?>
+					</li>
+				</ul>
+
 				<ul class="list-group" ng-show="links['_' + cate.category.id]">
 					<li class="list-group-item clearfix" ng-repeat="linksPerCategory in links['_' + cate.category.id]">
 						<div class="pull-left">
