@@ -149,7 +149,7 @@ class LinksController extends LinksAppController {
  */
 	public function get() {
 		$url = Hash::get($this->request->query, 'url');
-		if (! $url) {
+		if (! $url || $url === 'http://') {
 			return $this->throwBadRequest(
 				sprintf(__d('net_commons', 'Please input %s.'), __d('links', 'URL'))
 			);
@@ -183,6 +183,8 @@ class LinksController extends LinksAppController {
 		$matches = array();
 		if (preg_match('/' . $pattern . '/i', $body, $matches)) {
 			$results['description'] = mb_convert_encoding($matches[3], 'utf-8', 'auto');
+		} else {
+			$results['description'] = '';
 		}
 
 		if ($results['title']) {
@@ -218,7 +220,9 @@ class LinksController extends LinksAppController {
 
 		} else {
 			$this->request->data = Hash::merge($this->request->data,
-				$this->Link->create(),
+				$this->Link->create(array(
+					'url' => 'http://'
+				)),
 				$this->LinkOrder->create()
 			);
 			$this->request->data['Frame'] = Current::read('Frame');
