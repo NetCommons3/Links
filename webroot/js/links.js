@@ -45,7 +45,8 @@ NetCommonsApp.controller('LinksIndex',
         $scope.data.Link.key = key;
 
         $http.get(NC3_URL + '/net_commons/net_commons/csrfToken.json')
-            .success(function(token) {
+            .then(function(response) {
+              var token = response.data;
               $scope.data._Token.key = token.data._Token.key;
 
               //POSTリクエスト
@@ -56,7 +57,7 @@ NetCommonsApp.controller('LinksIndex',
                     headers:
                         {'Content-Type': 'application/x-www-form-urlencoded'}
                   }
-              ).success(function() {
+              ).then(function() {
                 var element = $('#nc-badge-' + $scope.data.Frame.id + '-' + id);
                 if (element) {
                   var count = parseInt(element.html()) + 1;
@@ -97,7 +98,8 @@ NetCommonsApp.controller('LinksEdit',
 
         $http.get(NC3_URL + '/links/links/get.json',
             {params: {frame_id: frameId, url: element[0].value}})
-            .success(function(data) {
+            .then(function(response) {
+              var data = response.data;
               element = $('input[name="data[Link][title]"]');
               if (! angular.isUndefined(element[0]) &&
                       ! angular.isUndefined(data['title'])) {
@@ -111,10 +113,10 @@ NetCommonsApp.controller('LinksEdit',
               }
 
               $scope.urlError = '';
-            })
-            .error(function(data) {
-              $scope.urlError = angular.isUndefined(data['error']) ?
-                                data['name'] : data['error'];
+            },
+            function(response) {
+              var data = response.data;
+              $scope.urlError = angular.isUndefined(data['error']) ? data['name'] : data['error'];
             });
       };
 
