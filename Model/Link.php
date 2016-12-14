@@ -49,7 +49,7 @@ class Link extends LinksAppModel {
 		),
 		//多言語
 		'M17n.M17n' => array(
-			'allUpdateField' => array('category_id')
+			'commonFields' => array('category_id')
 		),
 	);
 
@@ -119,7 +119,7 @@ class Link extends LinksAppModel {
 			$belongsTo = $this->Category->bindModelCategoryLang('Link.category_id');
 			$this->bindModel($belongsTo, true);
 		}
-		return true;
+		return parent::beforeFind($query);
 	}
 
 /**
