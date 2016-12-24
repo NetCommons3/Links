@@ -28,6 +28,8 @@ class LinkOrdersController extends LinksAppController {
 		'Links.Link',
 		'Links.LinkBlock',
 		'Links.LinkOrder',
+		'Categories.Category',
+		'Categories.CategoriesLanguage',
 	);
 
 /**
@@ -57,7 +59,13 @@ class LinkOrdersController extends LinksAppController {
 		$this->set('linkBlock', $linkBlock['LinkBlock']);
 
 		//カテゴリ
-		array_unshift($this->viewVars['categories'], $this->Category->create(['id' => 0, 'name' => '']));
+		array_unshift(
+			$this->viewVars['categories'],
+			Hash::merge(
+				$this->Category->create(['id' => 0]),
+				$this->CategoriesLanguage->create(['name' => __d('links', 'No Category')])
+			)
+		);
 
 		//リンクデータ取得
 		$links = $this->Link->find('all', array(

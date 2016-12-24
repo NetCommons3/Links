@@ -36,7 +36,7 @@ class Link extends LinksAppModel {
 				'X-TITLE' => 'Link.title',
 				'X-LINK_URL' => 'Link.url',
 				'X-DESCRIPTION' => 'Link.description',
-				'X-CATEGORY_NAME' => 'Category.name',
+				'X-CATEGORY_NAME' => 'CategoriesLanguage.name',
 			),
 		),
 		'Topics.Topics' => array(
@@ -46,6 +46,10 @@ class Link extends LinksAppModel {
 				'path' => '/:plugin_key/:plugin_key/view/:block_id/:content_key',
 			),
 			'search_contents' => array('url')
+		),
+		//多言語
+		'M17n.M17n' => array(
+			'commonFields' => array('category_id')
 		),
 	);
 
@@ -92,10 +96,31 @@ class Link extends LinksAppModel {
 			'fields' => '',
 			'order' => '',
 			'counterCache' => array(
-				'content_count' => array('Link.is_latest' => 1),
+				'content_count' => array(
+					'Link.is_origin' => true,
+					'Link.is_latest' => true
+				),
 			),
 		),
 	);
+
+/**
+ * Called before each find operation. Return false if you want to halt the find
+ * call, otherwise return the (modified) query data.
+ *
+ * @param array $query Data used to execute this query, i.e. conditions, order, etc.
+ * @return mixed true if the operation should continue, false if it should abort; or, modified
+ *  $query to continue with new $query
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforefind
+ */
+	public function beforeFind($query) {
+		//$this->idがある場合、登録処理として判断する
+		if (Hash::get($query, 'recursive') > -1 && ! $this->id) {
+			$belongsTo = $this->Category->bindModelCategoryLang('Link.category_id');
+			$this->bindModel($belongsTo, true);
+		}
+		return parent::beforeFind($query);
+	}
 
 /**
  * Called during validation operations, before validation. Please note that custom
@@ -171,6 +196,10 @@ class Link extends LinksAppModel {
 			),
 		));
 
+		if ($this->data['Link']['url'] === 'http://') {
+			$this->data['Link']['url'] = '';
+		}
+
 		if (isset($this->data['LinkOrder'])) {
 			$this->LinkOrder->set($this->data['LinkOrder']);
 			if (! $this->LinkOrder->validates()) {
@@ -222,14 +251,7 @@ class Link extends LinksAppModel {
 		//カテゴリ名をメールに含める
 		if (Hash::get($data, 'Link.category_id')) {
 			$categoryId = Hash::get($data, 'Link.category_id');
-			$category = $this->Category->find('first', array(
-				'recursive' => -1,
-				'fields' => array('name'),
-				'conditions' => array(
-					'id' => $categoryId,
-					'language_id' => Current::read('Language.id'),
-				)
-			));
+			$category = $this->Category->getCategory($categoryId);
 			$data = Hash::merge($data, $category);
 		}
 
@@ -244,7 +266,8 @@ class Link extends LinksAppModel {
 
 		try {
 			//Link登録
-			if (! $link = $this->save(null, false)) {
+			$link = $this->save(null, false);
+			if (! $link) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

@@ -27,6 +27,7 @@ class LinksViewElementsLinksEditFormTest extends NetCommonsControllerTestCase {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 	);
 
 /**

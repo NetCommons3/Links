@@ -13,6 +13,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
+#: Links/Controller/LinkOrdersController.php:66
+msgid "No Category"
+msgstr ""
+
 #: Links/Controller/LinksController.php:154
 #: Links/Model/Link.php:149;157;158
 #: Links/Test/Case/Controller/LinksController/AddTest.php:229

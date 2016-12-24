@@ -8,7 +8,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('FrameFixture', 'Frames.Test/Fixture');
+App::uses('FramesLanguageFixture', 'Frames.Test/Fixture');
 
 /**
  * Linksプラグイン用FrameFixture
@@ -16,21 +16,21 @@ App::uses('FrameFixture', 'Frames.Test/Fixture');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Links\Test\Fixture
  */
-class Frame4linkFixture extends FrameFixture {
+class FramesLanguage4linkFixture extends FramesLanguageFixture {
 
 /**
  * Model name
  *
  * @var string
  */
-	public $name = 'Frame';
+	public $name = 'FramesLanguage';
 
 /**
  * Full Table Name
  *
  * @var string
  */
-	public $table = 'frames';
+	public $table = 'frames_languages';
 
 /**
  * Records
@@ -41,33 +41,21 @@ class Frame4linkFixture extends FrameFixture {
 		//メイン
 		array(
 			'id' => '6',
-			'room_id' => '2',
-			'box_id' => '27',
-			'plugin_key' => 'test_plugin',
-			'block_id' => '2',
-			'key' => 'frame_3',
-			'weight' => '1',
-			'is_deleted' => '0',
+			'language_id' => '2',
+			'frame_id' => '6',
+			'name' => 'Test frame main',
 		),
 		array(
 			'id' => '7',
-			'room_id' => '2',
-			'box_id' => '27',
-			'plugin_key' => 'test_plugin',
-			'block_id' => '2',
-			'key' => 'frame_4',
-			'weight' => '1',
-			'is_deleted' => '0',
+			'language_id' => '2',
+			'frame_id' => '7',
+			'name' => 'Test frame main',
 		),
 		array(
 			'id' => '8',
-			'room_id' => '2',
-			'box_id' => '27',
-			'plugin_key' => 'test_plugin',
-			'block_id' => '2',
-			'key' => 'frame_5',
-			'weight' => '1',
-			'is_deleted' => '0',
+			'language_id' => '2',
+			'frame_id' => '8',
+			'name' => 'Test frame main',
 		),
 	);
 }

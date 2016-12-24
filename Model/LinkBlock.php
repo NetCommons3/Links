@@ -44,7 +44,7 @@ class LinkBlock extends BlockBaseModel {
  *
  * @var array
  */
-	public $hasOne = array(
+	public $belongsTo = array(
 		'Block' => array(
 			'className' => 'Blocks.Block',
 			'foreignKey' => 'id',
@@ -70,6 +70,28 @@ class LinkBlock extends BlockBaseModel {
 		),
 		'Categories.Category',
 		'NetCommons.OriginalKey',
+		//多言語
+		'M17n.M17n',
+	);
+
+/**
+ * Array of virtual fields this model has. Virtual fields are aliased
+ * SQL expressions. Fields added to this property will be read as other fields in a model
+ * but will not be saveable.
+ *
+ * `public $virtualFields = array('two' => '1 + 1');`
+ *
+ * Is a simplistic example of how to set virtualFields
+ *
+ * @var array
+ * @link http://book.cakephp.org/2.0/ja/models/model-attributes.html#virtualfields
+ */
+	public $virtualFields = array(
+		'language_id' => 'LinkBlocksLanguage.language_id',
+		'name' => 'LinkBlocksLanguage.name',
+		'block_id' => 'LinkBlock.id',
+		'is_origin' => 'LinkBlocksLanguage.is_origin',
+		'is_translation' => 'LinkBlocksLanguage.is_translation',
 	);
 
 /**
@@ -90,6 +112,38 @@ class LinkBlock extends BlockBaseModel {
 			'LinkSetting' => 'Links.LinkSetting',
 			'LinkOrder' => 'Links.LinkOrder',
 		]);
+	}
+
+/**
+ * Called before each find operation. Return false if you want to halt the find
+ * call, otherwise return the (modified) query data.
+ *
+ * @param array $query Data used to execute this query, i.e. conditions, order, etc.
+ * @return mixed true if the operation should continue, false if it should abort; or, modified
+ *  $query to continue with new $query
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforefind
+ */
+	public function beforeFind($query) {
+		if (! isset($this->belongsTo['BlocksLanguage'])) {
+			$belongsTo = $this->Block->bindModelBlockLang('LinkBlock.id');
+			$this->bindModel($belongsTo, true);
+		}
+
+		$this->bindModel(array(
+			'belongsTo' => array(
+				'LinkBlocksLanguage' => array(
+					'className' => 'Blocks.BlocksLanguage',
+					'foreignKey' => false,
+					'conditions' => array(
+						'LinkBlocksLanguage.id = BlocksLanguage.id',
+						//'LinkBlocksLanguage.language_id' => Current::read('Language.id', '0')
+					),
+					'fields' => array('LinkBlocksLanguage.language_id', 'LinkBlocksLanguage.name'),
+					'order' => ''
+				),
+			)
+		), true);
+		return true;
 	}
 
 /**
@@ -168,10 +222,14 @@ class LinkBlock extends BlockBaseModel {
 	public function createLinkBlock() {
 		$linkBlock = $this->createAll(array(
 			'LinkBlock' => array(
+				'language_id' => Current::read('Language.id'),
+				'room_id' => Current::read('Room.id'),
 				'name' => __d('links', 'New Bookmark List %s', date('YmdHis')),
 			),
+			'BlocksLanguage' => array(
+				'language_id' => Current::read('Language.id'),
+			),
 		));
-
 		return Hash::merge($linkBlock, $this->LinkSetting->createBlockSetting());
 	}
 
@@ -181,18 +239,8 @@ class LinkBlock extends BlockBaseModel {
  * @return array LinkBlockデータ配列
  */
 	public function getLinkBlock() {
-		$fields = Hash::merge(
-			array(
-				$this->alias . '.*',
-				$this->Block->alias . '.*',
-			),
-			Hash::get($this->belongsTo, 'TrackableCreator.fields', array()),
-			Hash::get($this->belongsTo, 'TrackableUpdater.fields', array())
-		);
-
 		$linkBlock = $this->find('all', array(
 			'recursive' => 0,
-			'fields' => $fields,
 			'conditions' => $this->getBlockConditionById(),
 		));
 

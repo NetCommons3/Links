@@ -26,10 +26,10 @@
 		<?php if ($links) : ?>
 			<?php foreach ($categories as $category) : ?>
 				<?php if (isset($links[$category['Category']['id']])) : ?>
-					<?php if (isset($category['Category']['name'])) : ?>
+					<?php if (isset($category['CategoriesLanguage']['name'])) : ?>
 						<li>
 							<span class="nc-dropdown-block">
-								<strong><?php echo h($category['Category']['name']); ?></strong>
+								<strong><?php echo h($category['CategoriesLanguage']['name']); ?></strong>
 							</span>
 						</li>
 					<?php endif; ?>

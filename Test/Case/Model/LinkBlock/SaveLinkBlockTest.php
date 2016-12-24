@@ -11,6 +11,7 @@
 
 App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
 App::uses('LinkBlockFixture', 'Links.Test/Fixture');
+App::uses('BlocksLanguageFixture', 'Blocks.Test/Fixture');
 
 /**
  * LinkBlock::saveLinkBlock()のテスト
@@ -28,6 +29,7 @@ class LinkBlockSaveLinkBlockTest extends NetCommonsSaveTest {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.links.link',
 		'plugin.links.link_frame_setting',
 		'plugin.links.link_order',
@@ -84,12 +86,16 @@ class LinkBlockSaveLinkBlockTest extends NetCommonsSaveTest {
  */
 	public function dataProviderSave() {
 		$data['LinkBlock'] = (new LinkBlockFixture())->records[0];
+		$data['LinkBlock']['language_id'] = (new BlocksLanguageFixture())->records[0]['language_id'];
+		$data['LinkBlock']['name'] = (new BlocksLanguageFixture())->records[0]['name'];
 		$data['LinkBlock']['content_count'] = '0';
 		$data['LinkSetting']['use_workflow'] = '0';
 		$data['Frame'] = array('id' => '6');
 		$data['Block'] = array(
 			'id' => $data['LinkBlock']['id'],
 			'key' => $data['LinkBlock']['key'],
+		);
+		$data['BlocksLanguage'] = array(
 			'language_id' => $data['LinkBlock']['language_id'],
 		);
 
@@ -105,6 +111,117 @@ class LinkBlockSaveLinkBlockTest extends NetCommonsSaveTest {
 		$results[1] = Hash::insert($results[1], '0.Block.key', null);
 
 		return $results;
+	}
+
+/**
+ * Saveのテスト
+ *
+ * @param array $data 登録データ
+ * @dataProvider dataProviderSave
+ * @return void
+ */
+	public function testSave($data) {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+		if (! $this->_keyAlias) {
+			$this->_keyAlias = $this->$model->alias;
+		}
+
+		$created = !isset($data[$this->$model->alias]['id']);
+
+		//チェック用データ取得
+		if (! $created) {
+			$before = $this->$model->find('first', array(
+				'recursive' => 0,
+				'conditions' => array('LinkBlock.id' => $data[$this->$model->alias]['id']),
+			));
+		} else {
+			$max = $this->$model->find('first', array(
+				'recursive' => 0,
+				'fields' => array('LinkBlock.id'),
+				'order' => array('LinkBlock.id' => 'desc'),
+			));
+			$before[$this->$model->alias] = array();
+		}
+
+		//テスト実行
+		$result = $this->$model->$method($data);
+		$this->assertNotEmpty($result);
+
+		//idのチェック
+		if (isset($data[$this->$model->alias]['id'])) {
+			$id = $data[$this->$model->alias]['id'];
+		} elseif ($max) {
+			$id = (string)($max[$this->$model->alias]['id'] + 1);
+		} else {
+			$id = $this->$model->getLastInsertID();
+		}
+
+		//チェック
+		$actual = $this->_getActual($id, $created);
+		$expected = $this->_getExpected($id, $data, $before, $created);
+		$this->assertEquals($expected, $actual);
+	}
+
+/**
+ * 結果データ取得
+ *
+ * @param int $id ID
+ * @param bool $created 作成かどうか
+ * @return array
+ */
+	protected function _getActual($id, $created) {
+		$model = $this->_modelName;
+
+		//登録データ取得
+		$actual = $this->$model->find('first', array(
+			'recursive' => 0,
+			'conditions' => array('LinkBlock.id' => $id),
+		));
+
+		if ($created) {
+			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'created');
+			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'created_user');
+			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified');
+			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified_user');
+		} else {
+			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified');
+			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified_user');
+		}
+
+		return $actual[$this->$model->alias];
+	}
+
+/**
+ * 期待値の取得
+ *
+ * @param int $id ID
+ * @param array $data 登録データ
+ * @param array $before 登録前データ
+ * @param bool $created 作成かどうか
+ * @return array
+ */
+	protected function _getExpected($id, $data, $before, $created) {
+		$model = $this->_modelName;
+
+		if ($created && $this->$model->hasField('key')) {
+			$data[$this->$model->alias]['key'] = OriginalKeyBehavior::generateKey(
+				$this->_keyAlias, $this->$model->useDbConfig
+			);
+		}
+
+		$expected[$this->$model->alias] = Hash::merge(
+			$before[$this->$model->alias],
+			$data[$this->$model->alias]
+		);
+		$expected[$this->$model->alias]['id'] = $id;
+		$expected[$this->$model->alias] = Hash::remove($expected[$this->$model->alias], 'modified');
+		$expected[$this->$model->alias] = Hash::remove($expected[$this->$model->alias], 'modified_user');
+		$expected[$this->$model->alias]['block_id'] = $id;
+		$expected[$this->$model->alias]['is_origin'] = true;
+		$expected[$this->$model->alias]['is_translation'] = false;
+
+		return $expected[$this->$model->alias];
 	}
 
 /**

@@ -27,6 +27,7 @@ class LinkFrameSettingGetLinkFrameSettingTest extends NetCommonsGetTest {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.links.link',
 		'plugin.links.link_frame_setting',
 		'plugin.links.link_order',

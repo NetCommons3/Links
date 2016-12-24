@@ -27,6 +27,7 @@ class LinkBlockGetLinkBlockTest extends WorkflowGetTest {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.links.link',
 		'plugin.links.link_frame_setting',
 		'plugin.links.link_order',
@@ -76,7 +77,7 @@ class LinkBlockGetLinkBlockTest extends WorkflowGetTest {
 		$result = $this->$model->$methodName();
 
 		//チェック
-		$expected = array('LinkBlock', 'Block', 'LinkSetting');
+		$expected = array('LinkBlock', 'Block', 'BlocksLanguage', 'LinkBlocksLanguage', 'LinkSetting');
 		$this->assertEquals($expected, array_keys($result));
 
 		$this->assertEquals($blockId, Hash::get($result, 'LinkBlock.id'));
@@ -85,7 +86,7 @@ class LinkBlockGetLinkBlockTest extends WorkflowGetTest {
 		$this->assertEquals($blockKey, Hash::get($result, 'LinkBlock.key'));
 
 		$this->assertEquals($blockId, Hash::get($result, 'Block.id'));
-		$this->assertEquals('2', Hash::get($result, 'Block.language_id'));
+		$this->assertEquals('2', Hash::get($result, 'BlocksLanguage.language_id'));
 		$this->assertEquals($roomId, Hash::get($result, 'Block.room_id'));
 		$this->assertEquals($this->plugin, Hash::get($result, 'Block.plugin_key'));
 		$this->assertEquals($blockKey, Hash::get($result, 'Block.key'));
