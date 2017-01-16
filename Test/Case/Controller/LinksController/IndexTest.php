@@ -29,6 +29,7 @@ class LinksControllerIndexTest extends WorkflowControllerIndexTest {
 		'plugin.categories.category_order',
 		'plugin.categories.categories_language',
 		'plugin.links.frame4link',
+		'plugin.links.frame_public_language4link',
 		'plugin.links.frames_language4link',
 		'plugin.links.link',
 		'plugin.links.link_frame_setting',
