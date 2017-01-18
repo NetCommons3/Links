@@ -113,6 +113,7 @@ class LinkSaveTest extends NetCommonsModelTestCase {
 			'id' => '9',
 			'is_origin' => true,
 			'is_translation' => false,
+			'is_original_copy' => false,
 		));
 		$expected['LinkOrder'] = Hash::merge($expected['LinkOrder'], array(
 			'link_key' => $key,
