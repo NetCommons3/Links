@@ -255,6 +255,9 @@ class LinkOrdersControllerEditTest extends NetCommonsControllerTestCase {
 			'Session' => array('setFlash')
 		)));
 
+		//ログイン
+		TestAuthGeneral::login($this);
+
 		//テストデータ
 		$frameId = '6';
 		$blockId = '2';
