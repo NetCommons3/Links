@@ -252,16 +252,19 @@ class LinkOrdersControllerEditTest extends NetCommonsControllerTestCase {
  */
 	public function testEditPostValidationError() {
 		$this->generateNc(Inflector::camelize($this->_controller), array('components' => array(
-			'Session' => array('setFlash')
+			'Flash' => array('set')
 		)));
+
+		//ログイン
+		TestAuthGeneral::login($this);
 
 		//テストデータ
 		$frameId = '6';
 		$blockId = '2';
 
 		//テスト実行
-		$this->controller->Session->expects($this->once())
-			->method('setFlash')
+		$this->controller->Flash->expects($this->once())
+			->method('set')
 			->will($this->returnValue(null));
 
 		$this->_testPostAction('put', Hash::insert($this->__data(), 'LinkOrders.{n}.LinkOrder.weight', 'aaaa'),
