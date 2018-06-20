@@ -89,12 +89,12 @@ class LinkFrameSetting extends LinksAppModel {
 		$files = Hash::sort($files, '{n}', 'asc');
 
 		$this->categorySeparators = array(
-			array(
+			null => array(
 				'key' => null,
 				'name' => __d('links', '(no line)'),
 				'style' => null
 			),
-			array(
+			self::CATEGORY_SEPARATOR_DEFAULT => array(
 				'key' => self::CATEGORY_SEPARATOR_DEFAULT,
 				'name' => '',
 				'style' => ''
@@ -103,7 +103,7 @@ class LinkFrameSetting extends LinksAppModel {
 		foreach ($files as $file) {
 			$info = getimagesize($dir->pwd() . DS . $file);
 			$img = Router::url('/') . Inflector::underscore($this->plugin) . '/img/line/' . $file;
-			$this->categorySeparators[] = array(
+			$this->categorySeparators[$file] = array(
 				'key' => $file,
 				'name' => '',
 				'style' => 'background-image: url(' . $img . '); ' .
@@ -117,27 +117,27 @@ class LinkFrameSetting extends LinksAppModel {
 		$files = $dir->find('.*\..*');
 		$files = Hash::sort($files, '{n}', 'asc');
 		$this->listStyles = array(
-			array(
+			null => array(
 				'key' => null,
 				'name' => '',
 				'style' => 'list-style-type: ' . self::LINE_STYLE_NONE . ';'
 			),
-			array(
+			self::LINE_STYLE_DISC => array(
 				'key' => self::LINE_STYLE_DISC,
 				'name' => '',
 				'style' => 'list-style-type: ' . self::LINE_STYLE_DISC . ';'
 			),
-			array(
+			self::LINE_STYLE_CIRCLE => array(
 				'key' => self::LINE_STYLE_CIRCLE,
 				'name' => '',
 				'style' => 'list-style-type: ' . self::LINE_STYLE_CIRCLE . ';'
 			),
-			array(
+			self::LINE_STYLE_LOWER_ALPHA => array(
 				'key' => self::LINE_STYLE_LOWER_ALPHA,
 				'name' => '',
 				'style' => 'list-style-type: ' . self::LINE_STYLE_LOWER_ALPHA . ';'
 			),
-			array(
+			self::LINE_STYLE_UPPER_ALPHA => array(
 				'key' => self::LINE_STYLE_UPPER_ALPHA,
 				'name' => '',
 				'style' => 'list-style-type: ' . self::LINE_STYLE_UPPER_ALPHA . ';'
@@ -147,7 +147,7 @@ class LinkFrameSetting extends LinksAppModel {
 		foreach ($files as $file) {
 			$info = getimagesize($dir->pwd() . DS . $file);
 			$img = Router::url('/') . Inflector::underscore($this->plugin) . '/img/mark/' . $file;
-			$this->listStyles[] = array(
+			$this->listStyles[$file] = array(
 				'key' => $file,
 				'name' => '',
 				'style' => 'list-style-type: none; ' . 'list-style-image: url(' . $img . '); '
@@ -207,7 +207,7 @@ class LinkFrameSetting extends LinksAppModel {
 			'category_separator_line' => array(
 				'inList' => array(
 					'rule' => array('inList',
-						array_keys(Hash::combine($this->categorySeparators, '{n}.key', '{n}.key'))
+						array_keys($this->categorySeparators)
 					),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => true,
@@ -216,7 +216,7 @@ class LinkFrameSetting extends LinksAppModel {
 			'list_style' => array(
 				'inList' => array(
 					'rule' => array('inList',
-						array_keys(Hash::combine($this->listStyles, '{n}.key', '{n}.key'))
+						array_keys($this->listStyles)
 					),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => true,
@@ -255,15 +255,21 @@ class LinkFrameSetting extends LinksAppModel {
 
 		//カテゴリ間の区切り線
 		$separatorLine = $linkFrameSetting['LinkFrameSetting']['category_separator_line'];
-
-		$extract = Hash::extract($this->categorySeparators, '{n}[key=' . $separatorLine . ']');
-		$style = Hash::get($extract, '0.style');
+		if (isset($this->categorySeparators[$separatorLine])) {
+			$style = $this->categorySeparators[$separatorLine]['style'];
+		} else {
+			$style = null;
+		}
 		$linkFrameSetting['LinkFrameSetting']['category_separator_line_css'] = $style;
 
 		//リストマーク
 		$listStyle = $linkFrameSetting['LinkFrameSetting']['list_style'];
-		$linkFrameSetting['LinkFrameSetting']['list_style_css'] =
-				Hash::get(Hash::extract($this->listStyles, '{n}[key=' . $listStyle . ']'), '0.style');
+		if (isset($this->listStyles[$listStyle])) {
+			$style = $this->listStyles[$listStyle]['style'];
+		} else {
+			$style = null;
+		}
+		$linkFrameSetting['LinkFrameSetting']['list_style_css'] = $style;
 
 		return $linkFrameSetting;
 	}

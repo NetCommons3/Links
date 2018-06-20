@@ -73,7 +73,7 @@ class Link extends LinksAppModel {
 			'foreignKey' => false,
 			'conditions' => 'LinkOrder.link_key=Link.key',
 			'fields' => '',
-			'order' => array('LinkOrder.weight' => 'asc')
+			//'order' => array('LinkOrder.weight' => 'asc')
 		),
 		'Category' => array(
 			'className' => 'Categories.Category',
@@ -87,7 +87,7 @@ class Link extends LinksAppModel {
 			'foreignKey' => false,
 			'conditions' => 'CategoryOrder.category_key=Category.key',
 			'fields' => '',
-			'order' => array('CategoryOrder.weight' => 'asc')
+			//'order' => array('CategoryOrder.weight' => 'asc')
 		),
 		'Block' => array(
 			'className' => 'Blocks.Block',

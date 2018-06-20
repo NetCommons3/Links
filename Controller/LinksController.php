@@ -64,18 +64,26 @@ class LinksController extends LinksAppController {
  * @return void
  */
 	public function beforeFilter() {
+$this->Link->getDataSource()->getLog();
+
+//DebugTimer::start('linklist', __METHOD__ . '(' . __LINE__ . ') ');
 		parent::beforeFilter();
 		$this->Auth->allow('link');
-
+//DebugTimer::stop('linklist');
+//
+//DebugTimer::start('linklist', __METHOD__ . '(' . __LINE__ . ') ');
 		if (! Current::read('Block.id')) {
 			return $this->setAction('emptyRender');
 		}
-
+//DebugTimer::stop('linklist');
+//
+//DebugTimer::start('linklist', __METHOD__ . '(' . __LINE__ . ') ');
 		$linkBlock = $this->LinkBlock->getLinkBlock();
 		if (! $linkBlock) {
 			return $this->setAction('throwBadRequest');
 		}
 		$this->set('linkBlock', $linkBlock['LinkBlock']);
+//DebugTimer::stop('linklist');
 	}
 
 /**
@@ -84,12 +92,15 @@ class LinksController extends LinksAppController {
  * @return void
  */
 	public function index() {
+//DebugTimer::start('linklist', __METHOD__ . '(' . __LINE__ . ') ');
 		$linkFrameSetting = $this->LinkFrameSetting->getLinkFrameSetting(true);
 		if (! $linkFrameSetting) {
 			return $this->throwBadRequest();
 		}
 		$this->set('linkFrameSetting', $linkFrameSetting['LinkFrameSetting']);
-
+//DebugTimer::stop('linklist');
+//
+//DebugTimer::start('linklist', __METHOD__ . '(' . __LINE__ . ') ');
 		//カテゴリ
 		array_unshift(
 			$this->viewVars['categories'],
@@ -98,10 +109,24 @@ class LinksController extends LinksAppController {
 				$this->CategoriesLanguage->create(['name' => ''])
 			)
 		);
-
+//DebugTimer::stop('linklist');
+//
+//DebugTimer::start('linklist', __METHOD__ . '(' . __LINE__ . ') ');
 		//取得
-		$links = $this->Link->getWorkflowContents('all', array(
+		$results = $this->Link->getWorkflowContents('all', array(
 			'recursive' => 0,
+			'fields' => [
+				'Link.id',
+				'Link.block_id',
+				'Link.category_id',
+				'Link.language_id',
+				'Link.key',
+				'Link.status',
+				'Link.url',
+				'Link.title',
+				'Link.description',
+				'Link.click_count',
+			],
 			'conditions' => array(
 				'Link.block_id' => Current::read('Block.id'),
 			),
@@ -110,7 +135,14 @@ class LinksController extends LinksAppController {
 				'LinkOrder.weight' => 'asc',
 			),
 		));
-		$this->set('links', Hash::combine($links, '{n}.Link.id', '{n}', '{n}.Category.id'));
+		$links = [];
+		foreach ($results as $link) {
+			$categoryId = $link['Link']['category_id'];
+			$linkId = $link['Link']['id'];
+			$links[$categoryId][$linkId] = $link;
+		}
+		$this->set('links', $links);
+//DebugTimer::stop('linklist');
 	}
 
 /**
