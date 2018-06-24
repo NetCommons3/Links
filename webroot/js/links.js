@@ -197,7 +197,7 @@ NetCommonsApp.controller('LinkOrders', ['$scope', function($scope) {
     angular.forEach(data.categories, function(value) {
       $scope.categories.push(value);
 
-      categoryId = value.category.id;
+      categoryId = value.Category.id;
 
       if (! angular.isUndefined(data.links[categoryId])) {
         angular.forEach(data.links[categoryId], function(link) {

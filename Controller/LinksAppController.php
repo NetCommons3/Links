@@ -29,4 +29,13 @@ class LinksAppController extends AppController {
 		'Pages.PageLayout',
 		'Security',
 	);
+//
+///**
+// * beforeFilter
+// *
+// * @return void
+// */
+//	public function beforeFilter() {
+//$this->Link->getDataSource()->getLog();
+//	}
 }
