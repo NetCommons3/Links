@@ -48,6 +48,7 @@ class LinkBlock extends BlockBaseModel {
 		'Block' => array(
 			'className' => 'Blocks.Block',
 			'foreignKey' => 'id',
+			'type' => 'INNER',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -134,6 +135,7 @@ class LinkBlock extends BlockBaseModel {
 				'LinkBlocksLanguage' => array(
 					'className' => 'Blocks.BlocksLanguage',
 					'foreignKey' => false,
+					'type' => 'INNER',
 					'conditions' => array(
 						'LinkBlocksLanguage.id = BlocksLanguage.id',
 						//'LinkBlocksLanguage.language_id' => Current::read('Language.id', '0')
@@ -236,10 +238,12 @@ class LinkBlock extends BlockBaseModel {
 /**
  * LinkBlockデータ取得
  *
+ * @param array $fields 取得するカラムリスト
  * @return array LinkBlockデータ配列
  */
-	public function getLinkBlock() {
-		$linkBlock = $this->find('all', array(
+	public function getLinkBlock($fields = null) {
+		$linkBlock = $this->find('first', array(
+			'fields' => $fields,
 			'recursive' => 0,
 			'conditions' => $this->getBlockConditionById(),
 		));
@@ -247,7 +251,8 @@ class LinkBlock extends BlockBaseModel {
 		if (! $linkBlock) {
 			return false;
 		}
-		return Hash::merge($linkBlock[0], $this->LinkSetting->getLinkSetting());
+		$linkBlock = Hash::merge($linkBlock, $this->LinkSetting->getLinkSetting());
+		return $linkBlock;
 	}
 
 /**

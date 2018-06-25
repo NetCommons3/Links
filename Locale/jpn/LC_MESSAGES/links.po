@@ -81,7 +81,7 @@ msgstr "一覧表示"
 
 #: Links/View/Elements/LinkFrameSettings/edit_form.ctp:41
 msgid "Show description"
-msgstr ""
+msgstr "説明付き"
 
 #: Links/View/Elements/LinkFrameSettings/edit_form.ctp:51
 msgid "Line"

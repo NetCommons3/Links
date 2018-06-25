@@ -11,11 +11,17 @@
 
 $LinkFrameSetting = ClassRegistry::init('Links.LinkFrameSetting');
 
-$categorySeparators = Hash::combine($LinkFrameSetting->categorySeparators, '{n}.key', '{n}');
-$listStyles = Hash::combine($LinkFrameSetting->listStyles, '{n}.key', '{n}');
-$linkFrameSetting = NetCommonsAppController::camelizeKeyRecursive(
-	Hash::get($this->data, 'LinkFrameSetting', array())
-);
+$categorySeparators = $LinkFrameSetting->categorySeparators;
+$listStyles = $LinkFrameSetting->listStyles;
+if (isset($this->data['LinkFrameSetting'])) {
+	$linkFrameSetting = $this->data['LinkFrameSetting'];
+	$currentCategorySepaLine = $this->data['LinkFrameSetting']['category_separator_line'];
+	$currentListStyle = $this->data['LinkFrameSetting']['list_style'];
+} else {
+	$linkFrameSetting = [];
+	$currentCategorySepaLine = '';
+	$currentListStyle = '';
+}
 ?>
 
 <?php echo $this->NetCommonsHtml->css('/links/css/style.css'); ?>
@@ -25,8 +31,8 @@ $linkFrameSetting = NetCommonsAppController::camelizeKeyRecursive(
 	ng-controller="LinkFrameSettings"
 	ng-init="initialize(<?php echo h(json_encode(array(
 		'linkFrameSetting' => $linkFrameSetting,
-		'currentCategorySeparatorLine' => $categorySeparators[Hash::get($this->data, 'LinkFrameSetting.category_separator_line', '')],
-		'currentListStyle' => $listStyles[Hash::get($this->data, 'LinkFrameSetting.list_style', '')],
+		'currentCategorySeparatorLine' => $categorySeparators[$currentCategorySepaLine],
+		'currentListStyle' => $listStyles[$currentListStyle],
 	))); ?>)">
 
 	<?php echo $this->BlockTabs->main(BlockTabsHelper::MAIN_TAB_FRAME_SETTING); ?>

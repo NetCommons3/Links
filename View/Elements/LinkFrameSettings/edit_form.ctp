@@ -51,7 +51,7 @@ $LinkFrameSetting = ClassRegistry::init('Links.LinkFrameSetting');
 					__d('links', 'Line')
 				); ?>
 			<?php echo $this->NetCommonsForm->hidden('LinkFrameSetting.category_separator_line', array(
-					'ng-value' => 'linkFrameSetting.categorySeparatorLine'
+					'ng-value' => 'linkFrameSetting.category_separator_line'
 				)); ?>
 			<?php $this->NetCommonsForm->unlockField('LinkFrameSetting.category_separator_line'); ?>
 
@@ -94,7 +94,7 @@ $LinkFrameSetting = ClassRegistry::init('Links.LinkFrameSetting');
 					__d('links', 'Marker')
 				); ?>
 			<?php echo $this->NetCommonsForm->hidden('LinkFrameSetting.list_style', array(
-					'ng-value' => 'linkFrameSetting.listStyle'
+					'ng-value' => 'linkFrameSetting.list_style'
 				)); ?>
 			<?php $this->NetCommonsForm->unlockField('LinkFrameSetting.list_style'); ?>
 

@@ -70,8 +70,18 @@ class LinksController extends LinksAppController {
 		if (! Current::read('Block.id')) {
 			return $this->setAction('emptyRender');
 		}
-
-		$linkBlock = $this->LinkBlock->getLinkBlock();
+		$this->LinkBlock->unbindModel(['belongsTo' => ['TrackableCreator', 'TrackableUpdater']], true);
+		$linkBlock = $this->LinkBlock->getLinkBlock([
+			'LinkBlock.id',
+			'LinkBlock.room_id',
+			'LinkBlock.plugin_key',
+			'LinkBlock.key',
+			'LinkBlock.public_type',
+			'LinkBlock.publish_start',
+			'LinkBlock.publish_end',
+			'LinkBlock.content_count',
+			'name'
+		]);
 		if (! $linkBlock) {
 			return $this->setAction('throwBadRequest');
 		}
@@ -100,8 +110,21 @@ class LinksController extends LinksAppController {
 		);
 
 		//取得
-		$links = $this->Link->getWorkflowContents('all', array(
+		$this->Link->unbindModel(['belongsTo' => ['TrackableCreator', 'TrackableUpdater']], true);
+		$results = $this->Link->getWorkflowContents('all', array(
 			'recursive' => 0,
+			'fields' => [
+				'Link.id',
+				'Link.block_id',
+				'Link.category_id',
+				'Link.language_id',
+				'Link.key',
+				'Link.status',
+				'Link.url',
+				'Link.title',
+				'Link.description',
+				'Link.click_count',
+			],
 			'conditions' => array(
 				'Link.block_id' => Current::read('Block.id'),
 			),
@@ -110,7 +133,13 @@ class LinksController extends LinksAppController {
 				'LinkOrder.weight' => 'asc',
 			),
 		));
-		$this->set('links', Hash::combine($links, '{n}.Link.id', '{n}', '{n}.Category.id'));
+		$links = [];
+		foreach ($results as $link) {
+			$categoryId = (int)$link['Link']['category_id'];
+			$linkId = $link['Link']['id'];
+			$links[$categoryId][$linkId] = $link;
+		}
+		$this->set('links', $links);
 	}
 
 /**

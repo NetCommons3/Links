@@ -68,7 +68,7 @@ class LinkOrdersController extends LinksAppController {
 		);
 
 		//リンクデータ取得
-		$links = $this->Link->find('all', array(
+		$results = $this->Link->find('all', array(
 			'recursive' => 0,
 			'conditions' => array(
 				'Link.block_id' => Current::read('Block.id'),
@@ -79,7 +79,16 @@ class LinkOrdersController extends LinksAppController {
 				'LinkOrder.weight' => 'asc',
 			),
 		));
-		$this->set('links', Hash::combine($links, '{n}.LinkOrder.weight', '{n}', '{n}.Link.category_id'));
+
+		$links = [];
+		$linkOrders = [];
+		foreach ($results as $result) {
+			$categoryId = $result['Link']['category_id'];
+			$linkOrder = $result['LinkOrder'];
+			$links[$categoryId][$linkOrder['id']] = $result;
+			$linkOrders[$linkOrder['id']] = $result;
+		}
+		$this->set('links', $links);
 
 		if ($this->request->is('put')) {
 			if ($this->LinkOrder->saveLinkOrders($this->data)) {
@@ -88,7 +97,7 @@ class LinkOrdersController extends LinksAppController {
 			$this->NetCommons->handleValidationError($this->LinkOrder->validationErrors);
 
 		} else {
-			$this->request->data['LinkOrders'] = Hash::combine($links, '{n}.LinkOrder.id', '{n}');
+			$this->request->data['LinkOrders'] = $linkOrders;
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
 		}
