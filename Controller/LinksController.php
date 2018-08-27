@@ -101,13 +101,10 @@ class LinksController extends LinksAppController {
 		$this->set('linkFrameSetting', $linkFrameSetting['LinkFrameSetting']);
 
 		//カテゴリ
-		array_unshift(
-			$this->viewVars['categories'],
-			Hash::merge(
-				$this->Category->create(['id' => 0]),
-				$this->CategoriesLanguage->create(['name' => ''])
-			)
-		);
+		array_unshift($this->viewVars['categories'], (
+			$this->Category->create(['id' => 0])
+			+ $this->CategoriesLanguage->create(['name' => ''])
+		));
 
 		//取得
 		$this->Link->unbindModel(['belongsTo' => ['TrackableCreator', 'TrackableUpdater']], true);
@@ -163,11 +160,17 @@ class LinksController extends LinksAppController {
 		}
 		$this->set('link', $link);
 
+		$categoryId = isset($link['Link']['category_id'])
+			? $link['Link']['category_id']
+			: null;
 		$category = Hash::extract(
 			$this->viewVars['categories'],
-			'{n}.Category[id=' . $link['Link']['category_id'] . ']'
+			'{n}.Category[id=' . $categoryId . ']'
 		);
-		$this->set('category', Hash::get($category, '0', array()));
+		$category = isset($category[0])
+			? $category[0]
+			: [];
+		$this->set('category', $category);
 
 		//if (! $this->Link->updateCount($link['Link']['id'])) {
 		//	return $this->throwBadRequest();
@@ -184,7 +187,9 @@ class LinksController extends LinksAppController {
  * @throws SocketException
  */
 	public function get() {
-		$url = Hash::get($this->request->query, 'url');
+		$url = isset($this->request->query['url'])
+			? $this->request->query['url']
+			: null;
 		if (! $url || $url === 'http://') {
 			return $this->throwBadRequest(
 				sprintf(__d('net_commons', 'Please input %s.'), __d('links', 'URL'))
@@ -242,11 +247,16 @@ class LinksController extends LinksAppController {
 			//登録処理
 			$data = $this->data;
 			$data['Link']['status'] = $this->Workflow->parseStatus();
+			$categoryId = isset($data['Link']['category_id'])
+				? $data['Link']['category_id']
+				: null;
 			$category = Hash::extract(
 				$this->viewVars['categories'],
-				'{n}.Category[id=' . Hash::get($data, 'Link.category_id', '') . ']'
+				'{n}.Category[id=' . $categoryId . ']'
 			);
-			$data['LinkOrder']['category_key'] = Hash::get($category, '0.key', '');
+			$data['LinkOrder']['category_key'] = isset($category[0]['key'])
+				? $category[0]['key']
+				: '';
 			unset($data['Link']['id'], $data['LinkOrder']['weight']);
 
 			if ($this->Link->saveLink($data)) {
@@ -255,12 +265,10 @@ class LinksController extends LinksAppController {
 			$this->NetCommons->handleValidationError($this->Link->validationErrors);
 
 		} else {
-			$this->request->data = Hash::merge($this->request->data,
-				$this->Link->create(array(
+			$this->request->data += $this->Link->create(array(
 					'url' => 'http://'
-				)),
-				$this->LinkOrder->create()
-			);
+				));
+			$this->request->data += $this->LinkOrder->create();
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
 		}
@@ -294,11 +302,16 @@ class LinksController extends LinksAppController {
 			//登録処理
 			$data = $this->data;
 			$data['Link']['status'] = $this->Workflow->parseStatus();
+			$categoryId = isset($data['Link']['category_id'])
+				? $data['Link']['category_id']
+				: null;
 			$category = Hash::extract(
 				$this->viewVars['categories'],
-				'{n}.Category[id=' . Hash::get($data, 'Link.category_id', '') . ']'
+				'{n}.Category[id=' . $categoryId . ']'
 			);
-			$data['LinkOrder']['category_key'] = Hash::get($category, '0.key', '');
+			$data['LinkOrder']['category_key'] = isset($category[0]['key'])
+				? $category[0]['key']
+				: '';
 			unset($data['Link']['id']);
 
 			if ($this->Link->saveLink($data)) {

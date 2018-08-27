@@ -20,7 +20,7 @@ $LinkFrameSetting = ClassRegistry::init('Links.LinkFrameSetting');
 <?php
 	$displayTypeDomId = $this->NetCommonsForm->domId('LinkFrameSetting.display_type');
 ?>
-<div ng-init="<?php echo $displayTypeDomId . '=' . Hash::get($this->data, 'LinkFrameSetting.display_type'); ?>">
+<div ng-init="<?php echo $displayTypeDomId . '=' . $this->data['LinkFrameSetting']['display_type']; ?>">
 	<div class="form-group row link-frame-setting-display-type">
 		<div class="col-xs-12">
 			<?php echo $this->NetCommonsForm->input('LinkFrameSetting.display_type', array(

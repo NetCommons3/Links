@@ -56,16 +56,23 @@ class LinkOrdersController extends LinksAppController {
 		if (! $linkBlock) {
 			return $this->throwBadRequest();
 		}
-		$this->set('linkBlock', $linkBlock['LinkBlock']);
 
-		//カテゴリ
-		array_unshift(
-			$this->viewVars['categories'],
-			Hash::merge(
-				$this->Category->create(['id' => 0]),
-				$this->CategoriesLanguage->create(['name' => __d('links', 'No Category')])
-			)
-		);
+		if ($this->request->is('put')) {
+			if ($this->LinkOrder->saveLinkOrders($this->data)) {
+				return $this->redirect(NetCommonsUrl::backToPageUrl());
+			}
+			$this->NetCommons->handleValidationError($this->LinkOrder->validationErrors);
+
+		} else {
+			//カテゴリ
+			array_unshift($this->viewVars['categories'], (
+				$this->Category->create(['id' => 0])
+				+ $this->CategoriesLanguage->create(['name' => __d('links', 'No Category')])
+			));
+
+			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Block'] = Current::read('Block');
+		}
 
 		//リンクデータ取得
 		$results = $this->Link->find('all', array(
@@ -88,19 +95,9 @@ class LinkOrdersController extends LinksAppController {
 			$links[$categoryId][$linkOrder['id']] = $result;
 			$linkOrders[$linkOrder['id']] = $result;
 		}
+		$this->request->data['LinkOrders'] = $linkOrders;
 		$this->set('links', $links);
-
-		if ($this->request->is('put')) {
-			if ($this->LinkOrder->saveLinkOrders($this->data)) {
-				return $this->redirect(NetCommonsUrl::backToPageUrl());
-			}
-			$this->NetCommons->handleValidationError($this->LinkOrder->validationErrors);
-
-		} else {
-			$this->request->data['LinkOrders'] = $linkOrders;
-			$this->request->data['Frame'] = Current::read('Frame');
-			$this->request->data['Block'] = Current::read('Block');
-		}
+		$this->set('linkBlock', $linkBlock['LinkBlock']);
 	}
 
 }

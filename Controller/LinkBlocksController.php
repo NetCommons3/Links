@@ -140,7 +140,7 @@ class LinkBlocksController extends LinksAppController {
 			if (! $linkBlock) {
 				return $this->throwBadRequest();
 			}
-			$this->request->data = Hash::merge($this->request->data, $linkBlock);
+			$this->request->data += $linkBlock;
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
