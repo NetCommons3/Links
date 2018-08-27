@@ -57,10 +57,10 @@ echo $this->NetCommonsHtml->script('/links/js/links.js');
 	</h1>
 
 	<div class="clearfix text-muted link-view-info">
-		<?php if (Hash::get($category, 'name')) : ?>
+		<?php if (isset($category['name']) && $category['name']) : ?>
 			<div class="pull-left link-view-category">
 				<?php echo __d('categories', 'Category'); ?>:
-				<?php echo h(Hash::get($category, 'name')); ?>
+				<?php echo h($category['name']); ?>
 			</div>
 		<?php endif; ?>
 
@@ -68,7 +68,7 @@ echo $this->NetCommonsHtml->script('/links/js/links.js');
 			<?php echo __d('net_commons', 'Created:'); ?>
 			<?php echo $this->NetCommonsHtml->handleLink($link, ['avatar' => true], [], 'TrackableCreator'); ?>
 			<span class="link-view-created-datetime">
-				(<?php echo $this->NetCommonsHtml->dateFormat(Hash::get($link, 'Link.created')); ?>)
+				(<?php echo $this->NetCommonsHtml->dateFormat($link['Link']['created']); ?>)
 			</span>
 		</div>
 
@@ -76,12 +76,12 @@ echo $this->NetCommonsHtml->script('/links/js/links.js');
 			<?php echo __d('net_commons', 'Modified:'); ?>
 			<?php echo $this->NetCommonsHtml->handleLink($link, ['avatar' => true], [], 'TrackableUpdater'); ?>
 			<span class="link-view-created-datetime">
-				(<?php echo $this->NetCommonsHtml->dateFormat(Hash::get($link, 'Link.modified')); ?>)
+				(<?php echo $this->NetCommonsHtml->dateFormat($link['Link']['modified']); ?>)
 			</span>
 		</div>
 	</div>
 
 	<article>
-		<?php echo h(nl2br(Hash::get($link, 'Link.description'))); ?>
+		<?php echo h(nl2br($link['Link']['description'])); ?>
 	</article>
 </article>

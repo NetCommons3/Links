@@ -158,7 +158,7 @@ class LinkBlock extends BlockBaseModel {
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
+		$this->validate = array_merge($this->validate, array(
 			'language_id' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
@@ -187,7 +187,7 @@ class LinkBlock extends BlockBaseModel {
 		if (isset($this->data['LinkSetting'])) {
 			$this->LinkSetting->set($this->data['LinkSetting']);
 			if (! $this->LinkSetting->validates()) {
-				$this->validationErrors = Hash::merge(
+				$this->validationErrors = array_merge(
 					$this->validationErrors, $this->LinkSetting->validationErrors
 				);
 				return false;
@@ -232,7 +232,7 @@ class LinkBlock extends BlockBaseModel {
 				'language_id' => Current::read('Language.id'),
 			),
 		));
-		return Hash::merge($linkBlock, $this->LinkSetting->createBlockSetting());
+		return ($linkBlock + $this->LinkSetting->createBlockSetting());
 	}
 
 /**
@@ -251,8 +251,7 @@ class LinkBlock extends BlockBaseModel {
 		if (! $linkBlock) {
 			return false;
 		}
-		$linkBlock = Hash::merge($linkBlock, $this->LinkSetting->getLinkSetting());
-		return $linkBlock;
+		return ($linkBlock + $this->LinkSetting->getLinkSetting());
 	}
 
 /**
@@ -274,12 +273,12 @@ class LinkBlock extends BlockBaseModel {
 
 		try {
 			//登録処理
-			if (Hash::get($data, $this->alias . '.id')) {
+			if (isset($data[$this->alias]['id'])) {
 				if (! $this->save(null, false)) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
 			} else {
-				//BlockBehabiorで登録するため、useTableをfalseにする
+				//BlockBehaviorで登録するため、useTableをfalseにする
 				$this->useTable = false;
 				$this->save(null, false);
 			}

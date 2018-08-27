@@ -36,7 +36,7 @@ class LinkOrder extends LinksAppModel {
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
+		$this->validate = array_merge($this->validate, array(
 			'block_key' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
@@ -78,7 +78,7 @@ class LinkOrder extends LinksAppModel {
  */
 	public function beforeSave($options = array()) {
 		if (isset($this->data[$this->alias]['link_key']) &&
-				! Hash::get($this->data[$this->alias], 'weight') &&
+				! isset($this->data[$this->alias]['weight']) &&
 				array_key_exists('category_key', $this->data[$this->alias])) {
 
 			$before = $this->find('first', array(
