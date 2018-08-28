@@ -115,7 +115,10 @@ class Link extends LinksAppModel {
  */
 	public function beforeFind($query) {
 		//$this->idがある場合、登録処理として判断する
-		if (Hash::get($query, 'recursive') > -1 && ! $this->id) {
+		$recursive = isset($query['recursive'])
+			? $query['recursive']
+			: null;
+		if ($recursive > -1 && ! $this->id) {
 			$belongsTo = $this->Category->bindModelCategoryLang('Link.category_id');
 			$this->bindModel($belongsTo, true);
 		}
@@ -132,7 +135,7 @@ class Link extends LinksAppModel {
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
+		$this->validate = array_merge($this->validate, array(
 			'block_id' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
@@ -203,7 +206,7 @@ class Link extends LinksAppModel {
 		if (isset($this->data['LinkOrder'])) {
 			$this->LinkOrder->set($this->data['LinkOrder']);
 			if (! $this->LinkOrder->validates()) {
-				$this->validationErrors = Hash::merge(
+				$this->validationErrors = array_merge(
 					$this->validationErrors, $this->LinkOrder->validationErrors
 				);
 				return false;
@@ -249,10 +252,8 @@ class Link extends LinksAppModel {
 		]);
 
 		//カテゴリ名をメールに含める
-		if (Hash::get($data, 'Link.category_id')) {
-			$categoryId = Hash::get($data, 'Link.category_id');
-			$category = $this->Category->getCategory($categoryId);
-			$data = Hash::merge($data, $category);
+		if (! empty($data['Link']['category_id'])) {
+			$data += $this->Category->getCategory($data['Link']['category_id']);
 		}
 
 		//トランザクションBegin

@@ -34,7 +34,7 @@ $tokens = $this->Token->getToken('Link',
 echo $this->NetCommonsHtml->css('/links/css/style.css');
 echo $this->NetCommonsHtml->script('/links/js/links.js');
 
-$displayType = Hash::get($linkFrameSetting, 'display_type');
+$displayType = $linkFrameSetting['display_type'];
 ?>
 
 <div class="nc-content-list" ng-controller="LinksIndex"
