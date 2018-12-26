@@ -148,7 +148,7 @@ NetCommonsApp.controller('LinkFrameSettings', ['$scope', function($scope) {
    * @return {void}
    */
   $scope.selectCategorySeparatorLine = function(line) {
-    $scope.linkFrameSetting.categorySeparatorLine = line.key;
+    $scope.linkFrameSetting.category_separator_line = line.key;
     $scope.currentCategorySeparatorLine = line;
   };
 
@@ -158,7 +158,7 @@ NetCommonsApp.controller('LinkFrameSettings', ['$scope', function($scope) {
    * @return {void}
    */
   $scope.selectListStyle = function(mark) {
-    $scope.linkFrameSetting.listStyle = mark.key;
+    $scope.linkFrameSetting.list_style = mark.key;
     $scope.currentListStyle = mark;
   };
 
