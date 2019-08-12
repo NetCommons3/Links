@@ -65,7 +65,7 @@ class LinkBlocksControllerEditTest extends BlocksControllerEditTest {
 	private function __data($isEdit) {
 		$frameId = '6';
 		if ($isEdit) {
-			$blockId = '4';
+			$blockId = '2';
 			$blockKey = 'block_2';
 			$linkId = '3';
 			$linkKey = $blockKey;

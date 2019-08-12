@@ -53,7 +53,7 @@ class TestViewElementsLinkBlocksEditFormController extends AppController {
 			'LinkSetting' => array(
 				'id' => '1',
 				'block_key' => 'block_1',
-				'use_workflow' => true,
+				'use_workflow' => '1',
 			),
 			'Frame' => array(
 				'id' => '6',

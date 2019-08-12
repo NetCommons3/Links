@@ -75,8 +75,10 @@ class LinkSaveTest extends NetCommonsModelTestCase {
  * @return array
  */
 	private function __data() {
-		Current::$current = Hash::insert(Current::$current, 'Permission.content_publishable.value', true);
-		Current::$current = Hash::insert(Current::$current, 'Block.key', 'block_1');
+		Current::write('Room.id', '2');
+		Current::writePermission('2', 'content_publishable', true);
+		Current::write('Block.key', 'block_1');
+
 		$data['Link'] = array(
 			'block_id' => '2',
 			'key' => '',
