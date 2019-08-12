@@ -117,7 +117,7 @@ class LinksControllerGetTest extends NetCommonsControllerTestCase {
 				null, 'BadRequestException', 'json');
 
 		//チェック
-		$this->assertEquals(__d('net_commons', 'Bad Request'), $result['name']);
+		$this->assertEquals('Bad Request', $result['name']);
 		$this->assertEquals(sprintf(__d('net_commons', 'Please input %s.'), __d('links', 'URL')), $result['error']);
 	}
 
@@ -138,7 +138,7 @@ class LinksControllerGetTest extends NetCommonsControllerTestCase {
 				null, 'BadRequestException', 'json');
 
 		//チェック
-		$this->assertEquals(__d('net_commons', 'Bad Request'), $result['name']);
+		$this->assertEquals('Bad Request', $result['name']);
 		$this->assertEquals(__d('links', 'Failed to obtain the title for this page.'), $result['error']);
 	}
 

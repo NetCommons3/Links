@@ -75,8 +75,8 @@ class LinkBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCon
 			'LinkSetting' => array(
 				'id' => 2,
 				'block_key' => 'block_2',
-				'use_workflow' => true,
-				'approval_type' => true,
+				'use_workflow' => '1',
+				'approval_type' => '1',
 			)
 		);
 
