@@ -90,7 +90,7 @@ class LinkOrdersController extends LinksAppController {
 		$links = [];
 		$linkOrders = [];
 		foreach ($results as $result) {
-			$categoryId = $result['Link']['category_id'];
+			$categoryId = (int)$result['Link']['category_id'];
 			$linkOrder = $result['LinkOrder'];
 			$links[$categoryId][$linkOrder['id']] = $result;
 			$linkOrders[$linkOrder['id']] = $result;
