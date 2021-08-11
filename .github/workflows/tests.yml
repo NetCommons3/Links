@@ -156,3 +156,4 @@ jobs:
           SLACK_CHANNEL: notify-nc3-tests
           SLACK_TITLE: "${{ github.repository }}"
           SLACK_COLOR: good
+
