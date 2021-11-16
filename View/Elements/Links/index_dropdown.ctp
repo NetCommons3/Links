@@ -55,8 +55,9 @@
 		<?php else : ?>
 			<li>
 				<span class="nc-dropdown-block">
-					<?php echo __d('links', 'No link found.'); ?></li>
+					<?php echo __d('links', 'No link found.'); ?>
 				</span>
+			</li>
 		<?php endif; ?>
 	</ul>
 </div>
