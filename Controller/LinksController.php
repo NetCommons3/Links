@@ -292,6 +292,9 @@ class LinksController extends LinksAppController {
 				$this->Link->alias . '.key' => $linkKey
 			)
 		));
+		if (empty($link)) {
+			return $this->throwBadRequest();
+		}
 
 		//編集権限チェック
 		if (! $this->Link->canEditWorkflowContent($link)) {
