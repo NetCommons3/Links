@@ -92,7 +92,7 @@ class LinkOrdersController extends LinksAppController {
 		foreach ($results as $result) {
 			$categoryId = (int)$result['Link']['category_id'];
 			$linkOrder = $result['LinkOrder'];
-			$links[$categoryId][$linkOrder['id']] = $result;
+			$links[$categoryId][] = $result;
 			$linkOrders[$linkOrder['id']] = $result;
 		}
 		$this->request->data['LinkOrders'] = $linkOrders;
